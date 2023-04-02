@@ -45,9 +45,9 @@ class CryptographyKeyFactoryManager {
 
 class CryptographyKeyGeneralFactory {
 
-  final Map<String, SymmetricKeyFactory> symmetricKeyFactories = {};
-  final Map<String, PublicKeyFactory> publicKeyFactories = {};
-  final Map<String, PrivateKeyFactory> privateKeyFactories = {};
+  final Map<String, SymmetricKeyFactory> _symmetricKeyFactories = {};
+  final Map<String, PublicKeyFactory>       _publicKeyFactories = {};
+  final Map<String, PrivateKeyFactory>     _privateKeyFactories = {};
 
   bool matchAsymmetricKeys(SignKey sKey, VerifyKey pKey) {
     // verify with signature
@@ -72,13 +72,13 @@ class CryptographyKeyGeneralFactory {
 
   void setSymmetricKeyFactory(String algorithm, SymmetricKeyFactory? factory) {
     if (factory == null) {
-      symmetricKeyFactories.remove(algorithm);
+      _symmetricKeyFactories.remove(algorithm);
     } else {
-      symmetricKeyFactories[algorithm] = factory;
+      _symmetricKeyFactories[algorithm] = factory;
     }
   }
   SymmetricKeyFactory? getSymmetricKeyFactory(String algorithm) {
-    return symmetricKeyFactories[algorithm];
+    return _symmetricKeyFactories[algorithm];
   }
 
   SymmetricKey? generateSymmetricKey(String algorithm) {
@@ -87,7 +87,7 @@ class CryptographyKeyGeneralFactory {
     return factory?.generateSymmetricKey();
   }
 
-  SymmetricKey? parseSymmetricKey(dynamic key) {
+  SymmetricKey? parseSymmetricKey(Object? key) {
     if (key == null) {
       return null;
     } else if (key is SymmetricKey) {
@@ -117,16 +117,16 @@ class CryptographyKeyGeneralFactory {
 
   void setPublicKeyFactory(String algorithm, PublicKeyFactory? factory) {
     if (factory == null) {
-      publicKeyFactories.remove(algorithm);
+      _publicKeyFactories.remove(algorithm);
     } else {
-      publicKeyFactories[algorithm] = factory;
+      _publicKeyFactories[algorithm] = factory;
     }
   }
   PublicKeyFactory? getPublicKeyFactory(String algorithm) {
-    return publicKeyFactories[algorithm];
+    return _publicKeyFactories[algorithm];
   }
 
-  PublicKey? parsePublicKey(dynamic key) {
+  PublicKey? parsePublicKey(Object? key) {
     if (key == null) {
       return null;
     } else if (key is PublicKey) {
@@ -156,13 +156,13 @@ class CryptographyKeyGeneralFactory {
 
   void setPrivateKeyFactory(String algorithm, PrivateKeyFactory? factory) {
     if (factory == null) {
-      privateKeyFactories.remove(algorithm);
+      _privateKeyFactories.remove(algorithm);
     } else {
-      privateKeyFactories[algorithm] = factory;
+      _privateKeyFactories[algorithm] = factory;
     }
   }
   PrivateKeyFactory? getPrivateKeyFactory(String algorithm) {
-    return privateKeyFactories[algorithm];
+    return _privateKeyFactories[algorithm];
   }
 
   PrivateKey? generatePrivateKey(String algorithm) {
@@ -171,7 +171,7 @@ class CryptographyKeyGeneralFactory {
     return factory?.generatePrivateKey();
   }
 
-  PrivateKey? parsePrivateKey(dynamic key) {
+  PrivateKey? parsePrivateKey(Object? key) {
     if (key == null) {
       return null;
     } else if (key is PrivateKey) {

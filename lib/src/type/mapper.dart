@@ -56,7 +56,7 @@ class Dictionary implements Mapper {
 
   final Map _map;
 
-  Dictionary(dynamic dict)
+  Dictionary(Object? dict)
       : _map = dict == null ? {}
       : dict is Mapper ? dict.dictionary
       : dict as Map;

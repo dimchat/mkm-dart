@@ -77,8 +77,8 @@ abstract class DecryptKey implements CryptographyKey {
 
 abstract class AsymmetricKey implements CryptographyKey {
 
-  static const String rsa = 'RSA';  //-- "RSA/ECB/PKCS1Padding", "SHA256withRSA"
-  static const String ecc = 'ECC';
+  static const String kRSA = 'RSA';  //-- "RSA/ECB/PKCS1Padding", "SHA256withRSA"
+  static const String kECC = 'ECC';
 }
 
 abstract class SignKey implements AsymmetricKey {

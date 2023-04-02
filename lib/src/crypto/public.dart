@@ -40,7 +40,7 @@ abstract class PublicKey implements VerifyKey {
   //  Factory methods
   //
 
-  static PublicKey? parse(dynamic key) {
+  static PublicKey? parse(Object? key) {
     CryptographyKeyFactoryManager man = CryptographyKeyFactoryManager();
     return man.generalFactory.parsePublicKey(key);
   }

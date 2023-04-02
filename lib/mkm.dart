@@ -18,6 +18,13 @@ export 'src/crypto/public.dart';
 export 'src/crypto/private.dart';
 export 'src/crypto/manager.dart';
 
-export 'src/mkm_base.dart';
+export 'src/protocol/entity.dart';
+export 'src/protocol/address.dart';
+export 'src/protocol/identifier.dart';
+export 'src/protocol/meta.dart';
+export 'src/protocol/document.dart';
+export 'src/protocol/docs.dart';
+
+export 'src/factory.dart';
 
 // TODO: Export any libraries intended for clients of this package.

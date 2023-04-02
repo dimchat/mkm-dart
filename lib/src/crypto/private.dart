@@ -52,7 +52,7 @@ abstract class PrivateKey implements SignKey {
     return man.generalFactory.generatePrivateKey(algorithm);
   }
 
-  static PrivateKey? parse(dynamic key) {
+  static PrivateKey? parse(Object? key) {
     CryptographyKeyFactoryManager man = CryptographyKeyFactoryManager();
     return man.generalFactory.parsePrivateKey(key);
   }

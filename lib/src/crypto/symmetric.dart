@@ -37,8 +37,8 @@ import 'manager.dart';
 ///  }
 abstract class SymmetricKey implements EncryptKey, DecryptKey {
 
-  static const aes = 'AES';  //-- "AES/CBC/PKCS7Padding"
-  static const des = 'DES';
+  static const kAES = 'AES';  //-- "AES/CBC/PKCS7Padding"
+  static const kDES = 'DES';
 
   //
   //  Factory methods
@@ -49,7 +49,7 @@ abstract class SymmetricKey implements EncryptKey, DecryptKey {
     return man.generalFactory.generateSymmetricKey(algorithm);
   }
 
-  static SymmetricKey? parse(dynamic key) {
+  static SymmetricKey? parse(Object? key) {
     CryptographyKeyFactoryManager man = CryptographyKeyFactoryManager();
     return man.generalFactory.parseSymmetricKey(key);
   }
