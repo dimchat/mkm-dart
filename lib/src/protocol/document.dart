@@ -121,9 +121,11 @@ abstract class Document implements TAI {
   //  Factory methods
   //
 
-  static Document? create(String type, ID identifier, String? data, String? signature) {
+  static Document? create(String type, ID identifier,
+      {String? data, String? signature}) {
     AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.createDocument(type, identifier, data, signature);
+    return man.generalFactory.createDocument(type, identifier,
+        data: data, signature: signature);
   }
 
   static Document? parse(Object? doc) {
@@ -152,7 +154,7 @@ abstract class DocumentFactory {
   /// @param data       - document data (JsON)
   /// @param signature  - document signature (Base64)
   /// @return Document
-  Document createDocument(ID identifier, String? data, String? signature);
+  Document createDocument(ID identifier, {String? data, String? signature});
 
   ///  Parse map object to entity document
   ///

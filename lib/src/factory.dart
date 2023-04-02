@@ -87,10 +87,10 @@ class AccountGeneralFactory {
     return factory?.createAddress(address);
   }
 
-  Address? generateAddress(Meta meta, int network) {
+  Address? generateAddress(Meta meta, {int? type}) {
     AddressFactory? factory = getAddressFactory();
     assert(factory != null, 'address factory not ready');
-    return factory?.generateAddress(meta, network);
+    return factory?.generateAddress(meta, type: type);
   }
 
   ///
@@ -120,16 +120,16 @@ class AccountGeneralFactory {
     return factory?.parseID(str);
   }
 
-  ID? createID(String? name, Address address, String? terminal) {
+  ID? createID({String? name, required Address address, String? terminal}) {
     IDFactory? factory = getIDFactory();
     assert(factory != null, 'ID factory not ready');
-    return factory?.createID(name, address, terminal);
+    return factory?.createID(name: name, address: address, terminal: terminal);
   }
 
-  ID? generateID(Meta meta, int network, String? terminal) {
+  ID? generateID(Meta meta, {int? type, String? terminal}) {
     IDFactory? factory = getIDFactory();
     assert(factory != null, 'ID factory not ready');
-    return factory?.generateID(meta, network, terminal);
+    return factory?.generateID(meta, type: type, terminal: terminal);
   }
 
   List<ID> convertIdentifiers(List members) {
@@ -172,16 +172,17 @@ class AccountGeneralFactory {
     return meta['type'] ?? 0;
   }
 
-  Meta? createMeta(int version, VerifyKey pKey, String? seed, Uint8List? fingerprint) {
+  Meta? createMeta(int version, VerifyKey pKey,
+      {String? seed, Uint8List? fingerprint}) {
     MetaFactory? factory = getMetaFactory(version);
     assert(factory != null, 'meta type not supported: $version');
-    return factory?.createMeta(pKey, seed, fingerprint);
+    return factory?.createMeta(pKey, seed: seed, fingerprint: fingerprint);
   }
 
-  Meta? generateMeta(int version, SignKey sKey, String? seed) {
+  Meta? generateMeta(int version, SignKey sKey, {String? seed}) {
     MetaFactory? factory = getMetaFactory(version);
     assert(factory != null, 'meta type not supported: $version');
-    return factory?.generateMeta(sKey, seed);
+    return factory?.generateMeta(sKey, seed: seed);
   }
 
   Meta? parseMeta(Object? meta) {
@@ -235,7 +236,7 @@ class AccountGeneralFactory {
     }
     // check ID.address
     Address old = identifier.address;
-    Address? gen = Address.generate(meta, old.type);
+    Address? gen = Address.generate(meta, type: old.type);
     return old == gen;
   }
   bool matchKey(VerifyKey pKey, Meta meta) {
@@ -275,10 +276,11 @@ class AccountGeneralFactory {
     return doc['type'];
   }
 
-  Document? createDocument(String type, ID identifier, String? data, String? signature) {
+  Document? createDocument(String type, ID identifier,
+      {String? data, String? signature}) {
     DocumentFactory? factory = getDocumentFactory(type);
     assert(factory != null, 'document type not supported: $type');
-    return factory?.createDocument(identifier, data, signature);
+    return factory?.createDocument(identifier, data: data, signature: signature);
   }
 
   Document? parseDocument(Object? doc) {

@@ -78,9 +78,9 @@ abstract class Meta implements Mapper {
 
   ///  Generate address
   ///
-  /// @param network - address type
+  /// @param type - address type
   /// @return Address
-  Address? generateAddress(int network);
+  Address? generateAddress(int type);
 
   static bool check(Meta meta) {
     AccountFactoryManager man = AccountFactoryManager();
@@ -100,14 +100,16 @@ abstract class Meta implements Mapper {
   //  Factory methods
   //
 
-  static Meta? create(int version, VerifyKey pKey, String? seed, Uint8List? fingerprint) {
+  static Meta? create(int version, VerifyKey pKey,
+      {String? seed, Uint8List? fingerprint}) {
     AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.createMeta(version, pKey, seed, fingerprint);
+    return man.generalFactory.createMeta(version, pKey,
+        seed: seed, fingerprint: fingerprint);
   }
 
-  static Meta? generate(int version, SignKey sKey, String? seed) {
+  static Meta? generate(int version, SignKey sKey, {String? seed}) {
     AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.generateMeta(version, sKey, seed);
+    return man.generalFactory.generateMeta(version, sKey, seed: seed);
   }
 
   static Meta? parse(Object? meta) {
@@ -135,14 +137,14 @@ abstract class MetaFactory {
   /// @param seed        - ID.name
   /// @param fingerprint - sKey.sign(seed)
   /// @return Meta
-  Meta createMeta(VerifyKey pKey, String? seed, Uint8List? fingerprint);
+  Meta createMeta(VerifyKey pKey, {String? seed, Uint8List? fingerprint});
 
   ///  Generate meta
   ///
   /// @param sKey    - private key
   /// @param seed    - ID.name
   /// @return Meta
-  Meta generateMeta(SignKey sKey, String? seed);
+  Meta generateMeta(SignKey sKey, {String? seed});
 
   ///  Parse map object to meta
   ///

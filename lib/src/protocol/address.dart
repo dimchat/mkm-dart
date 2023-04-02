@@ -49,8 +49,8 @@ abstract class Address implements Stringer {
   bool get isGroup;
 
   ///  Address for broadcast
-  static final Address anywhere = BroadcastAddress('anywhere', EntityType.kAny);
-  static final Address everywhere = BroadcastAddress('everywhere', EntityType.kEvery);
+  static final Address anywhere = BroadcastAddress('anywhere', type: EntityType.kAny);
+  static final Address everywhere = BroadcastAddress('everywhere', type: EntityType.kEvery);
 
   //
   //  Factory methods
@@ -66,9 +66,9 @@ abstract class Address implements Stringer {
     return man.generalFactory.createAddress(address);
   }
 
-  static Address? generate(Meta meta, int network) {
+  static Address? generate(Meta meta, {int? type}) {
     AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.generateAddress(meta, network);
+    return man.generalFactory.generateAddress(meta, type: type);
   }
 
   static AddressFactory? getFactory() {
@@ -89,9 +89,9 @@ abstract class AddressFactory {
   ///  Generate address with meta & type
   ///
   /// @param meta - meta info
-  /// @param network - address type
+  /// @param type - address type
   /// @return Address
-  Address? generateAddress(Meta meta, int network);
+  Address? generateAddress(Meta meta, {int? type});
 
   ///  Create address from string
   ///
@@ -107,7 +107,7 @@ abstract class AddressFactory {
 }
 
 class BroadcastAddress extends ConstantString implements Address {
-  BroadcastAddress(super.string, int type) : _type = type;
+  BroadcastAddress(super.string, {required int type}) : _type = type;
 
   final int _type;
 
