@@ -80,7 +80,7 @@ abstract class Meta implements Mapper {
   ///
   /// @param type - address type
   /// @return Address
-  Address? generateAddress(int type);
+  Address generateAddress(int type);
 
   static bool check(Meta meta) {
     AccountFactoryManager man = AccountFactoryManager();

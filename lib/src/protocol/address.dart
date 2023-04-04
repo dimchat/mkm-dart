@@ -66,7 +66,7 @@ abstract class Address implements Stringer {
     return man.generalFactory.createAddress(address);
   }
 
-  static Address? generate(Meta meta, {int? type}) {
+  static Address generate(Meta meta, {int? type}) {
     AccountFactoryManager man = AccountFactoryManager();
     return man.generalFactory.generateAddress(meta, type: type);
   }
@@ -91,7 +91,7 @@ abstract class AddressFactory {
   /// @param meta - meta info
   /// @param type - address type
   /// @return Address
-  Address? generateAddress(Meta meta, {int? type});
+  Address generateAddress(Meta meta, {int? type});
 
   ///  Create address from string
   ///

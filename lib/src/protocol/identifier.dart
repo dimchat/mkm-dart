@@ -81,12 +81,12 @@ abstract class ID implements Stringer {
     return man.generalFactory.parseID(identifier);
   }
 
-  static ID? create({String? name, required Address address, String? terminal}) {
+  static ID create({String? name, required Address address, String? terminal}) {
     AccountFactoryManager man = AccountFactoryManager();
     return man.generalFactory.createID(name: name, address: address, terminal: terminal);
   }
 
-  static ID? generate(Meta meta, {int? type, String? terminal}) {
+  static ID generate(Meta meta, {int? type, String? terminal}) {
     AccountFactoryManager man = AccountFactoryManager();
     return man.generalFactory.generateID(meta, type: type, terminal: terminal);
   }
@@ -111,7 +111,7 @@ abstract class IDFactory {
   /// @param type     - ID.type
   /// @param terminal - ID.terminal
   /// @return ID
-  ID? generateID(Meta meta, {int? type, String? terminal});
+  ID generateID(Meta meta, {int? type, String? terminal});
 
   ///  Create ID
   ///

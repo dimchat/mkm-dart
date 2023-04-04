@@ -87,10 +87,10 @@ class AccountGeneralFactory {
     return factory?.createAddress(address);
   }
 
-  Address? generateAddress(Meta meta, {int? type}) {
+  Address generateAddress(Meta meta, {int? type}) {
     AddressFactory? factory = getAddressFactory();
     assert(factory != null, 'address factory not ready');
-    return factory?.generateAddress(meta, type: type);
+    return factory!.generateAddress(meta, type: type);
   }
 
   ///
@@ -120,16 +120,16 @@ class AccountGeneralFactory {
     return factory?.parseID(str);
   }
 
-  ID? createID({String? name, required Address address, String? terminal}) {
+  ID createID({String? name, required Address address, String? terminal}) {
     IDFactory? factory = getIDFactory();
     assert(factory != null, 'ID factory not ready');
-    return factory?.createID(name: name, address: address, terminal: terminal);
+    return factory!.createID(name: name, address: address, terminal: terminal);
   }
 
-  ID? generateID(Meta meta, {int? type, String? terminal}) {
+  ID generateID(Meta meta, {int? type, String? terminal}) {
     IDFactory? factory = getIDFactory();
     assert(factory != null, 'ID factory not ready');
-    return factory?.generateID(meta, type: type, terminal: terminal);
+    return factory!.generateID(meta, type: type, terminal: terminal);
   }
 
   List<ID> convertIdentifiers(List members) {

@@ -43,7 +43,7 @@ abstract class StringCoder {
   ///
   /// @param data - binary data
   /// @return local string
-  String decode(Uint8List data);
+  String? decode(Uint8List data);
 }
 
 class UTF8 {
@@ -52,7 +52,7 @@ class UTF8 {
     return coder!.encode(string);
   }
 
-  static String decode(Uint8List utf8) {
+  static String? decode(Uint8List utf8) {
     return coder!.decode(utf8);
   }
 
@@ -77,7 +77,7 @@ abstract class ObjectCoder<T> {
   ///
   /// @param string - serialized string
   /// @return Map or List
-  T decode(String string);
+  T? decode(String string);
 }
 
 class JSON {
@@ -102,7 +102,7 @@ class MapCoder implements ObjectCoder<Map> {
   }
 
   @override
-  Map decode(String string) {
+  Map? decode(String string) {
     return JSON.decode(string);
   }
 }
@@ -116,7 +116,7 @@ class ListCoder implements ObjectCoder<List> {
   }
 
   @override
-  List decode(String string) {
+  List? decode(String string) {
     return JSON.decode(string);
   }
 }
@@ -127,7 +127,7 @@ class JSONMap {
     return coder.encode(container);
   }
 
-  static Map decode(String json) {
+  static Map? decode(String json) {
     return coder.decode(json);
   }
 
@@ -140,7 +140,7 @@ class JSONList {
     return coder.encode(container);
   }
 
-  static List decode(String json) {
+  static List? decode(String json) {
     return coder.decode(json);
   }
 
@@ -165,7 +165,7 @@ abstract class DataCoder {
   ///
   /// @param string - local string
   /// @return binary data
-  Uint8List decode(String string);
+  Uint8List? decode(String string);
 }
 
 class Hex {
@@ -174,7 +174,7 @@ class Hex {
     return coder!.encode(data);
   }
 
-  static Uint8List decode(String string) {
+  static Uint8List? decode(String string) {
     return coder!.decode(string);
   }
 
@@ -187,7 +187,7 @@ class Base58 {
     return coder!.encode(data);
   }
 
-  static Uint8List decode(String string) {
+  static Uint8List? decode(String string) {
     return coder!.decode(string);
   }
 
@@ -200,7 +200,7 @@ class Base64 {
     return coder!.encode(data);
   }
 
-  static Uint8List decode(String string) {
+  static Uint8List? decode(String string) {
     return coder!.decode(string);
   }
 

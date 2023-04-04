@@ -160,5 +160,5 @@ abstract class DocumentFactory {
   ///
   /// @param doc - info
   /// @return Document
-  Document parseDocument(Map doc);
+  Document? parseDocument(Map doc);
 }
