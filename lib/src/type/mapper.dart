@@ -56,10 +56,10 @@ class Dictionary implements Mapper {
 
   final Map _map;
 
-  Dictionary(Object? dict)
+  Dictionary(Map? dict)
       : _map = dict == null ? {}
       : dict is Mapper ? dict.dictionary
-      : dict as Map;
+      : dict;
 
   @override
   String? getString(String key) {
@@ -108,7 +108,7 @@ class Dictionary implements Mapper {
     if (mapper == null) {
       _map.remove(key);
     } else {
-      _map[key] = mapper.map;
+      _map[key] = mapper.dictionary;
     }
   }
 

@@ -32,6 +32,7 @@ import 'dart:typed_data';
 
 import '../crypto/keys.dart';
 import '../factory.dart';
+import '../type/mapper.dart';
 import 'identifier.dart';
 
 ///  The Additional Information
@@ -57,12 +58,12 @@ abstract class TAI {
   ///
   /// @param privateKey - private key match meta.key
   /// @return signature, null on error
-  Uint8List sign(SignKey privateKey);
+  Uint8List? sign(SignKey privateKey);
 
   ///  Get all properties
   ///
   /// @return properties
-  Map<String, dynamic> get properties;
+  Map? get properties;
 
   ///  Get property data with key
   ///
@@ -87,7 +88,7 @@ abstract class TAI {
 ///          data: "{JSON}",   // data = json_encode(info)
 ///          signature: "..."  // signature = sign(data, SK);
 ///      }
-abstract class Document implements TAI {
+abstract class Document implements TAI, Mapper {
 
   //
   //  Document types
@@ -121,10 +122,10 @@ abstract class Document implements TAI {
   //  Factory methods
   //
 
-  static Document? create(String type, ID identifier,
+  static Document? create(String docType, ID identifier,
       {String? data, String? signature}) {
     AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.createDocument(type, identifier,
+    return man.generalFactory.createDocument(docType, identifier,
         data: data, signature: signature);
   }
 
@@ -133,13 +134,13 @@ abstract class Document implements TAI {
     return man.generalFactory.parseDocument(doc);
   }
 
-  static DocumentFactory? getFactory(String type) {
+  static DocumentFactory? getFactory(String docType) {
     AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.getDocumentFactory(type);
+    return man.generalFactory.getDocumentFactory(docType);
   }
-  static void setFactory(String type, DocumentFactory? factory) {
+  static void setFactory(String docType, DocumentFactory? factory) {
     AccountFactoryManager man = AccountFactoryManager();
-    man.generalFactory.setDocumentFactory(type, factory);
+    man.generalFactory.setDocumentFactory(docType, factory);
   }
 }
 

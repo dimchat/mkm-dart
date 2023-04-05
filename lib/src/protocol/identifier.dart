@@ -58,10 +58,10 @@ abstract class ID implements Stringer {
   bool get isGroup;
 
   ///  ID for Broadcast
-  static final ID anyone = Identifier('anyone@anywhere', name: 'anyone', address: Address.anywhere);
-  static final ID everyone = Identifier('everyone@everywhere', name: 'everyone', address: Address.everywhere);
+  static final ID kAnyone = Identifier('anyone@anywhere', name: 'anyone', address: Address.kAnywhere);
+  static final ID kEveryone = Identifier('everyone@everywhere', name: 'everyone', address: Address.kEverywhere);
   ///  DIM Founder
-  static final ID founder = Identifier('moky@anywhere', name: 'moky', address: Address.anywhere);
+  static final ID kFounder = Identifier('moky@anywhere', name: 'moky', address: Address.kAnywhere);
 
   static List<ID> convert(List members) {
     AccountFactoryManager man = AccountFactoryManager();
@@ -86,9 +86,9 @@ abstract class ID implements Stringer {
     return man.generalFactory.createID(name: name, address: address, terminal: terminal);
   }
 
-  static ID generate(Meta meta, {int? type, String? terminal}) {
+  static ID generate(Meta meta, int? network, {String? terminal}) {
     AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.generateID(meta, type: type, terminal: terminal);
+    return man.generalFactory.generateID(meta, network, terminal: terminal);
   }
 
   static IDFactory? getFactory() {
@@ -108,10 +108,10 @@ abstract class IDFactory {
   ///  Generate ID
   ///
   /// @param meta     - meta info
-  /// @param type     - ID.type
+  /// @param network  - ID.type
   /// @param terminal - ID.terminal
   /// @return ID
-  ID generateID(Meta meta, {int? type, String? terminal});
+  ID generateID(Meta meta, int? network, {String? terminal});
 
   ///  Create ID
   ///

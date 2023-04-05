@@ -87,10 +87,10 @@ class AccountGeneralFactory {
     return factory?.createAddress(address);
   }
 
-  Address generateAddress(Meta meta, {int? type}) {
+  Address generateAddress(Meta meta, int? network) {
     AddressFactory? factory = getAddressFactory();
     assert(factory != null, 'address factory not ready');
-    return factory!.generateAddress(meta, type: type);
+    return factory!.generateAddress(meta, network);
   }
 
   ///
@@ -126,10 +126,10 @@ class AccountGeneralFactory {
     return factory!.createID(name: name, address: address, terminal: terminal);
   }
 
-  ID generateID(Meta meta, {int? type, String? terminal}) {
+  ID generateID(Meta meta, int? network, {String? terminal}) {
     IDFactory? factory = getIDFactory();
     assert(factory != null, 'ID factory not ready');
-    return factory!.generateID(meta, type: type, terminal: terminal);
+    return factory!.generateID(meta, network, terminal: terminal);
   }
 
   List<ID> convertIdentifiers(List members) {
@@ -236,7 +236,7 @@ class AccountGeneralFactory {
     }
     // check ID.address
     Address old = identifier.address;
-    Address? gen = Address.generate(meta, type: old.type);
+    Address? gen = Address.generate(meta, old.type);
     return old == gen;
   }
   bool matchKey(VerifyKey pKey, Meta meta) {
@@ -261,25 +261,25 @@ class AccountGeneralFactory {
   //  Document
   //
 
-  void setDocumentFactory(String type, DocumentFactory? factory) {
+  void setDocumentFactory(String docType, DocumentFactory? factory) {
     if (factory == null) {
-      _docFactories.remove(type);
+      _docFactories.remove(docType);
     } else {
-      _docFactories[type] = factory;
+      _docFactories[docType] = factory;
     }
   }
-  DocumentFactory? getDocumentFactory(String type) {
-    return _docFactories[type];
+  DocumentFactory? getDocumentFactory(String docType) {
+    return _docFactories[docType];
   }
 
   String? getDocumentType(Map doc) {
     return doc['type'];
   }
 
-  Document? createDocument(String type, ID identifier,
+  Document? createDocument(String docType, ID identifier,
       {String? data, String? signature}) {
-    DocumentFactory? factory = getDocumentFactory(type);
-    assert(factory != null, 'document type not supported: $type');
+    DocumentFactory? factory = getDocumentFactory(docType);
+    assert(factory != null, 'document type not supported: $docType');
     return factory?.createDocument(identifier, data: data, signature: signature);
   }
 
@@ -294,8 +294,8 @@ class AccountGeneralFactory {
       assert(false, 'document error: $doc');
       return null;
     }
-    String? type = getDocumentType(info);
-    DocumentFactory? factory = type == null ? null : getDocumentFactory(type);
+    String? docType = getDocumentType(info);
+    DocumentFactory? factory = docType == null ? null : getDocumentFactory(docType);
     if (factory == null) {
       factory = getDocumentFactory('*');  // unknown
       assert(factory != null, 'cannot parse document: $doc');

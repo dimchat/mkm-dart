@@ -78,9 +78,9 @@ abstract class Meta implements Mapper {
 
   ///  Generate address
   ///
-  /// @param type - address type
+  /// @param network - address type
   /// @return Address
-  Address generateAddress(int type);
+  Address generateAddress(int? network);
 
   static bool check(Meta meta) {
     AccountFactoryManager man = AccountFactoryManager();
