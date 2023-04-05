@@ -114,12 +114,10 @@ class ConstantString implements Stringer {
         // same object
         return true;
       }
-      return _str == other.string;
-    } else if (other is String) {
-      return _str == other;
-    } else {
-      return false;
+      // compare with inner string
+      other = other.string;
     }
+    return other is String && other == _str;
   }
 
   @override

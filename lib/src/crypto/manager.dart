@@ -23,7 +23,6 @@
  * SOFTWARE.
  * =============================================================================
  */
-
 import 'dart:typed_data';
 
 import '../type/wrapper.dart';
@@ -59,7 +58,8 @@ class CryptographyKeyGeneralFactory {
     // check by encryption
     Uint8List ciphertext = pKey.encrypt(_promise);
     Uint8List? plaintext = sKey.decrypt(ciphertext);
-    return plaintext == _promise;
+    // check result
+    return plaintext != null && Wrapper.listEquals(plaintext, _promise);
   }
 
   String? getAlgorithm(Map key) {

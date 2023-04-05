@@ -25,6 +25,7 @@
  */
 import 'copier.dart';
 import 'stringer.dart';
+import 'wrapper.dart';
 
 abstract class Mapper implements Map<String, dynamic> {
 
@@ -126,6 +127,22 @@ class Dictionary implements Mapper {
       return Copier.copyMap(_map);
     }
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is Mapper) {
+      if (identical(this, other)) {
+        // same object
+        return true;
+      }
+      // compare with inner map
+      other = other.dictionary;
+    }
+    return other is Map && Wrapper.mapEquals(other, _map);
+  }
+
+  @override
+  int get hashCode => _map.hashCode;
 
   ///
   ///   Map<String, dynamic>

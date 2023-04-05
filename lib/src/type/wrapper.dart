@@ -97,4 +97,104 @@ abstract class Wrapper {
     }
     return result;
   }
+
+  ///
+  /// Comparison (Shallow)
+  ///
+
+  static bool mapEquals(Map map1, Map map2) {
+    if (identical(map1, map2)) {
+      // same object
+      return true;
+    } else if (map2.length != map1.length) {
+      // different lengths
+      return false;
+    }
+    for (var k in map1.keys) {
+      if (!objectEquals(map1[k], map2[k])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  static bool listEquals(List arr1, List arr2) {
+    if (identical(arr1, arr2)) {
+      // same object
+      return true;
+    } else if (arr1.length != arr2.length) {
+      // different lengths
+      return false;
+    }
+    for (int i = 0; i < arr1.length; ++i) {
+      if (!objectEquals(arr1[i], arr2[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  static bool objectEquals(Object? obj1, Object? obj2) {
+    if (obj1 == null) {
+      return obj2 == null;
+    } else if (obj2 == null) {
+      return false;
+    } else {
+      return obj1 == obj2;
+    }
+  }
+
+  ///
+  /// Comparison (Deep)
+  ///
+
+  static bool mapDeepEquals(Map map1, Map map2) {
+    if (identical(map1, map2)) {
+      // same object
+      return true;
+    } else if (map2.length != map1.length) {
+      // different lengths
+      return false;
+    }
+    for (var k in map1.keys) {
+      if (!objectDeepEquals(map1[k], map2[k])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  static bool listDeepEquals(List arr1, List arr2) {
+    if (identical(arr1, arr2)) {
+      // same object
+      return true;
+    } else if (arr1.length != arr2.length) {
+      // different lengths
+      return false;
+    }
+    for (int i = 0; i < arr1.length; ++i) {
+      if (!objectDeepEquals(arr1[i], arr2[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  static bool objectDeepEquals(Object? obj1, Object? obj2) {
+    if (obj1 == null) {
+      return obj2 == null;
+    } else if (obj2 == null) {
+      return false;
+    }
+    if (obj1 is Map) {
+      if (obj2 is Map) {
+        return mapDeepEquals(obj1, obj2);
+      }
+    } else if (obj1 is List) {
+      if (obj2 is List) {
+        return listDeepEquals(obj1, obj2);
+      }
+    }
+    return obj1 == obj2;
+  }
 }

@@ -57,11 +57,11 @@ abstract class PrivateKey implements SignKey {
     return man.generalFactory.parsePrivateKey(key);
   }
 
-  PrivateKeyFactory? getFactory(String algorithm) {
+  static PrivateKeyFactory? getFactory(String algorithm) {
     CryptographyKeyFactoryManager man = CryptographyKeyFactoryManager();
     return man.generalFactory.getPrivateKeyFactory(algorithm);
   }
-  void setFactory(String algorithm, PrivateKeyFactory? factory) {
+  static void setFactory(String algorithm, PrivateKeyFactory? factory) {
     CryptographyKeyFactoryManager man = CryptographyKeyFactoryManager();
     man.generalFactory.setPrivateKeyFactory(algorithm, factory);
   }
