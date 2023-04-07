@@ -1,3 +1,7 @@
+## 0.1.0-dev.4
+
+- listEquals, mapEquals.
+
 ## 0.1.0-dev.3
 
 - Constant names.
