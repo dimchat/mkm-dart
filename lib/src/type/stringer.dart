@@ -149,15 +149,15 @@ class ConstantString implements Stringer {
   bool endsWith(String other) => _str.endsWith(other);
 
   @override
-  bool startsWith(Pattern pattern, [int index = 0])
-  => _str.startsWith(pattern, index);
+  bool startsWith(Pattern pattern, [int index = 0]) =>
+      _str.startsWith(pattern, index);
 
   @override
   int indexOf(Pattern pattern, [int start = 0]) => _str.indexOf(pattern, start);
 
   @override
-  int lastIndexOf(Pattern pattern, [int? start])
-  => _str.lastIndexOf(pattern, start);
+  int lastIndexOf(Pattern pattern, [int? start]) =>
+      _str.lastIndexOf(pattern, start);
 
   @override
   String operator +(String other) => _str + other;
@@ -178,45 +178,45 @@ class ConstantString implements Stringer {
   String operator *(int times) => _str * times;
 
   @override
-  String padLeft(int width, [String padding = ' '])
-  => _str.padLeft(width, padding);
+  String padLeft(int width, [String padding = ' ']) =>
+      _str.padLeft(width, padding);
 
   @override
-  String padRight(int width, [String padding = ' '])
-  => _str.padRight(width, padding);
+  String padRight(int width, [String padding = ' ']) =>
+      _str.padRight(width, padding);
 
   @override
-  bool contains(Pattern other, [int startIndex = 0])
-  => _str.contains(other, startIndex);
+  bool contains(Pattern other, [int startIndex = 0]) =>
+      _str.contains(other, startIndex);
 
   @override
-  String replaceFirst(Pattern from, String to, [int startIndex = 0])
-  => _str.replaceFirst(from, to, startIndex);
+  String replaceFirst(Pattern from, String to, [int startIndex = 0]) =>
+      _str.replaceFirst(from, to, startIndex);
 
   @override
   String replaceFirstMapped(Pattern from, String Function(Match match) replace,
-      [int startIndex = 0])
-  => _str.replaceFirstMapped(from, replace, startIndex);
+      [int startIndex = 0]) =>
+      _str.replaceFirstMapped(from, replace, startIndex);
 
   @override
-  String replaceAll(Pattern from, String replace)
-  => _str.replaceAll(from, replace);
+  String replaceAll(Pattern from, String replace) =>
+      _str.replaceAll(from, replace);
 
   @override
-  String replaceAllMapped(Pattern from, String Function(Match match) replace)
-  => _str.replaceAllMapped(from, replace);
+  String replaceAllMapped(Pattern from, String Function(Match match) replace) =>
+      _str.replaceAllMapped(from, replace);
 
   @override
-  String replaceRange(int start, int? end, String replacement)
-  => _str.replaceRange(start, end, replacement);
+  String replaceRange(int start, int? end, String replacement) =>
+      _str.replaceRange(start, end, replacement);
 
   @override
   List<String> split(Pattern pattern) => _str.split(pattern);
 
   @override
   String splitMapJoin(Pattern pattern,
-      {String Function(Match)? onMatch, String Function(String)? onNonMatch})
-  => _str.splitMapJoin(pattern, onMatch: onMatch, onNonMatch: onNonMatch);
+      {String Function(Match)? onMatch, String Function(String)? onNonMatch}) =>
+      _str.splitMapJoin(pattern, onMatch: onMatch, onNonMatch: onNonMatch);
 
   @override
   List<int> get codeUnits => _str.codeUnits;
@@ -235,10 +235,10 @@ class ConstantString implements Stringer {
   //
 
   @override
-  Iterable<Match> allMatches(String string, [int start = 0])
-  => _str.allMatches(string, start);
+  Iterable<Match> allMatches(String string, [int start = 0]) =>
+      _str.allMatches(string, start);
 
   @override
-  Match? matchAsPrefix(String string, [int start = 0])
-  => _str.matchAsPrefix(string, start);
+  Match? matchAsPrefix(String string, [int start = 0]) =>
+      _str.matchAsPrefix(string, start);
 }

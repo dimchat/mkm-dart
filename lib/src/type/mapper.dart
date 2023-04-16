@@ -23,6 +23,7 @@
  * SOFTWARE.
  * =============================================================================
  */
+import 'converter.dart';
 import 'copier.dart';
 import 'stringer.dart';
 import 'wrapper.dart';
@@ -30,9 +31,9 @@ import 'wrapper.dart';
 abstract class Mapper implements Map<String, dynamic> {
 
   String? getString(String key);
-  bool getBool(String key);
-  int getInt(String key);
-  double getDouble(String key);
+  bool?     getBool(String key);
+  int?       getInt(String key);
+  double? getDouble(String key);
 
   DateTime? getTime(String key);
   void setTime(String key, DateTime? time);
@@ -63,28 +64,19 @@ class Dictionary implements Mapper {
       : dict;
 
   @override
-  String? getString(String key) {
-    var value = _map[key];
-    return value == null ? null : value as String;
-  }
+  String? getString(String key) => Converter.getString(_map[key]);
 
   @override
-  bool getBool(String key) => _map[key] ?? false;
+  bool? getBool(String key) => Converter.getBool(_map[key]);
 
   @override
-  int getInt(String key) => _map[key] ?? 0;
+  int? getInt(String key) => Converter.getInt(_map[key]);
 
   @override
-  double getDouble(String key) => _map[key] ?? 0.0;
+  double? getDouble(String key) => Converter.getDouble(_map[key]);
 
   @override
-  DateTime? getTime(String key) {
-    var value = _map[key];
-    if (value == null) {
-      return null;
-    }
-    return DateTime.fromMillisecondsSinceEpoch(value * 1000, isUtc: true);
-  }
+  DateTime? getTime(String key) => Converter.getTime(_map[key]);
 
   @override
   void setTime(String key, DateTime? time) {
@@ -167,28 +159,30 @@ class Dictionary implements Mapper {
   Iterable<MapEntry<String, dynamic>> get entries => _map.entries.cast();
 
   @override
-  Map<K2, V2> map<K2, V2>(MapEntry<K2, V2> Function(String key, dynamic value) convert)
-  => _map.map((key, value) => convert(key, value));
+  Map<K2, V2> map<K2, V2>
+      (MapEntry<K2, V2> Function(String key, dynamic value) convert) =>
+      _map.map((key, value) => convert(key, value));
 
   @override
-  void addEntries(Iterable<MapEntry<String, dynamic>> newEntries)
-  => _map.addEntries(newEntries);
+  void addEntries(Iterable<MapEntry<String, dynamic>> newEntries) =>
+      _map.addEntries(newEntries);
 
   @override
-  dynamic update(String key, Function(dynamic value) update, {Function()? ifAbsent})
-  => _map.update(key, update, ifAbsent: ifAbsent);
+  dynamic update(String key, Function(dynamic value) update,
+      {Function()? ifAbsent}) =>
+      _map.update(key, update, ifAbsent: ifAbsent);
 
   @override
-  void updateAll(Function(String key, dynamic value) update)
-  => _map.updateAll((key, value) => update(key, value));
+  void updateAll(Function(String key, dynamic value) update) =>
+      _map.updateAll((key, value) => update(key, value));
 
   @override
-  void removeWhere(bool Function(String key, dynamic value) test)
-  => _map.removeWhere((key, value) => test(key, value));
+  void removeWhere(bool Function(String key, dynamic value) test) =>
+      _map.removeWhere((key, value) => test(key, value));
 
   @override
-  dynamic putIfAbsent(String key, Function() ifAbsent)
-  => _map.putIfAbsent(key, ifAbsent);
+  dynamic putIfAbsent(String key, Function() ifAbsent) =>
+      _map.putIfAbsent(key, ifAbsent);
 
   @override
   void addAll(Map<String, dynamic> other) => _map.addAll(other);
@@ -200,8 +194,8 @@ class Dictionary implements Mapper {
   void clear() => _map.clear();
 
   @override
-  void forEach(void Function(String key, dynamic value) action)
-  => _map.forEach((key, value) => action);
+  void forEach(void Function(String key, dynamic value) action) =>
+      _map.forEach((key, value) => action);
 
   @override
   Iterable<String> get keys => _map.keys.cast();

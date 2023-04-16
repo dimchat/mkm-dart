@@ -1,3 +1,7 @@
+## 0.1.0-dev.5
+
+- Value converter.
+
 ## 0.1.0-dev.4
 
 - listEquals, mapEquals.
