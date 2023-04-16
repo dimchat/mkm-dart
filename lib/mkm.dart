@@ -4,6 +4,7 @@
 library mkm;
 
 export 'src/type/chars.dart';
+export 'src/type/converter.dart';
 export 'src/type/stringer.dart';
 export 'src/type/mapper.dart';
 export 'src/type/copier.dart';
