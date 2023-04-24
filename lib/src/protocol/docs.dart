@@ -41,12 +41,12 @@ abstract class Visa implements Document {
   ///  Get public key to encrypt message for user
   ///
   /// @return public key as visa.key
-  EncryptKey get key;
+  EncryptKey? get key;
 
   ///  Set public key for other user to encrypt message
   ///
   /// @param publicKey - public key as visa.key
-  set key(EncryptKey publicKey);
+  set key(EncryptKey? publicKey);
 
   ///  Get avatar URL
   ///

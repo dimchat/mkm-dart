@@ -48,6 +48,7 @@ class AccountFactoryManager {
 }
 
 class AccountGeneralFactory {
+  AccountGeneralFactory() : _addressFactory = null, _idFactory = null;
 
   AddressFactory?                    _addressFactory;
   IDFactory?                         _idFactory;
