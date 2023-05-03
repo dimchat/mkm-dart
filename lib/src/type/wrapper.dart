@@ -35,7 +35,7 @@ abstract class Wrapper {
     if (str == null) {
       return null;
     } else if (str is Stringer) {
-      return str.string;
+      return str.toString();
     } else if (str is String) {
       return str;
     } else {
@@ -50,7 +50,7 @@ abstract class Wrapper {
     if (dict == null) {
       return null;
     } else if (dict is Mapper) {
-      return dict.dictionary;
+      return dict.toMap();
     } else if (dict is Map) {
       return dict;
     } else {
@@ -65,9 +65,9 @@ abstract class Wrapper {
     if (object == null) {
       return null;
     } else if (object is Stringer) {
-      return object.string;
+      return object.toString();
     } else if (object is Mapper) {
-      return unwrapMap(object.dictionary);
+      return unwrapMap(object.toMap());
     } else if (object is Map) {
       return unwrapMap(object);
     } else if (object is List) {
@@ -80,7 +80,7 @@ abstract class Wrapper {
   /// Unwrap values for keys in map
   static Map unwrapMap(Map dict) {
     if (dict is Mapper) {
-      dict = dict.dictionary;
+      dict = dict.toMap();
     }
     Map result = {};
     dict.forEach((key, value) {

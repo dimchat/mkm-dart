@@ -66,9 +66,6 @@ abstract class Stringer implements Comparable<String>, Pattern, CharSequence {
   external String toString();
    */
 
-  /// toString()
-  String get string;
-
   /*
   /// The length of the string.
   ///
@@ -98,14 +95,11 @@ class ConstantString implements Stringer {
   final String _str;
 
   ConstantString(Object string)
-      : _str = string is Stringer ? string.string
-      : string as String;
+      : _str = string is Stringer ? string.toString()
+      : string is String ? string : string.toString();
 
   @override
   String toString() => _str;
-
-  @override
-  String get string => _str;
 
   @override
   bool operator ==(Object other) {
@@ -115,7 +109,7 @@ class ConstantString implements Stringer {
         return true;
       }
       // compare with inner string
-      other = other.string;
+      other = other.toString();
     }
     return other is String && other == _str;
   }

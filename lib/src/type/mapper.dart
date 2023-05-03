@@ -45,7 +45,6 @@ abstract class Mapper implements Map<String, dynamic> {
   ///
   /// @return Map
   Map toMap();
-  Map get dictionary;
 
   ///  Copy inner map
   ///
@@ -60,7 +59,7 @@ class Dictionary implements Mapper {
 
   Dictionary(Map? dict)
       : _map = dict == null ? {}
-      : dict is Mapper ? dict.dictionary
+      : dict is Mapper ? dict.toMap()
       : dict;
 
   @override
@@ -92,7 +91,7 @@ class Dictionary implements Mapper {
     if (stringer == null) {
       _map.remove(key);
     } else {
-      _map[key] = stringer.string;
+      _map[key] = stringer.toString();
     }
   }
 
@@ -101,15 +100,12 @@ class Dictionary implements Mapper {
     if (mapper == null) {
       _map.remove(key);
     } else {
-      _map[key] = mapper.dictionary;
+      _map[key] = mapper.toMap();
     }
   }
 
   @override
   Map toMap() => _map;
-
-  @override
-  Map get dictionary => _map;
 
   @override
   Map copyMap(bool deepCopy) {
@@ -121,6 +117,9 @@ class Dictionary implements Mapper {
   }
 
   @override
+  String toString() => _map.toString();
+
+  @override
   bool operator ==(Object other) {
     if (other is Mapper) {
       if (identical(this, other)) {
@@ -128,7 +127,7 @@ class Dictionary implements Mapper {
         return true;
       }
       // compare with inner map
-      other = other.dictionary;
+      other = other.toMap();
     }
     return other is Map && Wrapper.mapEquals(other, _map);
   }

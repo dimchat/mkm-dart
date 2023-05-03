@@ -33,7 +33,7 @@ abstract class Copier {
     if (object == null) {
       return null;
     } else if (object is Mapper) {
-      return copyMap(object.dictionary);
+      return copyMap(object.toMap());
     } else if (object is Map) {
       return copyMap(object);
     } else if (object is List) {
@@ -65,7 +65,7 @@ abstract class Copier {
     if (object == null) {
       return null;
     } else if (object is Mapper) {
-      return deepCopyMap(object.dictionary);
+      return deepCopyMap(object.toMap());
     } else if (object is Map) {
       return deepCopyMap(object);
     } else if (object is List) {

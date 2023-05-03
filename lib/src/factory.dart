@@ -149,7 +149,7 @@ class AccountGeneralFactory {
   List<String> revertIdentifiers(List<ID> members) {
     List<String> array = [];
     for (var item in members) {
-      array.add(item.string);
+      array.add(item.toString());
     }
     return array;
   }
