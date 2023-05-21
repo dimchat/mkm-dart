@@ -121,7 +121,7 @@ abstract class Meta implements Mapper {
     AccountFactoryManager man = AccountFactoryManager();
     return man.generalFactory.getMetaFactory(version);
   }
-  static void setFactory(int version, MetaFactory? factory) {
+  static void setFactory(int version, MetaFactory factory) {
     AccountFactoryManager man = AccountFactoryManager();
     man.generalFactory.setMetaFactory(version, factory);
   }

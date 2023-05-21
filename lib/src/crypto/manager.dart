@@ -70,12 +70,8 @@ class CryptographyKeyGeneralFactory {
   ///   SymmetricKey
   ///
 
-  void setSymmetricKeyFactory(String algorithm, SymmetricKeyFactory? factory) {
-    if (factory == null) {
-      _symmetricKeyFactories.remove(algorithm);
-    } else {
-      _symmetricKeyFactories[algorithm] = factory;
-    }
+  void setSymmetricKeyFactory(String algorithm, SymmetricKeyFactory factory) {
+    _symmetricKeyFactories[algorithm] = factory;
   }
   SymmetricKeyFactory? getSymmetricKeyFactory(String algorithm) {
     return _symmetricKeyFactories[algorithm];
@@ -99,15 +95,12 @@ class CryptographyKeyGeneralFactory {
       return null;
     }
     String? algorithm = getAlgorithm(info);
-    if (algorithm == null) {
-      assert(false, 'failed to get algorithm name from key: $key');
-      return null;
-    }
+    algorithm ??= '*';
     SymmetricKeyFactory? factory = getSymmetricKeyFactory(algorithm);
-    if (factory == null) {
+    if (factory == null && algorithm != '*') {
       factory = getSymmetricKeyFactory('*');  // unknown
-      assert(factory != null, 'cannot parse key: $key');
     }
+    assert(factory != null, 'cannot parse key: $key');
     return factory?.parseSymmetricKey(info);
   }
 
@@ -115,12 +108,8 @@ class CryptographyKeyGeneralFactory {
   ///   PublicKey
   ///
 
-  void setPublicKeyFactory(String algorithm, PublicKeyFactory? factory) {
-    if (factory == null) {
-      _publicKeyFactories.remove(algorithm);
-    } else {
-      _publicKeyFactories[algorithm] = factory;
-    }
+  void setPublicKeyFactory(String algorithm, PublicKeyFactory factory) {
+    _publicKeyFactories[algorithm] = factory;
   }
   PublicKeyFactory? getPublicKeyFactory(String algorithm) {
     return _publicKeyFactories[algorithm];
@@ -138,15 +127,12 @@ class CryptographyKeyGeneralFactory {
       return null;
     }
     String? algorithm = getAlgorithm(info);
-    if (algorithm == null) {
-      assert(false, 'failed to get algorithm name from key: $key');
-      return null;
-    }
+    algorithm ??= '*';
     PublicKeyFactory? factory = getPublicKeyFactory(algorithm);
-    if (factory == null) {
+    if (factory == null && algorithm != '*') {
       factory = getPublicKeyFactory('*');  // unknown
-      assert(factory != null, 'cannot parse key: $key');
     }
+    assert(factory != null, 'cannot parse key: $key');
     return factory?.parsePublicKey(info);
   }
 
@@ -154,12 +140,8 @@ class CryptographyKeyGeneralFactory {
   ///   PrivateKey
   ///
 
-  void setPrivateKeyFactory(String algorithm, PrivateKeyFactory? factory) {
-    if (factory == null) {
-      _privateKeyFactories.remove(algorithm);
-    } else {
-      _privateKeyFactories[algorithm] = factory;
-    }
+  void setPrivateKeyFactory(String algorithm, PrivateKeyFactory factory) {
+    _privateKeyFactories[algorithm] = factory;
   }
   PrivateKeyFactory? getPrivateKeyFactory(String algorithm) {
     return _privateKeyFactories[algorithm];
@@ -183,15 +165,12 @@ class CryptographyKeyGeneralFactory {
       return null;
     }
     String? algorithm = getAlgorithm(info);
-    if (algorithm == null) {
-      assert(false, 'failed to get algorithm name from key: $key');
-      return null;
-    }
+    algorithm ??= '*';
     PrivateKeyFactory? factory = getPrivateKeyFactory(algorithm);
-    if (factory == null) {
+    if (factory == null && algorithm != '*') {
       factory = getPrivateKeyFactory('*');  // unknown
-      assert(factory != null, 'cannot parse key: $key');
     }
+    assert(factory != null, 'cannot parse key: $key');
     return factory?.parsePrivateKey(info);
   }
 }

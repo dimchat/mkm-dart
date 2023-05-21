@@ -62,7 +62,7 @@ abstract class TAI {
 
   ///  Get all properties
   ///
-  /// @return properties
+  /// @return properties, null on invalid
   Map? get properties;
 
   ///  Get property data with key
@@ -138,7 +138,7 @@ abstract class Document implements TAI, Mapper {
     AccountFactoryManager man = AccountFactoryManager();
     return man.generalFactory.getDocumentFactory(docType);
   }
-  static void setFactory(String docType, DocumentFactory? factory) {
+  static void setFactory(String docType, DocumentFactory factory) {
     AccountFactoryManager man = AccountFactoryManager();
     man.generalFactory.setDocumentFactory(docType, factory);
   }

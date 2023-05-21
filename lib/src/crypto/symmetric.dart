@@ -58,7 +58,7 @@ abstract class SymmetricKey implements EncryptKey, DecryptKey {
     CryptographyKeyFactoryManager man = CryptographyKeyFactoryManager();
     return man.generalFactory.getSymmetricKeyFactory(algorithm);
   }
-  static void setFactory(String algorithm, SymmetricKeyFactory? factory) {
+  static void setFactory(String algorithm, SymmetricKeyFactory factory) {
     CryptographyKeyFactoryManager man = CryptographyKeyFactoryManager();
     man.generalFactory.setSymmetricKeyFactory(algorithm, factory);
   }

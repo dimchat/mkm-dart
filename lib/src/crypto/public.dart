@@ -49,7 +49,7 @@ abstract class PublicKey implements VerifyKey {
     CryptographyKeyFactoryManager man = CryptographyKeyFactoryManager();
     return man.generalFactory.getPublicKeyFactory(algorithm);
   }
-  static void setFactory(String algorithm, PublicKeyFactory? factory) {
+  static void setFactory(String algorithm, PublicKeyFactory factory) {
     CryptographyKeyFactoryManager man = CryptographyKeyFactoryManager();
     man.generalFactory.setPublicKeyFactory(algorithm, factory);
   }
@@ -63,5 +63,5 @@ abstract class PublicKeyFactory {
   ///
   /// @param key - key info
   /// @return PublicKey
-  PublicKey parsePublicKey(Map key);
+  PublicKey? parsePublicKey(Map key);
 }

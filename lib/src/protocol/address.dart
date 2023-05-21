@@ -76,7 +76,7 @@ abstract class Address implements Stringer {
     return man.generalFactory.getAddressFactory();
   }
 
-  static void setFactory(AddressFactory? factory) {
+  static void setFactory(AddressFactory factory) {
     AccountFactoryManager man = AccountFactoryManager();
     man.generalFactory.setAddressFactory(factory);
   }

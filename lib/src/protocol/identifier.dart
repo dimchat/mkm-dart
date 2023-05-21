@@ -95,7 +95,7 @@ abstract class ID implements Stringer {
     AccountFactoryManager man = AccountFactoryManager();
     return man.generalFactory.getIDFactory();
   }
-  static void setFactory(IDFactory? factory) {
+  static void setFactory(IDFactory factory) {
     AccountFactoryManager man = AccountFactoryManager();
     man.generalFactory.setIDFactory(factory);
   }

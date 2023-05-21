@@ -59,7 +59,7 @@ class AccountGeneralFactory {
   ///   Address
   ///
 
-  void setAddressFactory(AddressFactory? factory) {
+  void setAddressFactory(AddressFactory factory) {
     _addressFactory = factory;
   }
   AddressFactory? getAddressFactory() {
@@ -98,7 +98,7 @@ class AccountGeneralFactory {
   ///   ID
   ///
 
-  void setIDFactory(IDFactory? factory) {
+  void setIDFactory(IDFactory factory) {
     _idFactory = factory;
   }
   IDFactory? getIDFactory() {
@@ -158,19 +158,15 @@ class AccountGeneralFactory {
   ///   Meta
   ///
 
-  void setMetaFactory(int version, MetaFactory? factory) {
-    if (factory == null) {
-      _metaFactories.remove(version);
-    } else {
-      _metaFactories[version] = factory;
-    }
+  void setMetaFactory(int version, MetaFactory factory) {
+    _metaFactories[version] = factory;
   }
   MetaFactory? getMetaFactory(int version) {
     return _metaFactories[version];
   }
 
-  int getMetaType(Map meta) {
-    return meta['type'] ?? 0;
+  int? getMetaType(Map meta) {
+    return meta['type'];
   }
 
   Meta? createMeta(int version, VerifyKey pKey,
@@ -197,12 +193,13 @@ class AccountGeneralFactory {
       assert(false, 'meta error: $meta');
       return null;
     }
-    int version = getMetaType(info);
+    int? version = getMetaType(info);
+    version ??= 0;
     MetaFactory? factory = getMetaFactory(version);
-    if (factory == null) {
+    if (factory == null && version != 0) {
       factory = getMetaFactory(0);  // unknown
-      assert(factory != null, 'cannot parse meta: $meta');
     }
+    assert(factory != null, 'cannot parse meta: $meta');
     return factory?.parseMeta(info);
   }
 
@@ -262,12 +259,8 @@ class AccountGeneralFactory {
   //  Document
   //
 
-  void setDocumentFactory(String docType, DocumentFactory? factory) {
-    if (factory == null) {
-      _docFactories.remove(docType);
-    } else {
-      _docFactories[docType] = factory;
-    }
+  void setDocumentFactory(String docType, DocumentFactory factory) {
+    _docFactories[docType] = factory;
   }
   DocumentFactory? getDocumentFactory(String docType) {
     return _docFactories[docType];
@@ -296,11 +289,12 @@ class AccountGeneralFactory {
       return null;
     }
     String? docType = getDocumentType(info);
-    DocumentFactory? factory = docType == null ? null : getDocumentFactory(docType);
-    if (factory == null) {
+    docType ??= '*';
+    DocumentFactory? factory = getDocumentFactory(docType);
+    if (factory == null && docType != '*') {
       factory = getDocumentFactory('*');  // unknown
-      assert(factory != null, 'cannot parse document: $doc');
     }
+    assert(factory != null, 'cannot parse document: $doc');
     return factory?.parseDocument(info);
   }
 }
