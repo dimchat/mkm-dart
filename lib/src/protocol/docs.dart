@@ -61,13 +61,25 @@ abstract class Visa implements Document {
 
 abstract class Bulletin implements Document {
 
+  ///  Get group founder
+  ///
+  ///  @return user ID
+  ID? get founder;
+
   ///  Get group assistants
   ///
   /// @return bot ID list
-  List<ID> get assistants;
+  List<ID>? get assistants;
 
   ///  Set group assistants
   ///
   /// @param bots - bot ID list
-  set assistants(List<ID> bots);
+  set assistants(List<ID>? bots);
+
+  ///
+  ///  Times
+  ///
+  DateTime? get createdTime;
+
+  DateTime? get modifiedTime;
 }
