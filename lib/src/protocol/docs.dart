@@ -29,6 +29,8 @@
  * ==============================================================================
  */
 import '../crypto/keys.dart';
+import '../format/file.dart';
+
 import 'document.dart';
 import 'identifier.dart';
 
@@ -41,22 +43,22 @@ abstract class Visa implements Document {
   ///  Get public key to encrypt message for user
   ///
   /// @return public key as visa.key
-  EncryptKey? get key;
+  EncryptKey? get publicKey;
 
   ///  Set public key for other user to encrypt message
   ///
-  /// @param publicKey - public key as visa.key
-  set key(EncryptKey? publicKey);
+  /// @param pKey - public key as visa.key
+  set publicKey(EncryptKey? pKey);
 
   ///  Get avatar URL
   ///
   /// @return URL string
-  String? get avatar;
+  PortableNetworkFile? get avatar;
 
   ///  Set avatar URL
   ///
   /// @param url - URL string
-  set avatar(String? url);
+  set avatar(PortableNetworkFile? url);
 }
 
 abstract class Bulletin implements Document {
@@ -75,11 +77,4 @@ abstract class Bulletin implements Document {
   ///
   /// @param bots - bot ID list
   set assistants(List<ID>? bots);
-
-  ///
-  ///  Times
-  ///
-  DateTime? get createdTime;
-
-  DateTime? get modifiedTime;
 }

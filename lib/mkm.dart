@@ -10,8 +10,14 @@ export 'src/type/mapper.dart';
 export 'src/type/copier.dart';
 export 'src/type/wrapper.dart';
 
+export 'src/format/string.dart';
+export 'src/format/object.dart';
+export 'src/format/data.dart';
+export 'src/format/encode.dart';
+export 'src/format/file.dart';
+export 'src/format/manager.dart';
+
 export 'src/crypto/digest.dart';
-export 'src/crypto/format.dart';
 
 export 'src/crypto/keys.dart';
 export 'src/crypto/symmetric.dart';

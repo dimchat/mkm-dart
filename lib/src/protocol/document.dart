@@ -50,15 +50,15 @@ abstract class TAI {
 
   ///  Verify 'data' and 'signature' with public key
   ///
-  /// @param publicKey - public key in meta.key
+  /// @param pKey - public key in meta.key
   /// @return true on signature matched
-  bool verify(VerifyKey publicKey);
+  bool verify(VerifyKey pKey);
 
   ///  Encode properties to 'data' and sign it to 'signature'
   ///
-  /// @param privateKey - private key match meta.key
+  /// @param sKey - private key match meta.key
   /// @return signature, null on error
-  Uint8List? sign(SignKey privateKey);
+  Uint8List? sign(SignKey sKey);
 
   ///  Get all properties
   ///

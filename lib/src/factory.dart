@@ -30,8 +30,8 @@
  */
 import 'dart:typed_data';
 
-import 'crypto/format.dart';
 import 'crypto/keys.dart';
+import 'format/string.dart';
 import 'protocol/address.dart';
 import 'protocol/document.dart';
 import 'protocol/entity.dart';
@@ -204,7 +204,7 @@ class AccountGeneralFactory {
   }
 
   bool checkMeta(Meta meta) {
-    VerifyKey key = meta.key;
+    VerifyKey key = meta.publicKey;
     // assert(key != null, 'meta.key should not be empty: $meta');
     if (!MetaType.hasSeed(meta.type)) {
       // this meta has no seed, so no signature too
@@ -239,7 +239,7 @@ class AccountGeneralFactory {
   }
   bool matchKey(VerifyKey pKey, Meta meta) {
     // check whether the public key equals to meta.key
-    if (pKey == meta.key) {
+    if (pKey == meta.publicKey) {
       return true;
     }
     // check with seed & fingerprint

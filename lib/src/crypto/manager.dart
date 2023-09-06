@@ -54,10 +54,11 @@ class CryptographyKeyGeneralFactory {
     return pKey.verify(_promise, signature);
   }
 
-  bool matchSymmetricKeys(EncryptKey pKey, DecryptKey sKey) {
+  bool matchSymmetricKeys(EncryptKey encKey, DecryptKey decKey) {
     // check by encryption
-    Uint8List ciphertext = pKey.encrypt(_promise);
-    Uint8List? plaintext = sKey.decrypt(ciphertext);
+    Map extra = {};
+    Uint8List ciphertext = encKey.encrypt(_promise, extra);
+    Uint8List? plaintext = decKey.decrypt(ciphertext, extra);
     // check result
     return plaintext != null && Wrapper.listEquals(plaintext, _promise);
   }

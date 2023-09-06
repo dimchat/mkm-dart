@@ -63,7 +63,7 @@ abstract class Meta implements Mapper {
   ///  Public key (used for signature)
   ///
   ///      RSA / ECC
-  VerifyKey get key;
+  VerifyKey get publicKey;
 
   ///  Seed to generate fingerprint
   ///

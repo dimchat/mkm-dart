@@ -55,8 +55,9 @@ abstract class EncryptKey implements CryptographyKey {
   ///  ciphertext = encrypt(plaintext, PK)
   ///
   /// @param plaintext - plain data
+  /// @param extra     - store extra variables ('IV' for 'AES')
   /// @return ciphertext
-  Uint8List encrypt(Uint8List plaintext);
+  Uint8List encrypt(Uint8List plaintext, Map? extra);
 }
 
 abstract class DecryptKey implements CryptographyKey {
@@ -65,14 +66,15 @@ abstract class DecryptKey implements CryptographyKey {
   ///  plaintext = decrypt(ciphertext, SK);
   ///
   /// @param ciphertext - encrypted data
+  /// @param params     - extra params ('IV' for 'AES')
   /// @return plaintext
-  Uint8List? decrypt(Uint8List ciphertext);
+  Uint8List? decrypt(Uint8List ciphertext, Map? params);
 
   ///  OK = decrypt(encrypt(data, SK), PK) == data
   ///
-  /// @param pKey - encrypt key
-  /// @return true on signature matched
-  bool match(EncryptKey pKey);
+  /// @param encKey - encrypt key
+  /// @return true on encryption matched
+  bool matchEncryptKey(EncryptKey encKey);
 }
 
 abstract class AsymmetricKey implements CryptographyKey {
@@ -103,5 +105,5 @@ abstract class VerifyKey implements AsymmetricKey {
   ///
   /// @param sKey - private key
   /// @return true on signature matched
-  bool match(SignKey sKey);
+  bool matchSignKey(SignKey sKey);
 }

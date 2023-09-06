@@ -45,7 +45,7 @@ abstract class ID implements Stringer {
 
   String? get name;
   Address get address;
-  String? get germinal;
+  String? get terminal;
 
   ///  Get ID.type
   ///
@@ -143,7 +143,7 @@ class Identifier extends ConstantString implements ID {
   Address get address => _address;
 
   @override
-  String? get germinal => _terminal;
+  String? get terminal => _terminal;
 
   @override
   int get type => _address.type;
