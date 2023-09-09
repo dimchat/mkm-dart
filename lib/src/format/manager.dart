@@ -31,12 +31,15 @@
 import 'dart:typed_data';
 
 import '../crypto/keys.dart';
+import '../type/converter.dart';
 import '../type/mapper.dart';
 
 import 'encode.dart';
 import 'file.dart';
 import 'object.dart';
 
+/// Format FactoryManager
+/// ~~~~~~~~~~~~~~~~~~~~~
 class FormatFactoryManager {
   factory FormatFactoryManager() => _instance;
   static final FormatFactoryManager _instance = FormatFactoryManager._internal();
@@ -45,6 +48,8 @@ class FormatFactoryManager {
   FormatGeneralFactory generalFactory = FormatGeneralFactory();
 }
 
+/// Format GeneralFactory
+/// ~~~~~~~~~~~~~~~~~~~~~
 class FormatGeneralFactory {
 
   final Map<String, TransportableDataFactory> _tedFactories = {};
@@ -77,7 +82,7 @@ class FormatGeneralFactory {
     } else if (data is Map) {
       return data;
     }
-    String text = data.toString();
+    String text = data is String ? data : data.toString();
     if (text.startsWith('{') && text.endsWith('}')) {
       return JSONMap.decode(text);
     }
@@ -87,6 +92,7 @@ class FormatGeneralFactory {
         defaultKey: array[0],
       };
     }
+    assert(array.length == 2, 'split error: $text => $array');
     return {
       'algorithm': array[1],
       'data': array[0],
@@ -97,8 +103,8 @@ class FormatGeneralFactory {
   ///   TED - Transportable Encoded Data
   ///
 
-  String? getDataAlgorithm(Map ted) {
-    return ted['algorithm'];
+  String? getDataAlgorithm(Map ted, String? defaultValue) {
+    return Converter.getString(ted['algorithm'], defaultValue);
   }
 
   void setTransportableDataFactory(String algorithm, TransportableDataFactory factory) {
@@ -126,8 +132,7 @@ class FormatGeneralFactory {
       assert(false, 'TED error: $ted');
       return null;
     }
-    String? algorithm = getDataAlgorithm(info);
-    algorithm ??= '*';
+    String algorithm = getDataAlgorithm(info, '*')!;
     TransportableDataFactory? factory = getTransportableDataFactory(algorithm);
     if (factory == null && algorithm != '*') {
       factory = getTransportableDataFactory('*');  // unknown
@@ -147,7 +152,7 @@ class FormatGeneralFactory {
     return _pnfFactory;
   }
 
-  PortableNetworkFile createPortableNetworkFile(String? url, DecryptKey? key, {Uint8List? data, String? filename}) {
+  PortableNetworkFile createPortableNetworkFile(Uri? url, DecryptKey? key, {Uint8List? data, String? filename}) {
     PortableNetworkFileFactory? factory = getPortableNetworkFileFactory();
     assert(factory != null, 'PNF factory not ready');
     return factory!.createPortableNetworkFile(url, key, data: data, filename: filename);

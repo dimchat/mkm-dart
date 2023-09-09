@@ -50,9 +50,9 @@ abstract class TAI {
 
   ///  Verify 'data' and 'signature' with public key
   ///
-  /// @param pKey - public key in meta.key
+  /// @param metaKey - public key in meta.key
   /// @return true on signature matched
-  bool verify(VerifyKey pKey);
+  bool verify(VerifyKey metaKey);
 
   ///  Encode properties to 'data' and sign it to 'signature'
   ///
@@ -122,11 +122,9 @@ abstract class Document implements TAI, Mapper {
   //  Factory methods
   //
 
-  static Document? create(String docType, ID identifier,
-      {String? data, String? signature}) {
+  static Document? create(String docType, ID identifier, {String? data, String? signature}) {
     AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.createDocument(docType, identifier,
-        data: data, signature: signature);
+    return man.generalFactory.createDocument(docType, identifier, data: data, signature: signature);
   }
 
   static Document? parse(Object? doc) {

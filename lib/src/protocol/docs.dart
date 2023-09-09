@@ -52,12 +52,12 @@ abstract class Visa implements Document {
 
   ///  Get avatar URL
   ///
-  /// @return URL string
+  /// @return PNF(URL)
   PortableNetworkFile? get avatar;
 
   ///  Set avatar URL
   ///
-  /// @param url - URL string
+  /// @param url - PNF(URL)
   set avatar(PortableNetworkFile? url);
 }
 

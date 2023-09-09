@@ -25,7 +25,9 @@
  */
 import 'dart:typed_data';
 
+import '../type/converter.dart';
 import '../type/wrapper.dart';
+
 import 'keys.dart';
 import 'private.dart';
 import 'public.dart';
@@ -34,6 +36,8 @@ import 'symmetric.dart';
 // sample data for checking keys
 final Uint8List _promise = Uint8List.fromList('Moky loves May Lee forever!'.codeUnits);
 
+/// CryptographyKey FactoryManager
+/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 class CryptographyKeyFactoryManager {
   factory CryptographyKeyFactoryManager() => _instance;
   static final CryptographyKeyFactoryManager _instance = CryptographyKeyFactoryManager._internal();
@@ -42,6 +46,8 @@ class CryptographyKeyFactoryManager {
   CryptographyKeyGeneralFactory generalFactory = CryptographyKeyGeneralFactory();
 }
 
+/// CryptographyKey GeneralFactory
+/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 class CryptographyKeyGeneralFactory {
 
   final Map<String, SymmetricKeyFactory> _symmetricKeyFactories = {};
@@ -60,11 +66,11 @@ class CryptographyKeyGeneralFactory {
     Uint8List ciphertext = encKey.encrypt(_promise, extra);
     Uint8List? plaintext = decKey.decrypt(ciphertext, extra);
     // check result
-    return plaintext != null && Wrapper.listEquals(plaintext, _promise);
+    return plaintext != null && Comparator.listEquals(plaintext, _promise);
   }
 
-  String? getAlgorithm(Map key) {
-    return key['algorithm'];
+  String? getAlgorithm(Map key, String? defaultValue) {
+    return Converter.getString(key['algorithm'], defaultValue);
   }
 
   ///
@@ -95,8 +101,7 @@ class CryptographyKeyGeneralFactory {
       assert(false, 'key error: $key');
       return null;
     }
-    String? algorithm = getAlgorithm(info);
-    algorithm ??= '*';
+    String algorithm = getAlgorithm(info, '*')!;
     SymmetricKeyFactory? factory = getSymmetricKeyFactory(algorithm);
     if (factory == null && algorithm != '*') {
       factory = getSymmetricKeyFactory('*');  // unknown
@@ -127,8 +132,7 @@ class CryptographyKeyGeneralFactory {
       assert(false, 'key error: $key');
       return null;
     }
-    String? algorithm = getAlgorithm(info);
-    algorithm ??= '*';
+    String algorithm = getAlgorithm(info, '*')!;
     PublicKeyFactory? factory = getPublicKeyFactory(algorithm);
     if (factory == null && algorithm != '*') {
       factory = getPublicKeyFactory('*');  // unknown
@@ -165,8 +169,7 @@ class CryptographyKeyGeneralFactory {
       assert(false, 'key error: $key');
       return null;
     }
-    String? algorithm = getAlgorithm(info);
-    algorithm ??= '*';
+    String algorithm = getAlgorithm(info, '*')!;
     PrivateKeyFactory? factory = getPrivateKeyFactory(algorithm);
     if (factory == null && algorithm != '*') {
       factory = getPrivateKeyFactory('*');  // unknown

@@ -56,8 +56,8 @@ import 'manager.dart';
 abstract class PortableNetworkFile implements Mapper {
 
   /// download URL
-  String? get url;
-  set url(String? location);
+  Uri? get url;
+  set url(Uri? location);
 
   /// when file data is too big, don't set it in this dictionary,
   /// but upload it to a CDN and set the download URL instead.
@@ -83,7 +83,7 @@ abstract class PortableNetworkFile implements Mapper {
   //  Factory methods
   //
 
-  static PortableNetworkFile create(String? url, DecryptKey? key, {Uint8List? data, String? filename}) {
+  static PortableNetworkFile create(Uri? url, DecryptKey? key, {Uint8List? data, String? filename}) {
     FormatFactoryManager man = FormatFactoryManager();
     return man.generalFactory.createPortableNetworkFile(url, key, data: data, filename: filename);
   }
@@ -112,10 +112,10 @@ abstract class PortableNetworkFileFactory {
   ///
   /// @param url      - download URL
   /// @param data     - file data (not encrypted)
-  /// @param filename - filename
-  /// @param key      - encrypt key
+  /// @param filename - file name
+  /// @param key      - decrypt key
   /// @return PNF
-  PortableNetworkFile createPortableNetworkFile(String? url, DecryptKey? key, {Uint8List? data, String? filename});
+  PortableNetworkFile createPortableNetworkFile(Uri? url, DecryptKey? key, {Uint8List? data, String? filename});
 
   ///  Parse map/string to PNF
   ///

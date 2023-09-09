@@ -27,8 +27,6 @@ import 'mapper.dart';
 
 abstract class Copier {
 
-  ///  Shallow Copy
-  ///  ~~~~~~~~~~~~
   static dynamic copy(Object? object) {
     if (object == null) {
       return null;
@@ -43,24 +41,6 @@ abstract class Copier {
     }
   }
 
-  static Map copyMap(Map dict) {
-    Map clone = {};
-    dict.forEach((key, value) {
-      clone[key] = value;
-    });
-    return clone;
-  }
-
-  static List copyList(List array) {
-    List list = [];
-    for (var item in array) {
-      list.add(item);
-    }
-    return list;
-  }
-
-  ///  Deep Copy
-  ///  ~~~~~~~~~
   static dynamic deepCopy(Object? object) {
     if (object == null) {
       return null;
@@ -75,6 +55,14 @@ abstract class Copier {
     }
   }
 
+  static Map copyMap(Map dict) {
+    Map clone = {};
+    dict.forEach((key, value) {
+      clone[key] = value;
+    });
+    return clone;
+  }
+
   static Map deepCopyMap(Map dict) {
     Map clone = {};
     dict.forEach((key, value) {
@@ -83,11 +71,19 @@ abstract class Copier {
     return clone;
   }
 
-  static List deepCopyList(List array) {
-    List list = [];
+  static List copyList(List array) {
+    List clone = [];
     for (var item in array) {
-      list.add(deepCopy(item));
+      clone.add(item);
     }
-    return list;
+    return clone;
+  }
+
+  static List deepCopyList(List array) {
+    List clone = [];
+    for (var item in array) {
+      clone.add(deepCopy(item));
+    }
+    return clone;
   }
 }

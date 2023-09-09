@@ -26,103 +26,93 @@
 
 abstract class Converter {
 
-  static String? getString(Object? value) {
+  static String? getString(Object? value, String? defaultValue) {
     if (value == null) {
-      return null;
+      return defaultValue;
     } else if (value is String) {
       // exactly
       return value;
     } else {
-      assert(false, 'not a string value: $value');
+      // assert(false, 'not a string value: $value');
       return value.toString();
     }
   }
 
   /// assume value can be a config string:
   ///     'true', 'false', 'yes', 'no', 'on', 'off', '1', '0', ...
-  static bool? getBool(Object? value) {
+  static bool? getBool(Object? value, bool? defaultValue) {
     if (value == null) {
-      return null;
+      return defaultValue;
     } else if (value is bool) {
       // exactly
       return value;
-    } else if (value is int) {
+    } else if (value is num) {
       assert(value == 1 || value == 0, 'bool value error: $value');
       return value != 0;
-    } else if (value is double) {
-      assert(false, 'not a bool value: $value');
-      return value != 0.0;
-    } else if (value is String) {
-      if (value.isEmpty) {
-        return false;
-      }
-      String lower = value.toLowerCase();
-      if (lower == 'false' || lower == 'no' || lower == 'off' || lower == '0'
-          || lower == 'null' || lower == 'undefined') {
-        return false;
-      }
-      assert(lower == 'true' || lower == 'yes' || lower == 'on' || lower == '1',
-      'bool value error: $value');
-      return true;
-    } else {
-      assert(false, 'unknown bool value: $value');
-      return true;
     }
+    // get lower string
+    String lower;
+    if (value is String) {
+      lower = value;
+    } else {
+      lower = value.toString();
+    }
+    if (lower.isEmpty) {
+      return false;
+    } else {
+      lower = lower.toLowerCase();
+    }
+    // check false values
+    if (lower == '0' || lower == 'false' || lower == 'no' || lower == 'off' ||
+        lower == 'null' || lower == 'undefined') {
+      return false;
+    }
+    assert(lower == '1' || lower == 'true' || lower == 'yes' || lower == 'on',
+    'bool value error: $value');
+    return true;
   }
 
-  static int? getInt(Object? value) {
+  static int? getInt(Object? value, int? defaultValue) {
     if (value == null) {
-      return null;
+      return defaultValue;
     } else if (value is int) {
       // exactly
       return value;
     } else if (value is num) {  // double
       // assert(false, 'not an int value: $value');
       return value.toInt();
-    } else if (value is String) {
-      return int.parse(value);
-    } else {
-      assert(false, 'unknown int value: $value');
-      return 0;
+    } else if (value is bool) {
+      return value ? 1 : 0;
     }
+    String str = value is String? value : value.toString();
+    return int.parse(str);
   }
 
-  static double? getDouble(Object? value) {
+  static double? getDouble(Object? value, double? defaultValue) {
     if (value == null) {
-      return null;
+      return defaultValue;
     } else if (value is double) {
       // exactly
       return value;
     } else if (value is num) {  // int
       // assert(false, 'not a double value: $value');
       return value.toDouble();
-    } else if (value is String) {
-      return double.parse(value);
-    } else {
-      assert(false, 'unknown double value: $value');
-      return 0.0;
+    } else if (value is bool) {
+      return value ? 1.0 : 0.0;
     }
+    String str = value is String? value : value.toString();
+    return double.parse(str);
   }
 
   /// assume value can be a timestamp (seconds from 1970-01-01 00:00:00)
-  static DateTime? getTime(Object? value) {
-    double? seconds;
+  static DateTime? getDateTime(Object? value, DateTime? defaultValue) {
     if (value == null) {
-      return null;
+      return defaultValue;
     } else if (value is DateTime) {
       // exactly
       return value;
-    } else if (value is double) {
-      seconds = value;
-    } else if (value is num) {  // int
-      // assert(false, 'not a double value: $value');
-      seconds = value.toDouble();
-    } else if (value is String) {
-      seconds = double.parse(value);
-    } else {
-      assert(false, 'unknown time value: $value');
-      return null;
     }
+    double seconds = getDouble(value, 0)!;
     double millis = seconds * 1000;
     return DateTime.fromMillisecondsSinceEpoch(millis.toInt());
   }

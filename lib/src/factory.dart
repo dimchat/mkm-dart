@@ -37,6 +37,7 @@ import 'protocol/document.dart';
 import 'protocol/entity.dart';
 import 'protocol/identifier.dart';
 import 'protocol/meta.dart';
+import 'type/converter.dart';
 import 'type/wrapper.dart';
 
 class AccountFactoryManager {
@@ -165,12 +166,11 @@ class AccountGeneralFactory {
     return _metaFactories[version];
   }
 
-  int? getMetaType(Map meta) {
-    return meta['type'];
+  int? getMetaType(Map meta, int? defaultValue) {
+    return Converter.getInt(meta['type'], defaultValue);
   }
 
-  Meta? createMeta(int version, VerifyKey pKey,
-      {String? seed, Uint8List? fingerprint}) {
+  Meta? createMeta(int version, VerifyKey pKey, {String? seed, Uint8List? fingerprint}) {
     MetaFactory? factory = getMetaFactory(version);
     assert(factory != null, 'meta type not supported: $version');
     return factory?.createMeta(pKey, seed: seed, fingerprint: fingerprint);
@@ -193,8 +193,7 @@ class AccountGeneralFactory {
       assert(false, 'meta error: $meta');
       return null;
     }
-    int? version = getMetaType(info);
-    version ??= 0;
+    int version = getMetaType(info, 0)!;
     MetaFactory? factory = getMetaFactory(version);
     if (factory == null && version != 0) {
       factory = getMetaFactory(0);  // unknown
@@ -206,14 +205,12 @@ class AccountGeneralFactory {
   bool checkMeta(Meta meta) {
     VerifyKey key = meta.publicKey;
     // assert(key != null, 'meta.key should not be empty: $meta');
-    if (!MetaType.hasSeed(meta.type)) {
-      // this meta has no seed, so no signature too
-      return true;
-    }
-    // check seed with signature
     String? seed = meta.seed;
     Uint8List? fingerprint = meta.fingerprint;
-    if (seed == null || fingerprint == null) {
+    if (!MetaType.hasSeed(meta.type)) {
+      // this meta has no seed, so no signature too
+      return seed == null && fingerprint == null;
+    } else if (seed == null || fingerprint == null) {
       // seed and fingerprint should not be empty
       return false;
     }
@@ -266,12 +263,11 @@ class AccountGeneralFactory {
     return _docFactories[docType];
   }
 
-  String? getDocumentType(Map doc) {
-    return doc['type'];
+  String? getDocumentType(Map doc, String? defaultValue) {
+    return Converter.getString(doc['type'], defaultValue);
   }
 
-  Document? createDocument(String docType, ID identifier,
-      {String? data, String? signature}) {
+  Document? createDocument(String docType, ID identifier, {String? data, String? signature}) {
     DocumentFactory? factory = getDocumentFactory(docType);
     assert(factory != null, 'document type not supported: $docType');
     return factory?.createDocument(identifier, data: data, signature: signature);
@@ -288,8 +284,7 @@ class AccountGeneralFactory {
       assert(false, 'document error: $doc');
       return null;
     }
-    String? docType = getDocumentType(info);
-    docType ??= '*';
+    String docType = getDocumentType(info, '*')!;
     DocumentFactory? factory = getDocumentFactory(docType);
     if (factory == null && docType != '*') {
       factory = getDocumentFactory('*');  // unknown

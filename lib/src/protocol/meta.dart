@@ -100,11 +100,9 @@ abstract class Meta implements Mapper {
   //  Factory methods
   //
 
-  static Meta? create(int version, VerifyKey pKey,
-      {String? seed, Uint8List? fingerprint}) {
+  static Meta? create(int version, VerifyKey pKey, {String? seed, Uint8List? fingerprint}) {
     AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.createMeta(version, pKey,
-        seed: seed, fingerprint: fingerprint);
+    return man.generalFactory.createMeta(version, pKey, seed: seed, fingerprint: fingerprint);
   }
 
   static Meta? generate(int version, SignKey sKey, {String? seed}) {

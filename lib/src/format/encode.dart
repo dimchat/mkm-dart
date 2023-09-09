@@ -42,15 +42,15 @@ import 'manager.dart';
 ///     2. "data:image/png;base64,{BASE64_ENCODE}"
 ///     3. {
 ///             algorithm : "base64",
-///             data     : "...",      // base64_encode(data)
+///             data      : "...",      // base64_encode(data)
 ///             ...
 ///        }
 abstract class TransportableData implements Mapper {
 
-  static const kDefault = 'default';
-  static const kHEX = 'hex';
-  static const kBASE_58 = 'base58';
+  static const kDefault = 'base64';
   static const kBASE_64 = 'base64';
+  static const kBASE_58 = 'base58';
+  static const kHEX     = 'hex';
 
   ///  Get encode algorithm
   ///
@@ -74,7 +74,7 @@ abstract class TransportableData implements Mapper {
   //
 
   static Object encode(Uint8List data) {
-    TransportableData ted = create(kDefault, data);
+    TransportableData ted = create(data);
     return ted.toObject();
   }
 
@@ -87,7 +87,8 @@ abstract class TransportableData implements Mapper {
   //  Factory methods
   //
 
-  static TransportableData create(String algorithm, Uint8List data) {
+  static TransportableData create(Uint8List data, {String? algorithm}) {
+    algorithm ??= kDefault;
     FormatFactoryManager man = FormatFactoryManager();
     return man.generalFactory.createTransportableData(algorithm, data);
   }

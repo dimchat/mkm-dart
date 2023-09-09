@@ -30,13 +30,13 @@ import 'wrapper.dart';
 
 abstract class Mapper implements Map<String, dynamic> {
 
-  String? getString(String key);
-  bool?     getBool(String key);
-  int?       getInt(String key);
-  double? getDouble(String key);
+  String? getString(String key, String? defaultValue);
+  bool?     getBool(String key, bool?   defaultValue);
+  int?       getInt(String key, int?    defaultValue);
+  double? getDouble(String key, double? defaultValue);
 
-  DateTime? getTime(String key);
-  void setTime(String key, DateTime? time);
+  DateTime? getDateTime(String key, DateTime? defaultValue);
+  void setDateTime(String key, DateTime? time);
 
   void setString(String key, Stringer? stringer);
   void setMap(String key, Mapper? mapper);
@@ -63,22 +63,27 @@ class Dictionary implements Mapper {
       : dict;
 
   @override
-  String? getString(String key) => Converter.getString(_map[key]);
+  String? getString(String key, String? defaultValue) =>
+      Converter.getString(_map[key], defaultValue);
 
   @override
-  bool? getBool(String key) => Converter.getBool(_map[key]);
+  bool? getBool(String key, bool? defaultValue) =>
+      Converter.getBool(_map[key], defaultValue);
 
   @override
-  int? getInt(String key) => Converter.getInt(_map[key]);
+  int? getInt(String key, int? defaultValue) =>
+      Converter.getInt(_map[key], defaultValue);
 
   @override
-  double? getDouble(String key) => Converter.getDouble(_map[key]);
+  double? getDouble(String key, double? defaultValue) =>
+      Converter.getDouble(_map[key], defaultValue);
 
   @override
-  DateTime? getTime(String key) => Converter.getTime(_map[key]);
+  DateTime? getDateTime(String key, DateTime? defaultValue) =>
+      Converter.getDateTime(_map[key], defaultValue);
 
   @override
-  void setTime(String key, DateTime? time) {
+  void setDateTime(String key, DateTime? time) {
     if (time == null) {
       _map.remove(key);
     } else {
@@ -129,7 +134,7 @@ class Dictionary implements Mapper {
       // compare with inner map
       other = other.toMap();
     }
-    return other is Map && Wrapper.mapEquals(other, _map);
+    return other is Map && Comparator.mapEquals(other, _map);
   }
 
   @override
