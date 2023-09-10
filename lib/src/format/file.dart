@@ -121,5 +121,5 @@ abstract class PortableNetworkFileFactory {
   ///
   /// @param pnf      - URL, or a dictionary
   /// @return PNF
-  PortableNetworkFile? parsePortableNetworkFile(Object? pnf);
+  PortableNetworkFile? parsePortableNetworkFile(Map pnf);
 }

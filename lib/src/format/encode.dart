@@ -55,12 +55,12 @@ abstract class TransportableData implements Mapper {
   ///  Get encode algorithm
   ///
   /// @return "base64"
-  String get algorithm;
+  String? get algorithm;
 
   ///  Get original data
   ///
   /// @return plaintext
-  Uint8List get data;
+  Uint8List? get data;
 
   // @override
   // String toString();  // "{BASE64_ENCODE}", or
@@ -123,5 +123,5 @@ abstract class TransportableDataFactory {
   ///
   /// @param ted  - String, or a dictionary
   /// @return TED
-  TransportableData? parseTransportableData(Object ted);
+  TransportableData? parseTransportableData(Map ted);
 }
