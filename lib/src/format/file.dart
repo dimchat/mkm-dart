@@ -36,15 +36,18 @@ import '../type/mapper.dart';
 import 'manager.dart';
 
 
-///  Transportable File:
+///  Transportable File
+///  ~~~~~~~~~~~~~~~~~~
+///  PNF - Portable Network File
 ///
 ///     0. "{URL}"
 ///     1. "base64,{BASE64_ENCODE}"
 ///     2. "data:image/png;base64,{BASE64_ENCODE}"
 ///     3. {
-///             URL      : "http://...", // download from CDN
 ///             data     : "...",        // base64_encode(fileContent)
 ///             filename : "avatar.png",
+///
+///             URL      : "http://...", // download from CDN
 ///             // before fileContent uploaded to a public CDN,
 ///             // it can be encrypted by a symmetric key
 ///             key      : {             // symmetric key to decrypt file content
@@ -55,11 +58,7 @@ import 'manager.dart';
 ///        }
 abstract class PortableNetworkFile implements Mapper {
 
-  /// download URL
-  Uri? get url;
-  set url(Uri? location);
-
-  /// when file data is too big, don't set it in this dictionary,
+  /// When file data is too big, don't set it in this dictionary,
   /// but upload it to a CDN and set the download URL instead.
   Uint8List? get data;
   set data(Uint8List? fileData);
@@ -67,25 +66,42 @@ abstract class PortableNetworkFile implements Mapper {
   String? get filename;
   set filename(String? name);
 
-  /// password for decrypting the downloaded data from CDN,
+  /// Download URL
+  Uri? get url;
+  set url(Uri? location);
+
+  /// Password for decrypting the downloaded data from CDN,
   /// default is a plain key, which just return the same data when decrypting.
   DecryptKey? get password;
   set password(DecryptKey? key);
 
-  // @override
-  // String toString();  // URL, or
-  //                     // "base64,{BASE64_ENCODE}", or
-  //                     // "data:image/png;base64,{BASE64_ENCODE}"
+  ///  Get encoded string
+  ///
+  /// @return "URL", or
+  ///         "base64,{BASE64_ENCODE}", or
+  ///         "data:image/png;base64,{BASE64_ENCODE}", or
+  ///         "{...}"
+  @override
+  String toString();
   ///  toJson()
-  Object toObject();     // String, or Map
+  ///
+  /// @return String, or Map
+  Object toObject();
 
   //
   //  Factory methods
   //
 
-  static PortableNetworkFile create(Uri? url, DecryptKey? key, {Uint8List? data, String? filename}) {
+  static PortableNetworkFile createFromURL(Uri url, DecryptKey? password) {
+    return create(null, null, url, password);
+  }
+  static PortableNetworkFile createFromData(Uint8List data, String? filename) {
+    return create(data, filename, null, null);
+  }
+  static PortableNetworkFile create(Uint8List? data, String? filename,
+                                    Uri? url, DecryptKey? password) {
     FormatFactoryManager man = FormatFactoryManager();
-    return man.generalFactory.createPortableNetworkFile(url, key, data: data, filename: filename);
+    return man.generalFactory.createPortableNetworkFile(data, filename, url, password);
   }
 
   static PortableNetworkFile? parse(Object? pnf) {
@@ -110,16 +126,17 @@ abstract class PortableNetworkFileFactory {
 
   ///  Create PNF
   ///
-  /// @param url      - download URL
   /// @param data     - file data (not encrypted)
   /// @param filename - file name
-  /// @param key      - decrypt key
-  /// @return PNF
-  PortableNetworkFile createPortableNetworkFile(Uri? url, DecryptKey? key, {Uint8List? data, String? filename});
+  /// @param url      - download URL
+  /// @param password - decrypt key for downloaded data
+  /// @return PNF object
+  PortableNetworkFile createPortableNetworkFile(Uint8List? data, String? filename,
+                                                Uri? url, DecryptKey? password);
 
   ///  Parse map/string to PNF
   ///
-  /// @param pnf      - URL, or a dictionary
-  /// @return PNF
+  /// @param pnf      - PNF info
+  /// @return PNF object
   PortableNetworkFile? parsePortableNetworkFile(Map pnf);
 }

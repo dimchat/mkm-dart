@@ -45,7 +45,7 @@ abstract class TAI {
 
   ///  Check if signature matched
   ///
-  /// @return False on signature not matched
+  /// @return false on signature not matched
   bool get isValid;
 
   ///  Verify 'data' and 'signature' with public key
@@ -59,6 +59,8 @@ abstract class TAI {
   /// @param sKey - private key match meta.key
   /// @return signature, null on error
   Uint8List? sign(SignKey sKey);
+
+  //-------- properties
 
   ///  Get all properties
   ///
@@ -84,9 +86,10 @@ abstract class TAI {
 ///  This class is used to generate entity profile
 ///
 ///      data format: {
-///          ID: "EntityID",   // entity ID
-///          data: "{JSON}",   // data = json_encode(info)
-///          signature: "..."  // signature = sign(data, SK);
+///          ID        : "EntityID",        // entity ID
+///          type      : "visa",            // "bulletin", ...
+///          data      : "{JSON}",          // data = json_encode(info)
+///          signature : "{BASE64_ENCODE}"  // signature = sign(data, SK);
 ///      }
 abstract class Document implements TAI, Mapper {
 
@@ -122,7 +125,7 @@ abstract class Document implements TAI, Mapper {
   //  Factory methods
   //
 
-  static Document? create(String docType, ID identifier, {String? data, String? signature}) {
+  static Document create(String docType, ID identifier, {String? data, String? signature}) {
     AccountFactoryManager man = AccountFactoryManager();
     return man.generalFactory.createDocument(docType, identifier, data: data, signature: signature);
   }

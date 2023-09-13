@@ -31,15 +31,15 @@
 import 'dart:typed_data';
 
 import 'crypto/keys.dart';
-import 'format/string.dart';
 import 'protocol/address.dart';
 import 'protocol/document.dart';
-import 'protocol/entity.dart';
 import 'protocol/identifier.dart';
 import 'protocol/meta.dart';
 import 'type/converter.dart';
 import 'type/wrapper.dart';
 
+/// Account FactoryManager
+/// ~~~~~~~~~~~~~~~~~~~~~~
 class AccountFactoryManager {
   factory AccountFactoryManager() => _instance;
   static final AccountFactoryManager _instance = AccountFactoryManager._internal();
@@ -48,6 +48,8 @@ class AccountFactoryManager {
   AccountGeneralFactory generalFactory = AccountGeneralFactory();
 }
 
+/// Account GeneralFactory
+/// ~~~~~~~~~~~~~~~~~~~~~~
 class AccountGeneralFactory {
   AccountGeneralFactory() : _addressFactory = null, _idFactory = null;
 
@@ -170,16 +172,16 @@ class AccountGeneralFactory {
     return Converter.getInt(meta['type'], defaultValue);
   }
 
-  Meta? createMeta(int version, VerifyKey pKey, {String? seed, Uint8List? fingerprint}) {
+  Meta createMeta(int version, VerifyKey pKey, {String? seed, Uint8List? fingerprint}) {
     MetaFactory? factory = getMetaFactory(version);
     assert(factory != null, 'meta type not supported: $version');
-    return factory?.createMeta(pKey, seed: seed, fingerprint: fingerprint);
+    return factory!.createMeta(pKey, seed: seed, fingerprint: fingerprint);
   }
 
-  Meta? generateMeta(int version, SignKey sKey, {String? seed}) {
+  Meta generateMeta(int version, SignKey sKey, {String? seed}) {
     MetaFactory? factory = getMetaFactory(version);
     assert(factory != null, 'meta type not supported: $version');
-    return factory?.generateMeta(sKey, seed: seed);
+    return factory!.generateMeta(sKey, seed: seed);
   }
 
   Meta? parseMeta(Object? meta) {
@@ -202,56 +204,6 @@ class AccountGeneralFactory {
     return factory?.parseMeta(info);
   }
 
-  bool checkMeta(Meta meta) {
-    VerifyKey key = meta.publicKey;
-    // assert(key != null, 'meta.key should not be empty: $meta');
-    String? seed = meta.seed;
-    Uint8List? fingerprint = meta.fingerprint;
-    if (!MetaType.hasSeed(meta.type)) {
-      // this meta has no seed, so no signature too
-      return seed == null && fingerprint == null;
-    } else if (seed == null || fingerprint == null) {
-      // seed and fingerprint should not be empty
-      return false;
-    }
-    // verify fingerprint
-    return key.verify(UTF8.encode(seed), fingerprint);
-  }
-
-  bool matchID(ID identifier, Meta meta) {
-    // check ID.name
-    String? seed = meta.seed;
-    String? name = identifier.name;
-    if (name == null || name.isEmpty) {
-      if (seed != null && seed.isNotEmpty) {
-        return false;
-      }
-    } else if (name != seed) {
-      return false;
-    }
-    // check ID.address
-    Address old = identifier.address;
-    Address? gen = Address.generate(meta, old.type);
-    return old == gen;
-  }
-  bool matchKey(VerifyKey pKey, Meta meta) {
-    // check whether the public key equals to meta.key
-    if (pKey == meta.publicKey) {
-      return true;
-    }
-    // check with seed & fingerprint
-    if (MetaType.hasSeed(meta.type)) {
-      // check whether keys equal by verifying signature
-      String? seed = meta.seed;
-      Uint8List? fingerprint = meta.fingerprint;
-      return pKey.verify(UTF8.encode(seed!), fingerprint!);
-    } else {
-      // NOTICE: ID with BTC/ETH address has no username, so
-      //         just compare the key.data to check matching
-      return false;
-    }
-  }
-
   //
   //  Document
   //
@@ -267,10 +219,10 @@ class AccountGeneralFactory {
     return Converter.getString(doc['type'], defaultValue);
   }
 
-  Document? createDocument(String docType, ID identifier, {String? data, String? signature}) {
+  Document createDocument(String docType, ID identifier, {String? data, String? signature}) {
     DocumentFactory? factory = getDocumentFactory(docType);
     assert(factory != null, 'document type not supported: $docType');
-    return factory?.createDocument(identifier, data: data, signature: signature);
+    return factory!.createDocument(identifier, data: data, signature: signature);
   }
 
   Document? parseDocument(Object? doc) {

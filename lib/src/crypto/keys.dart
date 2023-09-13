@@ -51,8 +51,10 @@ abstract class CryptographyKey implements Mapper {
 
 abstract class EncryptKey implements CryptographyKey {
 
-  ///  ciphertext = encrypt(plaintext, PW)
-  ///  ciphertext = encrypt(plaintext, PK)
+  ///  1. Symmetric Key:
+  ///     ciphertext = encrypt(plaintext, PW)
+  ///  2. Asymmetric Public Key:
+  ///     ciphertext = encrypt(plaintext, PK)
   ///
   /// @param plaintext - plain data
   /// @param extra     - store extra variables ('IV' for 'AES')
@@ -62,19 +64,21 @@ abstract class EncryptKey implements CryptographyKey {
 
 abstract class DecryptKey implements CryptographyKey {
 
-  ///  plaintext = decrypt(ciphertext, PW);
-  ///  plaintext = decrypt(ciphertext, SK);
+  ///  1. Symmetric Key:
+  ///     plaintext = decrypt(ciphertext, PW);
+  ///  2. Asymmetric Private Key:
+  ///     plaintext = decrypt(ciphertext, SK);
   ///
   /// @param ciphertext - encrypted data
   /// @param params     - extra params ('IV' for 'AES')
   /// @return plaintext
   Uint8List? decrypt(Uint8List ciphertext, Map? params);
 
-  ///  OK = decrypt(encrypt(data, SK), PK) == data
+  ///  OK = decrypt(encrypt(data, PK), SK) == data
   ///
-  /// @param encKey - encrypt key
+  /// @param pKey - encrypt (public) key
   /// @return true on encryption matched
-  bool matchEncryptKey(EncryptKey encKey);
+  bool matchEncryptKey(EncryptKey pKey);
 }
 
 abstract class AsymmetricKey implements CryptographyKey {

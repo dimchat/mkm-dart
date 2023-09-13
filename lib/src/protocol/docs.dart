@@ -70,11 +70,11 @@ abstract class Bulletin implements Document {
 
   ///  Get group assistants
   ///
-  /// @return bot ID list
+  /// @return group bot ID list
   List<ID>? get assistants;
 
   ///  Set group assistants
   ///
-  /// @param bots - bot ID list
+  /// @param bots - group bot ID list
   set assistants(List<ID>? bots);
 }

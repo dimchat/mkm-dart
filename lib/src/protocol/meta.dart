@@ -82,30 +82,39 @@ abstract class Meta implements Mapper {
   /// @return Address
   Address generateAddress(int? network);
 
-  static bool check(Meta meta) {
-    AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.checkMeta(meta);
-  }
+  //
+  //  Validation
+  //
 
-  static bool matchID(ID identifier, Meta meta) {
-    AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.matchID(identifier, meta);
-  }
-  static bool matchKey(VerifyKey pKey, Meta meta) {
-    AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.matchKey(pKey, meta);
-  }
+  ///  Check meta valid
+  ///  (must call this when received a new meta from network)
+  ///
+  /// @return false on fingerprint not matched
+  bool get isValid;
+
+  ///  Check whether meta match with entity ID
+  ///  (must call this when received a new meta from network)
+  ///
+  /// @param identifier - entity ID
+  /// @return true on matched
+  bool matchIdentifier(ID identifier);
+
+  ///  Check whether meta match with public key
+  ///
+  /// @param pKey - public key
+  /// @return true on matched
+  bool matchPublicKey(VerifyKey pKey);
 
   //
   //  Factory methods
   //
 
-  static Meta? create(int version, VerifyKey pKey, {String? seed, Uint8List? fingerprint}) {
+  static Meta create(int version, VerifyKey pKey, {String? seed, Uint8List? fingerprint}) {
     AccountFactoryManager man = AccountFactoryManager();
     return man.generalFactory.createMeta(version, pKey, seed: seed, fingerprint: fingerprint);
   }
 
-  static Meta? generate(int version, SignKey sKey, {String? seed}) {
+  static Meta generate(int version, SignKey sKey, {String? seed}) {
     AccountFactoryManager man = AccountFactoryManager();
     return man.generalFactory.generateMeta(version, sKey, seed: seed);
   }

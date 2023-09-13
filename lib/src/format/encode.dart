@@ -35,7 +35,9 @@ import '../type/mapper.dart';
 import 'manager.dart';
 
 
-///  Transportable Data:
+///  Transportable Data
+///  ~~~~~~~~~~~~~~~~~~
+///  TED - Transportable Encoded Data
 ///
 ///     0. "{BASE64_ENCODE}"
 ///     1. "base64,{BASE64_ENCODE}"
@@ -60,14 +62,20 @@ abstract class TransportableData implements Mapper {
   ///  Get original data
   ///
   /// @return plaintext
-  Uint8List? get data;
+  Uint8List get data;
 
-  // @override
-  // String toString();  // "{BASE64_ENCODE}", or
-  //                     // "base64,{BASE64_ENCODE}", or
-  //                     // "data:image/png;base64,{BASE64_ENCODE}"
+  ///  Get encoded string
+  ///
+  /// @return "{BASE64_ENCODE}}", or
+  ///         "base64,{BASE64_ENCODE}", or
+  ///         "data:image/png;base64,{BASE64_ENCODE}", or
+  ///         "{...}"
+  @override
+  String toString();
   ///  toJson()
-  Object toObject();     // String, or Map
+  ///
+  /// @return String, or Map
+  Object toObject();
 
   //
   //  Conveniences
@@ -116,12 +124,12 @@ abstract class TransportableDataFactory {
   ///  Create TED
   ///
   /// @param data - original data
-  /// @return TED
+  /// @return TED object
   TransportableData createTransportableData(Uint8List data);
 
   ///  Parse map/string to TED
   ///
-  /// @param ted  - String, or a dictionary
-  /// @return TED
+  /// @param ted  - TED info
+  /// @return TED object
   TransportableData? parseTransportableData(Map ted);
 }

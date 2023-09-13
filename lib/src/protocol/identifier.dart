@@ -38,9 +38,9 @@ import 'meta.dart';
 ///      data format: "name@address[/terminal]"
 ///
 ///      fields:
-///          name     - entity name, the seed of fingerprint to build address
+///          name     - entity name, the seed of fingerprint (for building address)
 ///          address  - a string to identify an entity
-///          terminal - entity login resource(device), OPTIONAL
+///          terminal - location (device), RESERVED
 abstract class ID implements Stringer {
 
   String? get name;

@@ -57,7 +57,7 @@ class FormatGeneralFactory {
   PortableNetworkFileFactory? _pnfFactory;
 
   /// split text string to array: ["{TEXT}", "{algorithm}"]
-  List<String> splitData(String text) {
+  List<String> split(String text) {
     // "{TEXT}", or
     // "base64,{BASE64_ENCODE}", or
     // "data:image/png;base64,{BASE64_ENCODE}"
@@ -76,7 +76,7 @@ class FormatGeneralFactory {
     return [text.substring(pos2 + 1), text.substring(pos1, pos2)];
   }
 
-  Map? decodeData(Object data, {required String defaultKey}) {
+  Map? decode(Object data, {required String defaultKey}) {
     if (data is Mapper) {
       return data.toMap();
     } else if (data is Map) {
@@ -86,7 +86,7 @@ class FormatGeneralFactory {
     if (text.startsWith('{') && text.endsWith('}')) {
       return JSONMap.decode(text);
     }
-    List<String> array = splitData(text);
+    List<String> array = split(text);
     if (array.length == 1) {
       return {
         defaultKey: array[0],
@@ -127,7 +127,7 @@ class FormatGeneralFactory {
       return ted;
     }
     // unwrap
-    Map? info = decodeData(ted, defaultKey: 'data');
+    Map? info = decode(ted, defaultKey: 'data');
     if (info == null) {
       assert(false, 'TED error: $ted');
       return null;
@@ -152,10 +152,11 @@ class FormatGeneralFactory {
     return _pnfFactory;
   }
 
-  PortableNetworkFile createPortableNetworkFile(Uri? url, DecryptKey? key, {Uint8List? data, String? filename}) {
+  PortableNetworkFile createPortableNetworkFile(Uint8List? data, String? filename,
+                                                Uri? url, DecryptKey? password) {
     PortableNetworkFileFactory? factory = getPortableNetworkFileFactory();
     assert(factory != null, 'PNF factory not ready');
-    return factory!.createPortableNetworkFile(url, key, data: data, filename: filename);
+    return factory!.createPortableNetworkFile(data, filename, url, password);
   }
 
   PortableNetworkFile? parsePortableNetworkFile(Object? pnf) {
@@ -165,7 +166,7 @@ class FormatGeneralFactory {
       return pnf;
     }
     // unwrap
-    Map? info = decodeData(pnf, defaultKey: 'URL');
+    Map? info = decode(pnf, defaultKey: 'URL');
     if (info == null) {
       assert(false, 'PNF error: $pnf');
       return null;
