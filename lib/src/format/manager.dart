@@ -68,12 +68,18 @@ class FormatGeneralFactory {
     }
     pos1 = text.indexOf(';') + 1;
     int pos2 = text.indexOf(',', pos1);
-    if (pos2 < 0) {
-      // [data]
-      return pos1 == 0 ? [text] : [text.substring(pos1)];
+    if (pos2 > pos1) {
+      // [data, algorithm]
+      return [
+        text.substring(pos2 + 1),
+        text.substring(pos1, pos2)
+      ];
     }
-    // [data, algorithm]
-    return [text.substring(pos2 + 1), text.substring(pos1, pos2)];
+    // [data]
+    if (pos1 > 0) {
+      text = text.substring(pos1);
+    }
+    return [text];
   }
 
   Map? decode(Object data, {required String defaultKey}) {
@@ -134,10 +140,11 @@ class FormatGeneralFactory {
     }
     String algorithm = getDataAlgorithm(info, '*')!;
     TransportableDataFactory? factory = getTransportableDataFactory(algorithm);
-    if (factory == null && algorithm != '*') {
+    if (factory == null) {
+      assert(algorithm != '*', 'TED factory not ready: $ted');
       factory = getTransportableDataFactory('*');  // unknown
+      assert(factory != null, 'default TED factory not found');
     }
-    assert(factory != null, 'cannot parse TED: $ted');
     return factory?.parseTransportableData(info);
   }
 
@@ -152,7 +159,7 @@ class FormatGeneralFactory {
     return _pnfFactory;
   }
 
-  PortableNetworkFile createPortableNetworkFile(Uint8List? data, String? filename,
+  PortableNetworkFile createPortableNetworkFile(TransportableData? data, String? filename,
                                                 Uri? url, DecryptKey? password) {
     PortableNetworkFileFactory? factory = getPortableNetworkFileFactory();
     assert(factory != null, 'PNF factory not ready');

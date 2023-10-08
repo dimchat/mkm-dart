@@ -23,10 +23,10 @@
  * SOFTWARE.
  * =============================================================================
  */
+import 'comparator.dart';
 import 'converter.dart';
 import 'copier.dart';
 import 'stringer.dart';
-import 'wrapper.dart';
 
 abstract class Mapper implements Map<String, dynamic> {
 

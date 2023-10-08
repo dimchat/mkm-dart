@@ -62,7 +62,7 @@ abstract class TransportableData implements Mapper {
   ///  Get original data
   ///
   /// @return plaintext
-  Uint8List get data;
+  Uint8List? get data;
 
   ///  Get encoded string
   ///
@@ -72,6 +72,7 @@ abstract class TransportableData implements Mapper {
   ///         "{...}"
   @override
   String toString();
+
   ///  toJson()
   ///
   /// @return String, or Map
@@ -127,7 +128,7 @@ abstract class TransportableDataFactory {
   /// @return TED object
   TransportableData createTransportableData(Uint8List data);
 
-  ///  Parse map/string to TED
+  ///  Parse map object to TED
   ///
   /// @param ted  - TED info
   /// @return TED object

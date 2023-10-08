@@ -1,29 +1,7 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
+/// Ming-Ke-Ming
+/// ~~~~~~~~~~~~
+/// Decentralized User Identity Authentication
 library mkm;
-
-export 'src/type/chars.dart';
-export 'src/type/converter.dart';
-export 'src/type/stringer.dart';
-export 'src/type/mapper.dart';
-export 'src/type/copier.dart';
-export 'src/type/wrapper.dart';
-
-export 'src/format/string.dart';
-export 'src/format/object.dart';
-export 'src/format/data.dart';
-export 'src/format/encode.dart';
-export 'src/format/file.dart';
-export 'src/format/manager.dart';
-
-export 'src/crypto/digest.dart';
-
-export 'src/crypto/keys.dart';
-export 'src/crypto/symmetric.dart';
-export 'src/crypto/public.dart';
-export 'src/crypto/private.dart';
-export 'src/crypto/manager.dart';
 
 export 'src/protocol/entity.dart';
 export 'src/protocol/address.dart';

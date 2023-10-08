@@ -33,6 +33,7 @@ import 'dart:typed_data';
 import '../crypto/keys.dart';
 import '../type/mapper.dart';
 
+import 'encode.dart';
 import 'manager.dart';
 
 
@@ -83,6 +84,7 @@ abstract class PortableNetworkFile implements Mapper {
   ///         "{...}"
   @override
   String toString();
+
   ///  toJson()
   ///
   /// @return String, or Map
@@ -92,13 +94,17 @@ abstract class PortableNetworkFile implements Mapper {
   //  Factory methods
   //
 
+  /// Create from remote URL
   static PortableNetworkFile createFromURL(Uri url, DecryptKey? password) {
     return create(null, null, url, password);
   }
+  /// Create from file data
   static PortableNetworkFile createFromData(Uint8List data, String? filename) {
-    return create(data, filename, null, null);
+    TransportableData ted = TransportableData.create(data);
+    return create(ted, filename, null, null);
   }
-  static PortableNetworkFile create(Uint8List? data, String? filename,
+
+  static PortableNetworkFile create(TransportableData? data, String? filename,
                                     Uri? url, DecryptKey? password) {
     FormatFactoryManager man = FormatFactoryManager();
     return man.generalFactory.createPortableNetworkFile(data, filename, url, password);
@@ -131,10 +137,10 @@ abstract class PortableNetworkFileFactory {
   /// @param url      - download URL
   /// @param password - decrypt key for downloaded data
   /// @return PNF object
-  PortableNetworkFile createPortableNetworkFile(Uint8List? data, String? filename,
+  PortableNetworkFile createPortableNetworkFile(TransportableData? data, String? filename,
                                                 Uri? url, DecryptKey? password);
 
-  ///  Parse map/string to PNF
+  ///  Parse map object to PNF
   ///
   /// @param pnf      - PNF info
   /// @return PNF object

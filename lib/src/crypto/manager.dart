@@ -25,6 +25,7 @@
  */
 import 'dart:typed_data';
 
+import '../type/comparator.dart';
 import '../type/converter.dart';
 import '../type/wrapper.dart';
 
@@ -98,15 +99,16 @@ class CryptographyKeyGeneralFactory {
     }
     Map? info = Wrapper.getMap(key);
     if (info == null) {
-      assert(false, 'key error: $key');
+      assert(false, 'symmetric key error: $key');
       return null;
     }
     String algorithm = getAlgorithm(info, '*')!;
+    assert(algorithm != '*', 'symmetric key error: $key');
     SymmetricKeyFactory? factory = getSymmetricKeyFactory(algorithm);
-    if (factory == null && algorithm != '*') {
+    if (factory == null) {
       factory = getSymmetricKeyFactory('*');  // unknown
+      assert(factory != null, 'default symmetric key factory not found');
     }
-    assert(factory != null, 'cannot parse key: $key');
     return factory?.parseSymmetricKey(info);
   }
 
@@ -129,15 +131,16 @@ class CryptographyKeyGeneralFactory {
     }
     Map? info = Wrapper.getMap(key);
     if (info == null) {
-      assert(false, 'key error: $key');
+      assert(false, 'public key error: $key');
       return null;
     }
     String algorithm = getAlgorithm(info, '*')!;
+    assert(algorithm != '*', 'public key error: $key');
     PublicKeyFactory? factory = getPublicKeyFactory(algorithm);
-    if (factory == null && algorithm != '*') {
+    if (factory == null) {
       factory = getPublicKeyFactory('*');  // unknown
+      assert(factory != null, 'default public key factory not found');
     }
-    assert(factory != null, 'cannot parse key: $key');
     return factory?.parsePublicKey(info);
   }
 
@@ -166,15 +169,16 @@ class CryptographyKeyGeneralFactory {
     }
     Map? info = Wrapper.getMap(key);
     if (info == null) {
-      assert(false, 'key error: $key');
+      assert(false, 'private key error: $key');
       return null;
     }
     String algorithm = getAlgorithm(info, '*')!;
+    assert(algorithm != '*', 'private key error: $key');
     PrivateKeyFactory? factory = getPrivateKeyFactory(algorithm);
-    if (factory == null && algorithm != '*') {
+    if (factory == null) {
       factory = getPrivateKeyFactory('*');  // unknown
+      assert(factory != null, 'default private key factory not found');
     }
-    assert(factory != null, 'cannot parse key: $key');
     return factory?.parsePrivateKey(info);
   }
 }

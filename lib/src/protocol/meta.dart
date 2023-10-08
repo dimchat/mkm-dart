@@ -31,8 +31,10 @@
 import 'dart:typed_data';
 
 import '../crypto/keys.dart';
-import '../factory.dart';
+import '../format/encode.dart';
 import '../type/mapper.dart';
+import '../factory.dart';
+
 import 'address.dart';
 import 'identifier.dart';
 
@@ -109,11 +111,13 @@ abstract class Meta implements Mapper {
   //  Factory methods
   //
 
-  static Meta create(int version, VerifyKey pKey, {String? seed, Uint8List? fingerprint}) {
+  /// Create from stored info
+  static Meta create(int version, VerifyKey pKey, {String? seed, TransportableData? fingerprint}) {
     AccountFactoryManager man = AccountFactoryManager();
     return man.generalFactory.createMeta(version, pKey, seed: seed, fingerprint: fingerprint);
   }
 
+  /// Generate with private key
   static Meta generate(int version, SignKey sKey, {String? seed}) {
     AccountFactoryManager man = AccountFactoryManager();
     return man.generalFactory.generateMeta(version, sKey, seed: seed);
@@ -144,7 +148,7 @@ abstract class MetaFactory {
   /// @param seed        - ID.name
   /// @param fingerprint - sKey.sign(seed)
   /// @return Meta
-  Meta createMeta(VerifyKey pKey, {String? seed, Uint8List? fingerprint});
+  Meta createMeta(VerifyKey pKey, {String? seed, TransportableData? fingerprint});
 
   ///  Generate meta
   ///

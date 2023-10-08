@@ -63,14 +63,18 @@ abstract class Converter {
       lower = lower.toLowerCase();
     }
     // check false values
-    if (lower == '0' || lower == 'false' || lower == 'no' || lower == 'off' ||
-        lower == 'null' || lower == 'undefined') {
+    if (kFalseList.contains(lower)) {
       return false;
     }
-    assert(lower == '1' || lower == 'true' || lower == 'yes' || lower == 'on',
-    'bool value error: $value');
+    assert(kTrueList.contains(lower), 'bool value error: $value');
     return true;
   }
+  static final List<String> kFalseList = [
+    '0', 'false', 'no', 'off', 'null', 'undefined',
+  ];
+  static final List<String> kTrueList = [
+    '1', 'true', 'yes', 'on',
+  ];
 
   static int? getInt(Object? value, int? defaultValue) {
     if (value == null) {

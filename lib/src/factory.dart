@@ -28,9 +28,8 @@
  * SOFTWARE.
  * ==============================================================================
  */
-import 'dart:typed_data';
-
 import 'crypto/keys.dart';
+import 'format/encode.dart';
 import 'protocol/address.dart';
 import 'protocol/document.dart';
 import 'protocol/identifier.dart';
@@ -101,14 +100,14 @@ class AccountGeneralFactory {
   ///   ID
   ///
 
-  void setIDFactory(IDFactory factory) {
+  void setIdentifierFactory(IDFactory factory) {
     _idFactory = factory;
   }
-  IDFactory? getIDFactory() {
+  IDFactory? getIdentifierFactory() {
     return _idFactory;
   }
 
-  ID? parseID(Object? identifier) {
+  ID? parseIdentifier(Object? identifier) {
     if (identifier == null) {
       return null;
     } else if (identifier is ID) {
@@ -119,28 +118,28 @@ class AccountGeneralFactory {
       assert(false, 'ID error: $identifier');
       return null;
     }
-    IDFactory? factory = getIDFactory();
+    IDFactory? factory = getIdentifierFactory();
     assert(factory != null, 'ID factory not ready');
-    return factory?.parseID(str);
+    return factory?.parseIdentifier(str);
   }
 
-  ID createID({String? name, required Address address, String? terminal}) {
-    IDFactory? factory = getIDFactory();
+  ID createIdentifier({String? name, required Address address, String? terminal}) {
+    IDFactory? factory = getIdentifierFactory();
     assert(factory != null, 'ID factory not ready');
-    return factory!.createID(name: name, address: address, terminal: terminal);
+    return factory!.createIdentifier(name: name, address: address, terminal: terminal);
   }
 
-  ID generateID(Meta meta, int? network, {String? terminal}) {
-    IDFactory? factory = getIDFactory();
+  ID generateIdentifier(Meta meta, int? network, {String? terminal}) {
+    IDFactory? factory = getIdentifierFactory();
     assert(factory != null, 'ID factory not ready');
-    return factory!.generateID(meta, network, terminal: terminal);
+    return factory!.generateIdentifier(meta, network, terminal: terminal);
   }
 
   List<ID> convertIdentifiers(List members) {
     List<ID> array = [];
     ID? id;
     for (var item in members) {
-      id = parseID(item);
+      id = parseIdentifier(item);
       if (id == null) {
         continue;
       }
@@ -172,7 +171,7 @@ class AccountGeneralFactory {
     return Converter.getInt(meta['type'], defaultValue);
   }
 
-  Meta createMeta(int version, VerifyKey pKey, {String? seed, Uint8List? fingerprint}) {
+  Meta createMeta(int version, VerifyKey pKey, {String? seed, TransportableData? fingerprint}) {
     MetaFactory? factory = getMetaFactory(version);
     assert(factory != null, 'meta type not supported: $version');
     return factory!.createMeta(pKey, seed: seed, fingerprint: fingerprint);
@@ -196,11 +195,12 @@ class AccountGeneralFactory {
       return null;
     }
     int version = getMetaType(info, 0)!;
+    assert(version > 0, 'meta error: $meta');
     MetaFactory? factory = getMetaFactory(version);
-    if (factory == null && version != 0) {
+    if (factory == null) {
       factory = getMetaFactory(0);  // unknown
+      assert(factory != null, 'default meta factory not found');
     }
-    assert(factory != null, 'cannot parse meta: $meta');
     return factory?.parseMeta(info);
   }
 
@@ -219,7 +219,7 @@ class AccountGeneralFactory {
     return Converter.getString(doc['type'], defaultValue);
   }
 
-  Document createDocument(String docType, ID identifier, {String? data, String? signature}) {
+  Document createDocument(String docType, ID identifier, {String? data, TransportableData? signature}) {
     DocumentFactory? factory = getDocumentFactory(docType);
     assert(factory != null, 'document type not supported: $docType');
     return factory!.createDocument(identifier, data: data, signature: signature);
@@ -238,10 +238,11 @@ class AccountGeneralFactory {
     }
     String docType = getDocumentType(info, '*')!;
     DocumentFactory? factory = getDocumentFactory(docType);
-    if (factory == null && docType != '*') {
+    if (factory == null) {
+      assert(docType != '*', 'document factory not ready: $doc');
       factory = getDocumentFactory('*');  // unknown
+      assert(factory != null, 'default document factory not found');
     }
-    assert(factory != null, 'cannot parse document: $doc');
     return factory?.parseDocument(info);
   }
 }

@@ -1,3 +1,7 @@
+## 0.2.3
+
+- TransportableData for creation.
+
 ## 0.2.2
 
 - Meta Validation.

@@ -32,7 +32,9 @@ import 'dart:typed_data';
 
 import '../crypto/keys.dart';
 import '../factory.dart';
+import '../format/encode.dart';
 import '../type/mapper.dart';
+
 import 'identifier.dart';
 
 ///  The Additional Information
@@ -125,7 +127,9 @@ abstract class Document implements TAI, Mapper {
   //  Factory methods
   //
 
-  static Document create(String docType, ID identifier, {String? data, String? signature}) {
+  /// 1. Create from stored info
+  /// 2. Create new empty document
+  static Document create(String docType, ID identifier, {String? data, TransportableData? signature}) {
     AccountFactoryManager man = AccountFactoryManager();
     return man.generalFactory.createDocument(docType, identifier, data: data, signature: signature);
   }
@@ -156,7 +160,7 @@ abstract class DocumentFactory {
   /// @param data       - document data (JsON)
   /// @param signature  - document signature (Base64)
   /// @return Document
-  Document createDocument(ID identifier, {String? data, String? signature});
+  Document createDocument(ID identifier, {String? data, TransportableData? signature});
 
   ///  Parse map object to entity document
   ///

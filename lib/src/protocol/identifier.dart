@@ -78,26 +78,26 @@ abstract class ID implements Stringer {
 
   static ID? parse(Object? identifier) {
     AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.parseID(identifier);
+    return man.generalFactory.parseIdentifier(identifier);
   }
 
   static ID create({String? name, required Address address, String? terminal}) {
     AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.createID(name: name, address: address, terminal: terminal);
+    return man.generalFactory.createIdentifier(name: name, address: address, terminal: terminal);
   }
 
   static ID generate(Meta meta, int? network, {String? terminal}) {
     AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.generateID(meta, network, terminal: terminal);
+    return man.generalFactory.generateIdentifier(meta, network, terminal: terminal);
   }
 
   static IDFactory? getFactory() {
     AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.getIDFactory();
+    return man.generalFactory.getIdentifierFactory();
   }
   static void setFactory(IDFactory factory) {
     AccountFactoryManager man = AccountFactoryManager();
-    man.generalFactory.setIDFactory(factory);
+    man.generalFactory.setIdentifierFactory(factory);
   }
 }
 
@@ -111,7 +111,7 @@ abstract class IDFactory {
   /// @param network  - ID.type
   /// @param terminal - ID.terminal
   /// @return ID
-  ID generateID(Meta meta, int? network, {String? terminal});
+  ID generateIdentifier(Meta meta, int? network, {String? terminal});
 
   ///  Create ID
   ///
@@ -119,13 +119,13 @@ abstract class IDFactory {
   /// @param address  - ID.address
   /// @param terminal - ID.terminal
   /// @return ID
-  ID createID({String? name, required Address address, String? terminal});
+  ID createIdentifier({String? name, required Address address, String? terminal});
 
   ///  Parse string object to ID
   ///
   /// @param identifier - ID string
   /// @return ID
-  ID? parseID(String identifier);
+  ID? parseIdentifier(String identifier);
 }
 
 class Identifier extends ConstantString implements ID {
