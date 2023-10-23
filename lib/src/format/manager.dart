@@ -89,7 +89,9 @@ class FormatGeneralFactory {
       return data;
     }
     String text = data is String ? data : data.toString();
-    if (text.startsWith('{') && text.endsWith('}')) {
+    if (text.isEmpty) {
+      return null;
+    } else if (text.startsWith('{') && text.endsWith('}')) {
       return JSONMap.decode(text);
     }
     List<String> array = split(text);
@@ -135,7 +137,7 @@ class FormatGeneralFactory {
     // unwrap
     Map? info = decode(ted, defaultKey: 'data');
     if (info == null) {
-      assert(false, 'TED error: $ted');
+      // assert(false, 'TED error: $ted');
       return null;
     }
     String algorithm = getDataAlgorithm(info, '*')!;
@@ -175,7 +177,7 @@ class FormatGeneralFactory {
     // unwrap
     Map? info = decode(pnf, defaultKey: 'URL');
     if (info == null) {
-      assert(false, 'PNF error: $pnf');
+      // assert(false, 'PNF error: $pnf');
       return null;
     }
     PortableNetworkFileFactory? factory = getPortableNetworkFileFactory();
