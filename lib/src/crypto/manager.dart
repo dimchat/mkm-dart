@@ -67,7 +67,7 @@ class CryptographyKeyGeneralFactory {
     Uint8List ciphertext = encKey.encrypt(_promise, extra);
     Uint8List? plaintext = decKey.decrypt(ciphertext, extra);
     // check result
-    return plaintext != null && Comparator.listEquals(plaintext, _promise);
+    return plaintext != null && Arrays.equals(plaintext, _promise);
   }
 
   String? getAlgorithm(Map key, String? defaultValue) {

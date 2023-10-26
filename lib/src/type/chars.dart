@@ -24,7 +24,7 @@
  * =============================================================================
  */
 
-abstract class CharSequence {
+abstract interface class CharSequence {
 
   /// The character (as a single-code-unit [String]) at the given [index].
   ///
@@ -572,4 +572,5 @@ abstract class CharSequence {
   /// works in some languages.
   // TODO(floitsch): document better. (See EcmaScript for description).
   String toUpperCase();
+
 }

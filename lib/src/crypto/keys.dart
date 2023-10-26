@@ -36,7 +36,7 @@ import '../type/mapper.dart';
 ///      data      : "{BASE64_ENCODE}",
 ///      ...
 ///  }
-abstract class CryptographyKey implements Mapper {
+abstract interface class CryptographyKey implements Mapper {
 
   ///  Get key algorithm name
   ///
@@ -49,7 +49,7 @@ abstract class CryptographyKey implements Mapper {
   Uint8List get data;
 }
 
-abstract class EncryptKey implements CryptographyKey {
+abstract interface class EncryptKey implements CryptographyKey {
 
   ///  1. Symmetric Key:
   ///     ciphertext = encrypt(plaintext, PW)
@@ -62,7 +62,7 @@ abstract class EncryptKey implements CryptographyKey {
   Uint8List encrypt(Uint8List plaintext, Map? extra);
 }
 
-abstract class DecryptKey implements CryptographyKey {
+abstract interface class DecryptKey implements CryptographyKey {
 
   ///  1. Symmetric Key:
   ///     plaintext = decrypt(ciphertext, PW);
@@ -81,13 +81,13 @@ abstract class DecryptKey implements CryptographyKey {
   bool matchEncryptKey(EncryptKey pKey);
 }
 
-abstract class AsymmetricKey implements CryptographyKey {
+abstract interface class AsymmetricKey implements CryptographyKey {
 
   static const String kRSA = 'RSA';  //-- "RSA/ECB/PKCS1Padding", "SHA256withRSA"
   static const String kECC = 'ECC';
 }
 
-abstract class SignKey implements AsymmetricKey {
+abstract interface class SignKey implements AsymmetricKey {
 
   ///  signature = sign(data, SK);
   ///
@@ -96,7 +96,7 @@ abstract class SignKey implements AsymmetricKey {
   Uint8List sign(Uint8List data);
 }
 
-abstract class VerifyKey implements AsymmetricKey {
+abstract interface class VerifyKey implements AsymmetricKey {
 
   ///  OK = verify(data, signature, PK)
   ///

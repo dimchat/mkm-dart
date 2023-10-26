@@ -41,7 +41,7 @@ import 'meta.dart';
 ///          name     - entity name, the seed of fingerprint (for building address)
 ///          address  - a string to identify an entity
 ///          terminal - location (device), RESERVED
-abstract class ID implements Stringer {
+abstract interface class ID implements Stringer {
 
   String? get name;
   Address get address;
@@ -103,7 +103,7 @@ abstract class ID implements Stringer {
 
 ///  ID Factory
 ///  ~~~~~~~~~~
-abstract class IDFactory {
+abstract interface class IDFactory {
 
   ///  Generate ID
   ///

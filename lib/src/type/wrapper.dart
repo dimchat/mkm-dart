@@ -26,7 +26,7 @@
 import 'mapper.dart';
 import 'stringer.dart';
 
-abstract class Wrapper {
+abstract interface class Wrapper {
 
   ///  Get inner String
   ///  ~~~~~~~~~~~~~~~~

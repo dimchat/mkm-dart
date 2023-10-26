@@ -25,7 +25,7 @@
  */
 import 'mapper.dart';
 
-abstract class Copier {
+abstract interface class Copier {
 
   static dynamic copy(Object? object) {
     if (object == null) {

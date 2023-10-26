@@ -35,7 +35,7 @@ import 'manager.dart';
 ///      data      : "{BASE64_ENCODE}",
 ///      ...
 ///  }
-abstract class SymmetricKey implements EncryptKey, DecryptKey {
+abstract interface class SymmetricKey implements EncryptKey, DecryptKey {
 
   static const kAES = 'AES';  //-- "AES/CBC/PKCS7Padding"
   static const kDES = 'DES';
@@ -66,7 +66,7 @@ abstract class SymmetricKey implements EncryptKey, DecryptKey {
 
 ///  Key Factory
 ///  ~~~~~~~~~~~
-abstract class SymmetricKeyFactory {
+abstract interface class SymmetricKeyFactory {
 
   ///  Generate key
   ///

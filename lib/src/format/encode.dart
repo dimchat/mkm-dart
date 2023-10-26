@@ -47,7 +47,7 @@ import 'manager.dart';
 ///             data      : "...",      // base64_encode(data)
 ///             ...
 ///        }
-abstract class TransportableData implements Mapper {
+abstract interface class TransportableData implements Mapper {
 
   static const kDefault = 'base64';
   static const kBASE_64 = 'base64';
@@ -120,7 +120,7 @@ abstract class TransportableData implements Mapper {
 
 ///  TED Factory
 ///  ~~~~~~~~~~~
-abstract class TransportableDataFactory {
+abstract interface class TransportableDataFactory {
 
   ///  Create TED
   ///

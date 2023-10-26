@@ -25,7 +25,7 @@
  */
 import 'chars.dart';
 
-abstract class Stringer implements Comparable<String>, Pattern, CharSequence {
+abstract interface class Stringer implements Comparable<String>, Pattern, CharSequence {
 
   /*
   /// A hash code derived from the code units of the string.

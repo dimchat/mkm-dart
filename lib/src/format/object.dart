@@ -30,7 +30,7 @@
 ///
 ///  1. encode object to string;
 ///  2. decode string to object.
-abstract class ObjectCoder<T> {
+abstract interface class ObjectCoder<T> {
 
   ///  Encode Map/List object to String
   ///

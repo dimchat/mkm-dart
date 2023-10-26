@@ -36,7 +36,7 @@ import 'public.dart';
 ///      data      : "{BASE64_ENCODE}",
 ///      ...
 ///  }
-abstract class PrivateKey implements SignKey {
+abstract interface class PrivateKey implements SignKey {
 
   ///  Get public key from private key
   ///
@@ -69,7 +69,7 @@ abstract class PrivateKey implements SignKey {
 
 ///  Key Factory
 ///  ~~~~~~~~~~~
-abstract class PrivateKeyFactory {
+abstract interface class PrivateKeyFactory {
 
   ///  Generate key
   ///

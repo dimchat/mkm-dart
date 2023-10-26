@@ -24,7 +24,7 @@
  * =============================================================================
  */
 
-abstract class Converter {
+abstract interface class Converter {
 
   static String? getString(Object? value, String? defaultValue) {
     if (value == null) {

@@ -36,7 +36,7 @@ import 'meta.dart';
 ///  Address for MKM ID
 ///  ~~~~~~~~~~~~~~~~~~
 ///  This class is used to build address for ID
-abstract class Address implements Stringer {
+abstract interface class Address implements Stringer {
 
   ///  Get address type
   ///
@@ -84,7 +84,7 @@ abstract class Address implements Stringer {
 
 ///  Address Factory
 ///  ~~~~~~~~~~~~~~~
-abstract class AddressFactory {
+abstract interface class AddressFactory {
 
   ///  Generate address with meta & type
   ///

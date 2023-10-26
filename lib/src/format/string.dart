@@ -31,7 +31,7 @@ import 'dart:typed_data';
 ///
 ///  1. encode string to binary data;
 ///  2. decode binary data to string.
-abstract class StringCoder {
+abstract interface class StringCoder {
 
   ///  Encode local string to binary data
   ///

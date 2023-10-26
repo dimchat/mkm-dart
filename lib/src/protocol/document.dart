@@ -43,7 +43,7 @@ import 'identifier.dart';
 ///          which contains the key for verify signature;
 ///      'TAI' is the variable part,
 ///          which could contain a public key for asymmetric encryption.
-abstract class TAI {
+abstract interface class TAI {
 
   ///  Check if signature matched
   ///
@@ -93,7 +93,7 @@ abstract class TAI {
 ///          data      : "{JSON}",          // data = json_encode(info)
 ///          signature : "{BASE64_ENCODE}"  // signature = sign(data, SK);
 ///      }
-abstract class Document implements TAI, Mapper {
+abstract interface class Document implements TAI, Mapper {
 
   //
   //  Document types
@@ -150,7 +150,7 @@ abstract class Document implements TAI, Mapper {
 
 ///  Document Factory
 ///  ~~~~~~~~~~~~~~~~
-abstract class DocumentFactory {
+abstract interface class DocumentFactory {
 
   ///  Create document with data & signature loaded from local storage
   ///  Create a new empty document with entity ID only

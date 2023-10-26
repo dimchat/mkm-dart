@@ -51,7 +51,7 @@ import 'identifier.dart';
 ///
 ///      algorithm:
 ///          fingerprint = sign(seed, SK);
-abstract class Meta implements Mapper {
+abstract interface class Meta implements Mapper {
 
   ///  Meta algorithm version
   ///
@@ -140,7 +140,7 @@ abstract class Meta implements Mapper {
 
 ///  Meta Factory
 ///  ~~~~~~~~~~~~
-abstract class MetaFactory {
+abstract interface class MetaFactory {
 
   ///  Create meta
   ///

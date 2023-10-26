@@ -57,7 +57,7 @@ import 'manager.dart';
 ///                 ...
 ///             }
 ///        }
-abstract class PortableNetworkFile implements Mapper {
+abstract interface class PortableNetworkFile implements Mapper {
 
   /// When file data is too big, don't set it in this dictionary,
   /// but upload it to a CDN and set the download URL instead.
@@ -128,7 +128,7 @@ abstract class PortableNetworkFile implements Mapper {
 
 ///  PNF Factory
 ///  ~~~~~~~~~~~
-abstract class PortableNetworkFileFactory {
+abstract interface class PortableNetworkFileFactory {
 
   ///  Create PNF
   ///

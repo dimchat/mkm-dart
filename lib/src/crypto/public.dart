@@ -34,7 +34,7 @@ import 'manager.dart';
 ///      data      : "{BASE64_ENCODE}",
 ///      ...
 ///  }
-abstract class PublicKey implements VerifyKey {
+abstract interface class PublicKey implements VerifyKey {
 
   //
   //  Factory methods
@@ -57,7 +57,7 @@ abstract class PublicKey implements VerifyKey {
 
 ///  Key Factory
 ///  ~~~~~~~~~~~
-abstract class PublicKeyFactory {
+abstract interface class PublicKeyFactory {
 
   ///  Parse map object to key
   ///

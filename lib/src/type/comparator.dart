@@ -24,101 +24,114 @@
  * =============================================================================
  */
 
-abstract class Comparator {
+import 'dart:typed_data';
 
-  static bool mapEquals(Map a, Map b) {
-    if (identical(a, b)) {
-      // same object
-      return true;
-    } else if (a.length != b.length) {
-      // different lengths
-      return false;
-    }
-    for (var k in a.keys) {
-      if (!objectEquals(a[k], b[k])) {
-        return false;
-      }
-    }
-    return true;
-  }
+abstract interface class Comparator {
 
-  static bool mapDeepEquals(Map a, Map b) {
-    if (identical(a, b)) {
-      // same object
-      return true;
-    } else if (a.length != b.length) {
-      // different lengths
-      return false;
-    }
-    for (var k in a.keys) {
-      if (!objectDeepEquals(a[k], b[k])) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  static bool listEquals(List a, List b) {
-    if (identical(a, b)) {
-      // same object
-      return true;
-    } else if (a.length != b.length) {
-      // different lengths
-      return false;
-    }
-    for (int i = 0; i < a.length; ++i) {
-      if (!objectEquals(a[i], b[i])) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  static bool listDeepEquals(List a, List b) {
-    if (identical(a, b)) {
-      // same object
-      return true;
-    } else if (a.length != b.length) {
-      // different lengths
-      return false;
-    }
-    for (int i = 0; i < a.length; ++i) {
-      if (!objectDeepEquals(a[i], b[i])) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  static bool objectEquals(Object? a, Object? b) {
+  static bool different(dynamic a, dynamic b) {
     if (a == null) {
-      return b == null;
+      return b != null;
     } else if (b == null) {
-      return false;
-    } else {
-      return a == b;
-    }
-  }
-
-  static bool objectDeepEquals(Object? a, Object? b) {
-    if (a == null) {
-      return b == null;
-    } else if (b == null) {
-      return false;
-    } else if (a == b) {
-      // same object
       return true;
-    }
-    if (a is Map) {
-      if (b is Map) {
-        return mapDeepEquals(a, b);
-      }
+    } else if (identical(a, b)) {
+      // same object
+      return false;
+    } else if (a is Map) {
+      // check key-values
+      return !(b is Map && mapEquals(a, b));
     } else if (a is List) {
-      if (b is List) {
-        return listDeepEquals(a, b);
+      // check items
+      return !(b is List && listEquals(a, b));
+    } else {
+      // other types
+      return a != b;
+    }
+  }
+
+  static bool mapEquals<K, V>(Map<K, V> a, Map<K, V> b) {
+    if (identical(a, b)) {
+      // same object
+      return true;
+    } else if (a.length != b.length) {
+      // different size
+      return false;
+    }
+    for (K key in a.keys) {
+      // check values
+      if (different(a[key], b[key])) {
+        return false;
       }
     }
-    return false;
+    return true;
+  }
+
+  static bool listEquals<T>(List<T> a, List<T> b) {
+    // byte
+    if (a is Uint8List) {
+      return b is Uint8List && Arrays.equals(a, b);
+    } else if (a is Int8List) {
+      return b is Int8List && Arrays.equals(a, b);
+    }
+    // short
+    if (a is Uint16List) {
+      return b is Uint16List && Arrays.equals(a, b);
+    } else if (a is Int16List) {
+      return b is Int16List && Arrays.equals(a, b);
+    }
+    // int
+    if (a is Uint32List) {
+      return b is Uint32List && Arrays.equals(a, b);
+    } else if (a is Int32List) {
+      return b is Int32List && Arrays.equals(a, b);
+    }
+    // long
+    if (a is Uint64List) {
+      return b is Uint64List && Arrays.equals(a, b);
+    } else if (a is Int64List) {
+      return b is Int64List && Arrays.equals(a, b);
+    }
+    // float
+    if (a is Float32List) {
+      return b is Float32List && Arrays.equals(a, b);
+    } else if (a is Float64List) {
+      return b is Float64List && Arrays.equals(a, b);
+    }
+    // others
+    if (identical(a, b)) {
+      // same object
+      return true;
+    } else if (a.length != b.length) {
+      // different size
+      return false;
+    }
+    for (int index = 0; index < a.length; ++index) {
+      // check elements
+      if (different(a[index], b[index])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+}
+
+abstract interface class Arrays {
+
+  static bool equals<T>(List<T> a, List<T> b) {
+    if (identical(a, b)) {
+      // same object
+      return true;
+    } else if (a.length != b.length) {
+      // different size
+      return false;
+    }
+    for (int index = 0; index < a.length; ++index) {
+      // check values
+      if (a[index] != b[index]) {
+        return false;
+      }
+    }
+    return true;
   }
 
 }

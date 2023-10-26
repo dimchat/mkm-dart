@@ -28,7 +28,7 @@ import 'converter.dart';
 import 'copier.dart';
 import 'stringer.dart';
 
-abstract class Mapper implements Map<String, dynamic> {
+abstract interface class Mapper implements Map<String, dynamic> {
 
   String? getString(String key, String? defaultValue);
   bool?     getBool(String key, bool?   defaultValue);

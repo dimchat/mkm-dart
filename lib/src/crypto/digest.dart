@@ -28,7 +28,7 @@ import 'dart:typed_data';
 ///  Data Digest
 ///  ~~~~~~~~~~~
 ///  MD5, SHA1, SHA256, Keccak256, RipeMD160, ...
-abstract class DataDigester {
+abstract interface class DataDigester {
 
   Uint8List digest(Uint8List data);
 }
