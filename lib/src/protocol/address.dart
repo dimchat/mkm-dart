@@ -49,8 +49,8 @@ abstract interface class Address implements Stringer {
   bool get isGroup;
 
   ///  Address for broadcast
-  static final Address kAnywhere = BroadcastAddress('anywhere', EntityType.kAny);
-  static final Address kEverywhere = BroadcastAddress('everywhere', EntityType.kEvery);
+  static final Address kAnywhere = _BroadcastAddress('anywhere', EntityType.kAny);
+  static final Address kEverywhere = _BroadcastAddress('everywhere', EntityType.kEvery);
 
   //
   //  Factory methods
@@ -106,8 +106,8 @@ abstract interface class AddressFactory {
   Address? parseAddress(String address);
 }
 
-class BroadcastAddress extends ConstantString implements Address {
-  BroadcastAddress(super.string, int network) : _type = network;
+class _BroadcastAddress extends ConstantString implements Address {
+  _BroadcastAddress(super.string, int network) : _type = network;
 
   final int _type;
 

@@ -99,6 +99,7 @@ abstract interface class Document implements TAI, Mapper {
   //  Document types
   //
   static const String kVisa     = 'visa';      // for user info (communicate key)
+  static const String kProfile  = 'profile';   // for user profile (reserved)
   static const String kBulletin = 'bulletin';  // for group info (owner, assistants)
 
   ///  Get document type

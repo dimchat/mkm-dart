@@ -75,13 +75,10 @@ class AccountGeneralFactory {
       return address;
     }
     String? str = Wrapper.getString(address);
-    if (str == null) {
-      assert(false, 'address error: $address');
-      return null;
-    }
+    assert(str != null, 'address error: $address');
     AddressFactory? factory = getAddressFactory();
     assert(factory != null, 'address factory not ready');
-    return factory?.parseAddress(str);
+    return factory?.parseAddress(str!);
   }
 
   Address? createAddress(String address) {
@@ -114,13 +111,10 @@ class AccountGeneralFactory {
       return identifier;
     }
     String? str = Wrapper.getString(identifier);
-    if (str == null) {
-      assert(false, 'ID error: $identifier');
-      return null;
-    }
+    assert(str != null, 'ID error: $identifier');
     IDFactory? factory = getIdentifierFactory();
     assert(factory != null, 'ID factory not ready');
-    return factory?.parseIdentifier(str);
+    return factory?.parseIdentifier(str!);
   }
 
   ID createIdentifier({String? name, required Address address, String? terminal}) {
@@ -195,7 +189,7 @@ class AccountGeneralFactory {
       return null;
     }
     int version = getMetaType(info, 0)!;
-    assert(version > 0, 'meta error: $meta');
+    assert(version > 0, 'meta type error: $meta');
     MetaFactory? factory = getMetaFactory(version);
     if (factory == null) {
       factory = getMetaFactory(0);  // unknown

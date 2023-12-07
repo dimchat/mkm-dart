@@ -44,8 +44,8 @@ import 'identifier.dart';
 ///
 ///      data format: {
 ///          type: 1,             // algorithm version
-///          seed: "moKy",        // user/group name
 ///          key: "{public key}", // PK = secp256k1(SK);
+///          seed: "moKy",        // user/group name
 ///          fingerprint: "..."   // CT = sign(seed, SK);
 ///      }
 ///
@@ -94,14 +94,14 @@ abstract interface class Meta implements Mapper {
   /// @return false on fingerprint not matched
   bool get isValid;
 
-  ///  Check whether meta match with entity ID
+  ///  Check whether meta matches with entity ID
   ///  (must call this when received a new meta from network)
   ///
   /// @param identifier - entity ID
   /// @return true on matched
   bool matchIdentifier(ID identifier);
 
-  ///  Check whether meta match with public key
+  ///  Check whether meta matches with public key
   ///
   /// @param pKey - public key
   /// @return true on matched

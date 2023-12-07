@@ -1,6 +1,6 @@
 name: mkm
 description: Decentralized User Identity Authentication (Ming-Ke-Ming).
-version: 0.3.1
+version: 0.3.2
 homepage: https://github.com/dimchat/mkm-dart
 repository: https://github.com/dimchat/mkm-dart
 issue_tracker: https://github.com/dimchat/mkm-dart/issues
