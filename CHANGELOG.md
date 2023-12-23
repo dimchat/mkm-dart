@@ -1,3 +1,7 @@
+## 0.3.2
+
+- Document type: profile.
+
 ## 0.3.1
 
 - Strict interface.
