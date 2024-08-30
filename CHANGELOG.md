@@ -1,3 +1,7 @@
+## 1.0.0
+
+- Data URL.
+
 ## 0.3.2
 
 - Document type: profile.

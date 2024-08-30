@@ -50,31 +50,33 @@ abstract interface class Converter {
       assert(value == 1 || value == 0, 'bool value error: $value');
       return value != 0;
     }
-    // get lower string
-    String lower;
+    String text;
     if (value is String) {
-      lower = value;
+      text = value;
     } else {
-      lower = value.toString();
+      text = value.toString();
     }
-    if (lower.isEmpty) {
+    text = text.trim();
+    int size = text.length;
+    if (size == 0) {
       return false;
+    } else if (size > kMaxBoolLen) {
+      return true;
     } else {
-      lower = lower.toLowerCase();
+      text = text.toLowerCase();
     }
-    // check false values
-    if (kFalseList.contains(lower)) {
-      return false;
-    }
-    assert(kTrueList.contains(lower), 'bool value error: $value');
-    return true;
+    bool? state = kBoolStates[text];
+    // return state == null || state;
+    return state ?? true;
   }
-  static final List<String> kFalseList = [
-    '0', 'false', 'no', 'off', 'null', 'undefined',
-  ];
-  static final List<String> kTrueList = [
-    '1', 'true', 'yes', 'on',
-  ];
+  static final Map<String, bool> kBoolStates = {
+    '1': true, 'yes': true, 'true': true, 'on': true,
+
+    '0': false, 'no': false, 'false': false, 'off': false,
+    '+0': false, '-0': false, '+0.0': false, '-0.0': false,
+    'none': false, 'null': false, 'undefined': false,
+  };
+  static/* final*/ int kMaxBoolLen = 'undefined'.length;
 
   static int? getInt(Object? value, int? defaultValue) {
     if (value == null) {
