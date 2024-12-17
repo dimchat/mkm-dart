@@ -98,9 +98,10 @@ abstract interface class Document implements TAI, Mapper {
   //
   //  Document types
   //
-  static const String kVisa     = 'visa';      // for user info (communicate key)
-  static const String kProfile  = 'profile';   // for user profile (reserved)
-  static const String kBulletin = 'bulletin';  // for group info (owner, assistants)
+  static const String VISA     = 'visa';      // for user info (communicate key)
+  static const String PROFILE  = 'profile';   // for user profile (reserved)
+  static const String BULLETIN = 'bulletin';  // for group info (owner, assistants)
+  // ignore_for_file: constant_identifier_names
 
   ///  Get document type
   ///
@@ -110,7 +111,7 @@ abstract interface class Document implements TAI, Mapper {
   ///  Get entity ID
   ///
   /// @return entity ID
-  ID get identifier;
+  ID? get identifier;
 
   ///  Get sign time
   ///
@@ -129,9 +130,9 @@ abstract interface class Document implements TAI, Mapper {
 
   /// 1. Create from stored info
   /// 2. Create new empty document
-  static Document create(String docType, ID identifier, {String? data, TransportableData? signature}) {
+  static Document create(String type, ID identifier, {String? data, TransportableData? signature}) {
     AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.createDocument(docType, identifier, data: data, signature: signature);
+    return man.generalFactory.createDocument(type, identifier, data: data, signature: signature);
   }
 
   static Document? parse(Object? doc) {
@@ -139,13 +140,13 @@ abstract interface class Document implements TAI, Mapper {
     return man.generalFactory.parseDocument(doc);
   }
 
-  static DocumentFactory? getFactory(String docType) {
+  static DocumentFactory? getFactory(String type) {
     AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.getDocumentFactory(docType);
+    return man.generalFactory.getDocumentFactory(type);
   }
-  static void setFactory(String docType, DocumentFactory factory) {
+  static void setFactory(String type, DocumentFactory factory) {
     AccountFactoryManager man = AccountFactoryManager();
-    man.generalFactory.setDocumentFactory(docType, factory);
+    man.generalFactory.setDocumentFactory(type, factory);
   }
 }
 

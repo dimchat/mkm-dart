@@ -61,82 +61,45 @@
 ///
 ///      (All above are just some advices to help choosing numbers :P)
 class EntityType {
+  // ignore_for_file: constant_identifier_names
 
   ///  Main: 0, 1
-  static const int kUser            = (0x00); // 0000 0000
-  static const int kGroup           = (0x01); // 0000 0001 (User Group)
+  static const int USER             = (0x00); // 0000 0000
+  static const int GROUP            = (0x01); // 0000 0001 (User Group)
 
   ///  Network: 2, 3
-  static const int kStation         = (0x02); // 0000 0010 (Server Node)
-  static const int kISP             = (0x03); // 0000 0011 (Service Provider)
-  // static const int kStationGroup = (0x03); // 0000 0011
+  static const int STATION          = (0x02); // 0000 0010 (Server Node)
+  static const int ISP              = (0x03); // 0000 0011 (Service Provider)
+  // static const int STATION_GROUP = (0x03); // 0000 0011
 
   ///  Bot: 4, 5
-  static const int kBot             = (0x04); // 0000 0100 (Business Node)
-  static const int kICP             = (0x05); // 0000 0101 (Content Provider)
-  // static const int kBotGroup     = (0x05); // 0000 0101
+  static const int BOT              = (0x04); // 0000 0100 (Business Node)
+  static const int ICP              = (0x05); // 0000 0101 (Content Provider)
+  // static const int BOT_GROUP     = (0x05); // 0000 0101
 
   ///  Management: 6, 7, 8
-  static const int kSupervisor      = (0x06); // 0000 0110 (Company President)
-  static const int kCompany         = (0x07); // 0000 0111 (Super Group for ISP/ICP)
-  // static const int kCA           = (0x08); // 0000 1000 (Certification Authority)
+  static const int SUPERVISOR       = (0x06); // 0000 0110 (Company President)
+  static const int COMPANY          = (0x07); // 0000 0111 (Super Group for ISP/ICP)
+  // static const int CA            = (0x08); // 0000 1000 (Certification Authority)
 
   // ///  Customized: 64, 65
-  // static const int kAppUser      = (0x40); // 0100 0000 (Application Customized User)
-  // static const int kAppGroup     = (0x41); // 0100 0001 (Application Customized Group)
+  // static const int APP_USER      = (0x40); // 0100 0000 (Application Customized User)
+  // static const int APP_GROUP     = (0x41); // 0100 0001 (Application Customized Group)
 
   ///  Broadcast: 128, 129
-  static const int kAny             = (0x80); // 1000 0000 (anyone@anywhere)
-  static const int kEvery           = (0x81); // 1000 0001 (everyone@everywhere)
+  static const int ANY             = (0x80); // 1000 0000 (anyone@anywhere)
+  static const int EVERY           = (0x81); // 1000 0001 (everyone@everywhere)
 
 
   static bool isUser(int network) {
-    return network & kGroup == kUser;
+    return network & GROUP == USER;
   }
 
   static bool isGroup(int network) {
-    return network & kGroup == kGroup;
+    return network & GROUP == GROUP;
   }
 
   static bool isBroadcast(int network) {
-    return network & kAny == kAny;
-  }
-}
-
-///  enum MKMMetaVersion
-///
-///  abstract Defined for algorithm that generating address.
-///
-///  discussion Generate and check ID/Address
-///
-///      MKMMetaVersion_MKM give a seed string first, and sign this seed to get
-///      fingerprint; after that, use the fingerprint to generate address.
-///      This will get a firmly relationship between (username, address and key).
-///
-///      MKMMetaVersion_BTC use the key data to generate address directly.
-///      This can build a BTC address for the entity ID (no username).
-///
-///      MKMMetaVersion_ExBTC use the key data to generate address directly, and
-///      sign the seed to get fingerprint (just for binding username and key).
-///      This can build a BTC address, and bind a username to the entity ID.
-///
-///  Bits:
-///      0000 0001 - this meta contains seed as ID.name
-///      0000 0010 - this meta generate BTC address
-///      0000 0100 - this meta generate ETH address
-///      ...
-class MetaType {
-
-  static const int kDefault = (0x01);
-  static const int kMKM     = (0x01);  // 0000 0001
-
-  static const int kBTC     = (0x02);  // 0000 0010
-  static const int kExBTC   = (0x03);  // 0000 0011
-
-  static const int kETH     = (0x04);  // 0000 0100
-  static const int kExETH   = (0x05);  // 0000 0101
-
-  static bool hasSeed(int version) {
-    return version & kMKM == kMKM;
+    return network & ANY == ANY;
   }
 }

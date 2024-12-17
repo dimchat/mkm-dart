@@ -60,23 +60,25 @@ abstract interface class Converter {
     int size = text.length;
     if (size == 0) {
       return false;
-    } else if (size > kMaxBoolLen) {
+    } else if (size > MAX_BOOLEAN_LEN) {
       return true;
     } else {
       text = text.toLowerCase();
     }
-    bool? state = kBoolStates[text];
+    bool? state = BOOLEAN_STATES[text];
     // return state == null || state;
     return state ?? true;
   }
-  static final Map<String, bool> kBoolStates = {
+
+  // ignore_for_file: non_constant_identifier_names
+  static final Map<String, bool> BOOLEAN_STATES = {
     '1': true, 'yes': true, 'true': true, 'on': true,
 
     '0': false, 'no': false, 'false': false, 'off': false,
     '+0': false, '-0': false, '+0.0': false, '-0.0': false,
     'none': false, 'null': false, 'undefined': false,
   };
-  static/* final*/ int kMaxBoolLen = 'undefined'.length;
+  static/* final*/ int MAX_BOOLEAN_LEN = 'undefined'.length;
 
   static int? getInt(Object? value, int? defaultValue) {
     if (value == null) {

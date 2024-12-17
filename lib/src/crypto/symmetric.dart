@@ -36,9 +36,10 @@ import 'manager.dart';
 ///      ...
 ///  }
 abstract interface class SymmetricKey implements EncryptKey, DecryptKey {
+  // ignore_for_file: constant_identifier_names
 
-  static const kAES = 'AES';  //-- "AES/CBC/PKCS7Padding"
-  static const kDES = 'DES';
+  static const AES = 'AES';  //-- "AES/CBC/PKCS7Padding"
+  static const DES = 'DES';
 
   //
   //  Factory methods

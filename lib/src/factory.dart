@@ -54,8 +54,8 @@ class AccountGeneralFactory {
 
   AddressFactory?                    _addressFactory;
   IDFactory?                         _idFactory;
-  final Map<int, MetaFactory>        _metaFactories = {};
-  final Map<String, DocumentFactory> _docFactories = {};
+  final Map<String, MetaFactory>     _metaFactories = {};
+  final Map<String, DocumentFactory> _docsFactories = {};
 
   ///
   ///   Address
@@ -129,7 +129,7 @@ class AccountGeneralFactory {
     return factory!.generateIdentifier(meta, network, terminal: terminal);
   }
 
-  List<ID> convertIdentifiers(List members) {
+  List<ID> convertIdentifiers(Iterable members) {
     List<ID> array = [];
     ID? id;
     for (var item in members) {
@@ -142,7 +142,7 @@ class AccountGeneralFactory {
     return array;
   }
 
-  List<String> revertIdentifiers(List<ID> members) {
+  List<String> revertIdentifiers(Iterable<ID> members) {
     List<String> array = [];
     for (var item in members) {
       array.add(item.toString());
@@ -154,26 +154,38 @@ class AccountGeneralFactory {
   ///   Meta
   ///
 
-  void setMetaFactory(int version, MetaFactory factory) {
-    _metaFactories[version] = factory;
+  void setMetaFactory(String type, MetaFactory factory) {
+    _metaFactories[type] = factory;
   }
-  MetaFactory? getMetaFactory(int version) {
-    return _metaFactories[version];
-  }
-
-  int? getMetaType(Map meta, int? defaultValue) {
-    return Converter.getInt(meta['type'], defaultValue);
+  MetaFactory? getMetaFactory(String type) {
+    return _metaFactories[type];
   }
 
-  Meta createMeta(int version, VerifyKey pKey, {String? seed, TransportableData? fingerprint}) {
-    MetaFactory? factory = getMetaFactory(version);
-    assert(factory != null, 'meta type not supported: $version');
+  String? getMetaType(Map meta, String? defaultValue) {
+    return Converter.getString(meta['type'], defaultValue);
+  }
+
+  // bool hasMetaSeed(Map meta) {
+  //   String? type = getMetaType(meta, '');
+  //   return type == '1' || type == 'MKM';
+  // }
+  //
+  // String? getMetaSeed(Map meta) {
+  //   if (!hasMetaSeed(meta)) {
+  //     return null;
+  //   }
+  //   return Converter.getString(meta['seed'], null);
+  // }
+
+  Meta createMeta(String type, VerifyKey pKey, {String? seed, TransportableData? fingerprint}) {
+    MetaFactory? factory = getMetaFactory(type);
+    assert(factory != null, 'meta type not supported: $type');
     return factory!.createMeta(pKey, seed: seed, fingerprint: fingerprint);
   }
 
-  Meta generateMeta(int version, SignKey sKey, {String? seed}) {
-    MetaFactory? factory = getMetaFactory(version);
-    assert(factory != null, 'meta type not supported: $version');
+  Meta generateMeta(String type, SignKey sKey, {String? seed}) {
+    MetaFactory? factory = getMetaFactory(type);
+    assert(factory != null, 'meta type not supported: $type');
     return factory!.generateMeta(sKey, seed: seed);
   }
 
@@ -188,11 +200,10 @@ class AccountGeneralFactory {
       assert(false, 'meta error: $meta');
       return null;
     }
-    int version = getMetaType(info, 0)!;
-    assert(version > 0, 'meta type error: $meta');
-    MetaFactory? factory = getMetaFactory(version);
+    String type = getMetaType(info, '*')!;
+    MetaFactory? factory = getMetaFactory(type);
     if (factory == null) {
-      factory = getMetaFactory(0);  // unknown
+      factory = getMetaFactory('*');  // unknown
       assert(factory != null, 'default meta factory not found');
     }
     return factory?.parseMeta(info);
@@ -203,10 +214,10 @@ class AccountGeneralFactory {
   //
 
   void setDocumentFactory(String docType, DocumentFactory factory) {
-    _docFactories[docType] = factory;
+    _docsFactories[docType] = factory;
   }
   DocumentFactory? getDocumentFactory(String docType) {
-    return _docFactories[docType];
+    return _docsFactories[docType];
   }
 
   String? getDocumentType(Map doc, String? defaultValue) {

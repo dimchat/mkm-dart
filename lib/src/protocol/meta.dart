@@ -53,14 +53,22 @@ import 'identifier.dart';
 ///          fingerprint = sign(seed, SK);
 abstract interface class Meta implements Mapper {
 
+  ///  MetaType
+  ///  ~~~~~~~~
+  ///  Meta algorithm names
+  static const String MKM = 'MKM'; // '1';
+  static const String BTC = 'BTC'; // '2';
+  static const String ETH = 'ETH'; // '4';
+  // ...
+  // ignore_for_file: constant_identifier_names
+
   ///  Meta algorithm version
   ///
-  ///      0x01 - username@address
-  ///      0x02 - btc_address
-  ///      0x03 - username@btc_address
-  ///      0x04 - eth_address
-  ///      0x05 - username@eth_address
-  int get type;
+  ///      1 = MKM : username@address (default)
+  ///      2 = BTC : btc_address
+  ///      4 = ETH : eth_address
+  ///      ...
+  String get type;
 
   ///  Public key (used for signature)
   ///
@@ -112,15 +120,15 @@ abstract interface class Meta implements Mapper {
   //
 
   /// Create from stored info
-  static Meta create(int version, VerifyKey pKey, {String? seed, TransportableData? fingerprint}) {
+  static Meta create(String type, VerifyKey pKey, {String? seed, TransportableData? fingerprint}) {
     AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.createMeta(version, pKey, seed: seed, fingerprint: fingerprint);
+    return man.generalFactory.createMeta(type, pKey, seed: seed, fingerprint: fingerprint);
   }
 
   /// Generate with private key
-  static Meta generate(int version, SignKey sKey, {String? seed}) {
+  static Meta generate(String type, SignKey sKey, {String? seed}) {
     AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.generateMeta(version, sKey, seed: seed);
+    return man.generalFactory.generateMeta(type, sKey, seed: seed);
   }
 
   static Meta? parse(Object? meta) {
@@ -128,13 +136,13 @@ abstract interface class Meta implements Mapper {
     return man.generalFactory.parseMeta(meta);
   }
 
-  static MetaFactory? getFactory(int version) {
+  static MetaFactory? getFactory(String type) {
     AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.getMetaFactory(version);
+    return man.generalFactory.getMetaFactory(type);
   }
-  static void setFactory(int version, MetaFactory factory) {
+  static void setFactory(String type, MetaFactory factory) {
     AccountFactoryManager man = AccountFactoryManager();
-    man.generalFactory.setMetaFactory(version, factory);
+    man.generalFactory.setMetaFactory(type, factory);
   }
 }
 

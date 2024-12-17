@@ -1,3 +1,7 @@
+## 1.1.0
+
+- Upgrade MetaType.
+
 ## 1.0.0
 
 - Data URL.

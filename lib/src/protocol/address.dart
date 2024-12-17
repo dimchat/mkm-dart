@@ -43,14 +43,10 @@ abstract interface class Address implements Stringer {
   /// @return network type
   int get type;
 
-  /// address types
-  bool get isBroadcast;
-  bool get isUser;
-  bool get isGroup;
-
   ///  Address for broadcast
-  static final Address kAnywhere = _BroadcastAddress('anywhere', EntityType.kAny);
-  static final Address kEverywhere = _BroadcastAddress('everywhere', EntityType.kEvery);
+  static final Address ANYWHERE = _BroadcastAddress('anywhere', EntityType.ANY);
+  static final Address EVERYWHERE = _BroadcastAddress('everywhere', EntityType.EVERY);
+  // ignore_for_file: non_constant_identifier_names
 
   //
   //  Factory methods
@@ -114,12 +110,4 @@ class _BroadcastAddress extends ConstantString implements Address {
   @override
   int get type => _type;
 
-  @override
-  bool get isBroadcast => true;
-
-  @override
-  bool get isUser => _type == EntityType.kAny;
-
-  @override
-  bool get isGroup => _type == EntityType.kEvery;
 }

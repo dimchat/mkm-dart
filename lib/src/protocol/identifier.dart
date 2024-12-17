@@ -30,7 +30,9 @@
  */
 import '../factory.dart';
 import '../type/stringer.dart';
+
 import 'address.dart';
+import 'entity.dart';
 import 'meta.dart';
 
 ///  ID for entity (User/Group)
@@ -58,16 +60,17 @@ abstract interface class ID implements Stringer {
   bool get isGroup;
 
   ///  ID for Broadcast
-  static final ID kAnyone = Identifier('anyone@anywhere', name: 'anyone', address: Address.kAnywhere);
-  static final ID kEveryone = Identifier('everyone@everywhere', name: 'everyone', address: Address.kEverywhere);
+  static final ID ANYONE = Identifier.create(name: 'anyone', address: Address.ANYWHERE);
+  static final ID EVERYONE = Identifier.create(name: 'everyone', address: Address.EVERYWHERE);
   ///  DIM Founder
-  static final ID kFounder = Identifier('moky@anywhere', name: 'moky', address: Address.kAnywhere);
+  static final ID FOUNDER = Identifier.create(name: 'moky', address: Address.ANYWHERE);
+  // ignore_for_file: non_constant_identifier_names
 
-  static List<ID> convert(List members) {
+  static List<ID> convert(Iterable members) {
     AccountFactoryManager man = AccountFactoryManager();
     return man.generalFactory.convertIdentifiers(members);
   }
-  static List<String> revert(List<ID> members) {
+  static List<String> revert(Iterable<ID> members) {
     AccountFactoryManager man = AccountFactoryManager();
     return man.generalFactory.revertIdentifiers(members);
   }
@@ -149,11 +152,32 @@ class Identifier extends ConstantString implements ID {
   int get type => _address.type;
 
   @override
-  bool get isBroadcast => _address.isBroadcast;
+  bool get isBroadcast => EntityType.isBroadcast(type);
 
   @override
-  bool get isUser => _address.isUser;
+  bool get isUser => EntityType.isUser(type);
 
   @override
-  bool get isGroup => _address.isGroup;
+  bool get isGroup => EntityType.isGroup(type);
+
+  //
+  //  Factory
+  //
+
+  static ID create({String? name, required Address address, String? terminal}) {
+    String string = concat(name: name, address: address, terminal: terminal);
+    return Identifier(string, name: name, address: address, terminal: terminal);
+  }
+
+  static String concat({String? name, required Address address, String? terminal}) {
+    String string = address.toString();
+    if (name != null && name.isNotEmpty) {
+      string = '$name@$string';
+    }
+    if (terminal != null && terminal.isNotEmpty) {
+      string = '$string/$terminal';
+    }
+    return string;
+  }
+
 }

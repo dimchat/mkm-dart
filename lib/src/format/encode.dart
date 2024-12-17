@@ -49,10 +49,11 @@ import 'manager.dart';
 ///        }
 abstract interface class TransportableData implements Mapper {
 
-  static const kDefault = 'base64';
-  static const kBASE_64 = 'base64';
-  static const kBASE_58 = 'base58';
-  static const kHEX     = 'hex';
+  // ignore_for_file: constant_identifier_names
+  static const DEFAULT = 'base64';
+  static const BASE_64 = 'base64';
+  static const BASE_58 = 'base58';
+  static const HEX     = 'hex';
 
   ///  Get encode algorithm
   ///
@@ -97,7 +98,7 @@ abstract interface class TransportableData implements Mapper {
   //
 
   static TransportableData create(Uint8List data, {String? algorithm}) {
-    algorithm ??= kDefault;
+    algorithm ??= DEFAULT;
     FormatFactoryManager man = FormatFactoryManager();
     return man.generalFactory.createTransportableData(algorithm, data);
   }
