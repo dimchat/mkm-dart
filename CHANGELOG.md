@@ -1,3 +1,7 @@
+## 1.1.1
+
+- Default algorithm for TED.
+
 ## 1.1.0
 
 - Upgrade MetaType.

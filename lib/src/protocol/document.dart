@@ -111,7 +111,7 @@ abstract interface class Document implements TAI, Mapper {
   ///  Get entity ID
   ///
   /// @return entity ID
-  ID? get identifier;
+  ID get identifier;
 
   ///  Get sign time
   ///
