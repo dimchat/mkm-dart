@@ -87,8 +87,8 @@ class EntityType {
   // static const int APP_GROUP     = (0x41); // 0100 0001 (Application Customized Group)
 
   ///  Broadcast: 128, 129
-  static const int ANY             = (0x80); // 1000 0000 (anyone@anywhere)
-  static const int EVERY           = (0x81); // 1000 0001 (everyone@everywhere)
+  static const int ANY              = (0x80); // 1000 0000 (anyone@anywhere)
+  static const int EVERY            = (0x81); // 1000 0001 (everyone@everywhere)
 
 
   static bool isUser(int network) {

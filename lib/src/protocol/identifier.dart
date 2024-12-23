@@ -28,11 +28,11 @@
  * SOFTWARE.
  * ==============================================================================
  */
-import '../factory.dart';
 import '../type/stringer.dart';
 
 import 'address.dart';
 import 'entity.dart';
+import 'helpers.dart';
 import 'meta.dart';
 
 ///  ID for entity (User/Group)
@@ -51,7 +51,7 @@ abstract interface class ID implements Stringer {
 
   ///  Get ID.type
   ///
-  /// @return network type
+  /// @return network id of address
   int get type;
 
   /// ID types
@@ -59,20 +59,24 @@ abstract interface class ID implements Stringer {
   bool get isUser;
   bool get isGroup;
 
-  ///  ID for Broadcast
+  /// ID for Broadcast
   static final ID ANYONE = Identifier.create(name: 'anyone', address: Address.ANYWHERE);
   static final ID EVERYONE = Identifier.create(name: 'everyone', address: Address.EVERYWHERE);
-  ///  DIM Founder
+  //  DIM Founder
   static final ID FOUNDER = Identifier.create(name: 'moky', address: Address.ANYWHERE);
   // ignore_for_file: non_constant_identifier_names
 
+  //
+  //  Conveniences
+  //
+
   static List<ID> convert(Iterable members) {
-    AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.convertIdentifiers(members);
+    var holder = AccountHolder();
+    return holder.idHelper!.convertIdentifiers(members);
   }
   static List<String> revert(Iterable<ID> members) {
-    AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.revertIdentifiers(members);
+    var holder = AccountHolder();
+    return holder.idHelper!.revertIdentifiers(members);
   }
 
   //
@@ -80,27 +84,27 @@ abstract interface class ID implements Stringer {
   //
 
   static ID? parse(Object? identifier) {
-    AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.parseIdentifier(identifier);
+    var holder = AccountHolder();
+    return holder.idHelper!.parseIdentifier(identifier);
   }
 
   static ID create({String? name, required Address address, String? terminal}) {
-    AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.createIdentifier(name: name, address: address, terminal: terminal);
+    var holder = AccountHolder();
+    return holder.idHelper!.createIdentifier(name: name, address: address, terminal: terminal);
   }
 
   static ID generate(Meta meta, int? network, {String? terminal}) {
-    AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.generateIdentifier(meta, network, terminal: terminal);
+    var holder = AccountHolder();
+    return holder.idHelper!.generateIdentifier(meta, network, terminal: terminal);
   }
 
   static IDFactory? getFactory() {
-    AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.getIdentifierFactory();
+    var holder = AccountHolder();
+    return holder.idHelper!.getIdentifierFactory();
   }
   static void setFactory(IDFactory factory) {
-    AccountFactoryManager man = AccountFactoryManager();
-    man.generalFactory.setIdentifierFactory(factory);
+    var holder = AccountHolder();
+    holder.idHelper!.setIdentifierFactory(factory);
   }
 }
 
@@ -149,7 +153,7 @@ class Identifier extends ConstantString implements ID {
   String? get terminal => _terminal;
 
   @override
-  int get type => _address.type;
+  int get type => _address.network;
 
   @override
   bool get isBroadcast => EntityType.isBroadcast(type);

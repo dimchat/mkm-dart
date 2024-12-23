@@ -32,7 +32,7 @@ import 'dart:typed_data';
 
 import '../type/mapper.dart';
 
-import 'manager.dart';
+import 'helpers.dart';
 
 
 ///  Transportable Data
@@ -50,6 +50,7 @@ import 'manager.dart';
 abstract interface class TransportableData implements Mapper {
 
   // ignore_for_file: constant_identifier_names
+  static const DEFAULT = 'base64';
   static const BASE_64 = 'base64';
   static const BASE_58 = 'base58';
   static const HEX     = 'hex';
@@ -97,23 +98,22 @@ abstract interface class TransportableData implements Mapper {
   //
 
   static TransportableData create(Uint8List data, {String? algorithm}) {
-    algorithm ??= BASE_64;
-    FormatFactoryManager man = FormatFactoryManager();
-    return man.generalFactory.createTransportableData(algorithm, data);
+    var holder = FormatHolder();
+    return holder.tedHelper!.createTransportableData(algorithm ?? DEFAULT, data);
   }
 
   static TransportableData? parse(Object? ted) {
-    FormatFactoryManager man = FormatFactoryManager();
-    return man.generalFactory.parseTransportableData(ted);
+    var holder = FormatHolder();
+    return holder.tedHelper!.parseTransportableData(ted);
   }
 
   static TransportableDataFactory? getFactory(String algorithm) {
-    FormatFactoryManager man = FormatFactoryManager();
-    return man.generalFactory.getTransportableDataFactory(algorithm);
+    var holder = FormatHolder();
+    return holder.tedHelper!.getTransportableDataFactory(algorithm);
   }
   static void setFactory(String algorithm, TransportableDataFactory factory) {
-    FormatFactoryManager man = FormatFactoryManager();
-    man.generalFactory.setTransportableDataFactory(algorithm, factory);
+    var holder = FormatHolder();
+    holder.tedHelper!.setTransportableDataFactory(algorithm, factory);
   }
 }
 

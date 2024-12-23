@@ -31,10 +31,10 @@
 import 'dart:typed_data';
 
 import '../crypto/keys.dart';
-import '../factory.dart';
 import '../format/encode.dart';
 import '../type/mapper.dart';
 
+import 'helpers.dart';
 import 'identifier.dart';
 
 ///  The Additional Information
@@ -131,22 +131,22 @@ abstract interface class Document implements TAI, Mapper {
   /// 1. Create from stored info
   /// 2. Create new empty document
   static Document create(String type, ID identifier, {String? data, TransportableData? signature}) {
-    AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.createDocument(type, identifier, data: data, signature: signature);
+    var holder = AccountHolder();
+    return holder.docHelper!.createDocument(type, identifier, data: data, signature: signature);
   }
 
   static Document? parse(Object? doc) {
-    AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.parseDocument(doc);
+    var holder = AccountHolder();
+    return holder.docHelper!.parseDocument(doc);
   }
 
   static DocumentFactory? getFactory(String type) {
-    AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.getDocumentFactory(type);
+    var holder = AccountHolder();
+    return holder.docHelper!.getDocumentFactory(type);
   }
   static void setFactory(String type, DocumentFactory factory) {
-    AccountFactoryManager man = AccountFactoryManager();
-    man.generalFactory.setDocumentFactory(type, factory);
+    var holder = AccountHolder();
+    holder.docHelper!.setDocumentFactory(type, factory);
   }
 }
 

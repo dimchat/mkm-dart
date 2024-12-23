@@ -33,9 +33,9 @@ import 'dart:typed_data';
 import '../crypto/keys.dart';
 import '../format/encode.dart';
 import '../type/mapper.dart';
-import '../factory.dart';
 
 import 'address.dart';
+import 'helpers.dart';
 import 'identifier.dart';
 
 ///  User/Group Meta data
@@ -121,28 +121,28 @@ abstract interface class Meta implements Mapper {
 
   /// Create from stored info
   static Meta create(String type, VerifyKey pKey, {String? seed, TransportableData? fingerprint}) {
-    AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.createMeta(type, pKey, seed: seed, fingerprint: fingerprint);
+    var holder = AccountHolder();
+    return holder.metaHelper!.createMeta(type, pKey, seed: seed, fingerprint: fingerprint);
   }
 
   /// Generate with private key
   static Meta generate(String type, SignKey sKey, {String? seed}) {
-    AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.generateMeta(type, sKey, seed: seed);
+    var holder = AccountHolder();
+    return holder.metaHelper!.generateMeta(type, sKey, seed: seed);
   }
 
   static Meta? parse(Object? meta) {
-    AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.parseMeta(meta);
+    var holder = AccountHolder();
+    return holder.metaHelper!.parseMeta(meta);
   }
 
   static MetaFactory? getFactory(String type) {
-    AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.getMetaFactory(type);
+    var holder = AccountHolder();
+    return holder.metaHelper!.getMetaFactory(type);
   }
   static void setFactory(String type, MetaFactory factory) {
-    AccountFactoryManager man = AccountFactoryManager();
-    man.generalFactory.setMetaFactory(type, factory);
+    var holder = AccountHolder();
+    holder.metaHelper!.setMetaFactory(type, factory);
   }
 }
 

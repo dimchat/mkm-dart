@@ -1,4 +1,9 @@
 /* license: https://mit-license.org
+ *
+ *  Ming-Ke-Ming : Decentralized User Identity Authentication
+ *
+ *                                Written in 2023 by Moky <albert.moky@gmail.com>
+ *
  * =============================================================================
  * The MIT License (MIT)
  *
@@ -23,45 +28,49 @@
  * SOFTWARE.
  * =============================================================================
  */
-import 'helpers.dart';
-import 'keys.dart';
+import 'dart:typed_data';
 
-///  Asymmetric Cryptography Public Key
-///  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-///
-///  key data format: {
-///      algorithm : "RSA", // "ECC", ...
-///      data      : "{BASE64_ENCODE}",
-///      ...
-///  }
-abstract interface class PublicKey implements VerifyKey {
+import '../crypto/keys.dart';
 
-  //
-  //  Factory methods
-  //
+import 'encode.dart';
+import 'file.dart';
 
-  static PublicKey? parse(Object? key) {
-    var holder = CryptoHolder();
-    return holder.publicHelper!.parsePublicKey(key);
-  }
+///  General Helpers
+///  ~~~~~~~~~~~~~~~
 
-  static PublicKeyFactory? getFactory(String algorithm) {
-    var holder = CryptoHolder();
-    return holder.publicHelper!.getPublicKeyFactory(algorithm);
-  }
-  static void setFactory(String algorithm, PublicKeyFactory factory) {
-    var holder = CryptoHolder();
-    holder.publicHelper!.setPublicKeyFactory(algorithm, factory);
-  }
+abstract interface class TransportableDataHelper {
+
+  void setTransportableDataFactory(String algorithm, TransportableDataFactory factory);
+  TransportableDataFactory? getTransportableDataFactory(String algorithm);
+
+  TransportableData createTransportableData(String algorithm, Uint8List data);
+
+  TransportableData? parseTransportableData(Object? ted);
+
 }
 
-///  Key Factory
-///  ~~~~~~~~~~~
-abstract interface class PublicKeyFactory {
+abstract interface class PortableNetworkFileHelper {
 
-  ///  Parse map object to key
-  ///
-  /// @param key - key info
-  /// @return PublicKey
-  PublicKey? parsePublicKey(Map key);
+  void setPortableNetworkFileFactory(PortableNetworkFileFactory factory);
+  PortableNetworkFileFactory? getPortableNetworkFileFactory();
+
+  PortableNetworkFile createPortableNetworkFile(TransportableData? data, String? filename,
+      Uri? url, DecryptKey? password);
+
+  PortableNetworkFile? parsePortableNetworkFile(Object? pnf);
+
+}
+
+
+/// Format FactoryManager
+/// ~~~~~~~~~~~~~~~~~~~~~
+// protected
+class FormatHolder {
+  factory FormatHolder() => _instance;
+  static final FormatHolder _instance = FormatHolder._internal();
+  FormatHolder._internal();
+
+  TransportableDataHelper? tedHelper;
+  PortableNetworkFileHelper? pnfHelper;
+
 }

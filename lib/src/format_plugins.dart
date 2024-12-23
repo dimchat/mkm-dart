@@ -1,4 +1,9 @@
 /* license: https://mit-license.org
+ *
+ *  Ming-Ke-Ming : Decentralized User Identity Authentication
+ *
+ *                                Written in 2023 by Moky <albert.moky@gmail.com>
+ *
  * =============================================================================
  * The MIT License (MIT)
  *
@@ -23,45 +28,42 @@
  * SOFTWARE.
  * =============================================================================
  */
-import 'helpers.dart';
-import 'keys.dart';
+import 'format/helpers.dart';
 
-///  Asymmetric Cryptography Public Key
-///  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-///
-///  key data format: {
-///      algorithm : "RSA", // "ECC", ...
-///      data      : "{BASE64_ENCODE}",
-///      ...
-///  }
-abstract interface class PublicKey implements VerifyKey {
+/// Format GeneralFactory
+/// ~~~~~~~~~~~~~~~~~~~~~
+abstract interface class GeneralFormatHelper /*
+    implements TransportableDataHelper, PortableNetworkFileHelper */{
 
   //
-  //  Factory methods
+  //  Algorithm
   //
 
-  static PublicKey? parse(Object? key) {
-    var holder = CryptoHolder();
-    return holder.publicHelper!.parsePublicKey(key);
-  }
+  String? getFormatAlgorithm(Map ted, String? defaultValue);
 
-  static PublicKeyFactory? getFactory(String algorithm) {
-    var holder = CryptoHolder();
-    return holder.publicHelper!.getPublicKeyFactory(algorithm);
-  }
-  static void setFactory(String algorithm, PublicKeyFactory factory) {
-    var holder = CryptoHolder();
-    holder.publicHelper!.setPublicKeyFactory(algorithm, factory);
-  }
 }
 
-///  Key Factory
-///  ~~~~~~~~~~~
-abstract interface class PublicKeyFactory {
+/// Format FactoryManager
+/// ~~~~~~~~~~~~~~~~~~~~~
+class SharedFormatHolder {
+  factory SharedFormatHolder() => _instance;
+  static final SharedFormatHolder _instance = SharedFormatHolder._internal();
+  SharedFormatHolder._internal();
 
-  ///  Parse map object to key
-  ///
-  /// @param key - key info
-  /// @return PublicKey
-  PublicKey? parsePublicKey(Map key);
+  /// TED
+  TransportableDataHelper? get tedHelper =>
+      FormatHolder().tedHelper;
+
+  set tedHelper(TransportableDataHelper? helper) =>
+      FormatHolder().tedHelper = helper;
+
+  /// PNF
+  PortableNetworkFileHelper? get pnfHelper =>
+      FormatHolder().pnfHelper;
+  set pnfHelper(PortableNetworkFileHelper? helper) =>
+      FormatHolder().pnfHelper = helper;
+
+  /// General Helper
+  GeneralFormatHelper? helper;
+
 }

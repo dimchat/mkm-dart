@@ -9,4 +9,4 @@ export 'src/protocol/identifier.dart';
 export 'src/protocol/meta.dart';
 export 'src/protocol/document.dart';
 
-export 'src/factory.dart';
+// export 'src/protocol/helpers.dart';  // -> 'plugins.dart'

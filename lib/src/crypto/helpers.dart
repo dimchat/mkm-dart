@@ -23,45 +23,55 @@
  * SOFTWARE.
  * =============================================================================
  */
-import 'helpers.dart';
-import 'keys.dart';
+import 'private.dart';
+import 'public.dart';
+import 'symmetric.dart';
 
-///  Asymmetric Cryptography Public Key
-///  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-///
-///  key data format: {
-///      algorithm : "RSA", // "ECC", ...
-///      data      : "{BASE64_ENCODE}",
-///      ...
-///  }
-abstract interface class PublicKey implements VerifyKey {
+///  General Helpers
+///  ~~~~~~~~~~~~~~~
 
-  //
-  //  Factory methods
-  //
+abstract interface class SymmetricKeyHelper {
 
-  static PublicKey? parse(Object? key) {
-    var holder = CryptoHolder();
-    return holder.publicHelper!.parsePublicKey(key);
-  }
+  void setSymmetricKeyFactory(String algorithm, SymmetricKeyFactory factory);
+  SymmetricKeyFactory? getSymmetricKeyFactory(String algorithm);
 
-  static PublicKeyFactory? getFactory(String algorithm) {
-    var holder = CryptoHolder();
-    return holder.publicHelper!.getPublicKeyFactory(algorithm);
-  }
-  static void setFactory(String algorithm, PublicKeyFactory factory) {
-    var holder = CryptoHolder();
-    holder.publicHelper!.setPublicKeyFactory(algorithm, factory);
-  }
+  SymmetricKey? generateSymmetricKey(String algorithm);
+
+  SymmetricKey? parseSymmetricKey(Object? key);
+
 }
 
-///  Key Factory
-///  ~~~~~~~~~~~
-abstract interface class PublicKeyFactory {
+abstract interface class PublicKeyHelper {
 
-  ///  Parse map object to key
-  ///
-  /// @param key - key info
-  /// @return PublicKey
-  PublicKey? parsePublicKey(Map key);
+  void setPublicKeyFactory(String algorithm, PublicKeyFactory factory);
+  PublicKeyFactory? getPublicKeyFactory(String algorithm);
+
+  PublicKey? parsePublicKey(Object? key);
+
+}
+
+abstract interface class PrivateKeyHelper {
+
+  void setPrivateKeyFactory(String algorithm, PrivateKeyFactory factory);
+  PrivateKeyFactory? getPrivateKeyFactory(String algorithm);
+
+  PrivateKey? generatePrivateKey(String algorithm);
+
+  PrivateKey? parsePrivateKey(Object? key);
+
+}
+
+/// CryptographyKey FactoryManager
+/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// protected
+class CryptoHolder {
+  factory CryptoHolder() => _instance;
+  static final CryptoHolder _instance = CryptoHolder._internal();
+  CryptoHolder._internal();
+
+  SymmetricKeyHelper? symmetricHelper;
+
+  PrivateKeyHelper? privateHelper;
+  PublicKeyHelper? publicHelper;
+
 }

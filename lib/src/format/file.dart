@@ -34,7 +34,7 @@ import '../crypto/keys.dart';
 import '../type/mapper.dart';
 
 import 'encode.dart';
-import 'manager.dart';
+import 'helpers.dart';
 
 
 ///  Transportable File
@@ -106,22 +106,22 @@ abstract interface class PortableNetworkFile implements Mapper {
 
   static PortableNetworkFile create(TransportableData? data, String? filename,
                                     Uri? url, DecryptKey? password) {
-    FormatFactoryManager man = FormatFactoryManager();
-    return man.generalFactory.createPortableNetworkFile(data, filename, url, password);
+    var holder = FormatHolder();
+    return holder.pnfHelper!.createPortableNetworkFile(data, filename, url, password);
   }
 
   static PortableNetworkFile? parse(Object? pnf) {
-    FormatFactoryManager man = FormatFactoryManager();
-    return man.generalFactory.parsePortableNetworkFile(pnf);
+    var holder = FormatHolder();
+    return holder.pnfHelper!.parsePortableNetworkFile(pnf);
   }
 
   static PortableNetworkFileFactory? getFactory() {
-    FormatFactoryManager man = FormatFactoryManager();
-    return man.generalFactory.getPortableNetworkFileFactory();
+    var holder = FormatHolder();
+    return holder.pnfHelper!.getPortableNetworkFileFactory();
   }
   static void setFactory(PortableNetworkFileFactory factory) {
-    FormatFactoryManager man = FormatFactoryManager();
-    man.generalFactory.setPortableNetworkFileFactory(factory);
+    var holder = FormatHolder();
+    holder.pnfHelper!.setPortableNetworkFileFactory(factory);
   }
 }
 

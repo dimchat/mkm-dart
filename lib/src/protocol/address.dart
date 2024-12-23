@@ -28,9 +28,10 @@
  * SOFTWARE.
  * ==============================================================================
  */
-import '../factory.dart';
 import '../type/stringer.dart';
+
 import 'entity.dart';
+import 'helpers.dart';
 import 'meta.dart';
 
 ///  Address for MKM ID
@@ -40,8 +41,8 @@ abstract interface class Address implements Stringer {
 
   ///  Get address type
   ///
-  /// @return network type
-  int get type;
+  /// @return network id
+  int get network;
 
   ///  Address for broadcast
   static final Address ANYWHERE = _BroadcastAddress('anywhere', EntityType.ANY);
@@ -53,28 +54,28 @@ abstract interface class Address implements Stringer {
   //
 
   static Address? parse(Object? address) {
-    AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.parseAddress(address);
+    var holder = AccountHolder();
+    return holder.addressHelper!.parseAddress(address);
   }
 
   static Address? create(String address) {
-    AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.createAddress(address);
+    var holder = AccountHolder();
+    return holder.addressHelper!.createAddress(address);
   }
 
   static Address generate(Meta meta, int? network) {
-    AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.generateAddress(meta, network);
+    var holder = AccountHolder();
+    return holder.addressHelper!.generateAddress(meta, network);
   }
 
   static AddressFactory? getFactory() {
-    AccountFactoryManager man = AccountFactoryManager();
-    return man.generalFactory.getAddressFactory();
+    var holder = AccountHolder();
+    return holder.addressHelper!.getAddressFactory();
   }
 
   static void setFactory(AddressFactory factory) {
-    AccountFactoryManager man = AccountFactoryManager();
-    man.generalFactory.setAddressFactory(factory);
+    var holder = AccountHolder();
+    holder.addressHelper!.setAddressFactory(factory);
   }
 }
 
@@ -102,12 +103,14 @@ abstract interface class AddressFactory {
   Address? parseAddress(String address);
 }
 
-class _BroadcastAddress extends ConstantString implements Address {
-  _BroadcastAddress(super.string, int network) : _type = network;
 
-  final int _type;
+class _BroadcastAddress extends ConstantString implements Address {
+  _BroadcastAddress(super.string, this.type);
+
+  // private
+  final int type;
 
   @override
-  int get type => _type;
+  int get network => type;
 
 }

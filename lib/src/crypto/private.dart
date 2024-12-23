@@ -23,8 +23,8 @@
  * SOFTWARE.
  * =============================================================================
  */
+import 'helpers.dart';
 import 'keys.dart';
-import 'manager.dart';
 import 'public.dart';
 
 ///  Asymmetric Cryptography Private Key
@@ -48,22 +48,22 @@ abstract interface class PrivateKey implements SignKey {
   //
 
   static PrivateKey? generate(String algorithm) {
-    CryptographyKeyFactoryManager man = CryptographyKeyFactoryManager();
-    return man.generalFactory.generatePrivateKey(algorithm);
+    var holder = CryptoHolder();
+    return holder.privateHelper!.generatePrivateKey(algorithm);
   }
 
   static PrivateKey? parse(Object? key) {
-    CryptographyKeyFactoryManager man = CryptographyKeyFactoryManager();
-    return man.generalFactory.parsePrivateKey(key);
+    var holder = CryptoHolder();
+    return holder.privateHelper!.parsePrivateKey(key);
   }
 
   static PrivateKeyFactory? getFactory(String algorithm) {
-    CryptographyKeyFactoryManager man = CryptographyKeyFactoryManager();
-    return man.generalFactory.getPrivateKeyFactory(algorithm);
+    var holder = CryptoHolder();
+    return holder.privateHelper!.getPrivateKeyFactory(algorithm);
   }
   static void setFactory(String algorithm, PrivateKeyFactory factory) {
-    CryptographyKeyFactoryManager man = CryptographyKeyFactoryManager();
-    man.generalFactory.setPrivateKeyFactory(algorithm, factory);
+    var holder = CryptoHolder();
+    holder.privateHelper!.setPrivateKeyFactory(algorithm, factory);
   }
 }
 

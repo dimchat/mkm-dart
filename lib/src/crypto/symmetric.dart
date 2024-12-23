@@ -23,8 +23,8 @@
  * SOFTWARE.
  * =============================================================================
  */
+import 'helpers.dart';
 import 'keys.dart';
-import 'manager.dart';
 
 ///  Symmetric Cryptography Key
 ///  ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -46,22 +46,22 @@ abstract interface class SymmetricKey implements EncryptKey, DecryptKey {
   //
 
   static SymmetricKey? generate(String algorithm) {
-    CryptographyKeyFactoryManager man = CryptographyKeyFactoryManager();
-    return man.generalFactory.generateSymmetricKey(algorithm);
+    var holder = CryptoHolder();
+    return holder.symmetricHelper!.generateSymmetricKey(algorithm);
   }
 
   static SymmetricKey? parse(Object? key) {
-    CryptographyKeyFactoryManager man = CryptographyKeyFactoryManager();
-    return man.generalFactory.parseSymmetricKey(key);
+    var holder = CryptoHolder();
+    return holder.symmetricHelper!.parseSymmetricKey(key);
   }
 
   static SymmetricKeyFactory? getFactory(String algorithm) {
-    CryptographyKeyFactoryManager man = CryptographyKeyFactoryManager();
-    return man.generalFactory.getSymmetricKeyFactory(algorithm);
+    var holder = CryptoHolder();
+    return holder.symmetricHelper!.getSymmetricKeyFactory(algorithm);
   }
   static void setFactory(String algorithm, SymmetricKeyFactory factory) {
-    CryptographyKeyFactoryManager man = CryptographyKeyFactoryManager();
-    man.generalFactory.setSymmetricKeyFactory(algorithm, factory);
+    var holder = CryptoHolder();
+    holder.symmetricHelper!.setSymmetricKeyFactory(algorithm, factory);
   }
 }
 

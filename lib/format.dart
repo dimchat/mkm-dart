@@ -10,4 +10,5 @@ export 'src/format/data.dart';
 
 export 'src/format/encode.dart';
 export 'src/format/file.dart';
-export 'src/format/manager.dart';
+
+// export 'src/format/helpers.dart';  // -> 'plugins.dart'
