@@ -46,8 +46,6 @@ abstract interface class AddressHelper {
 
   Address? parseAddress(Object? address);
 
-  Address? createAddress(String address);
-
   Address generateAddress(Meta meta, int? network);
 
 }

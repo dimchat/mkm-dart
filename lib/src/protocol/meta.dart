@@ -36,7 +36,6 @@ import '../type/mapper.dart';
 
 import 'address.dart';
 import 'helpers.dart';
-import 'identifier.dart';
 
 ///  User/Group Meta data
 ///  ~~~~~~~~~~~~~~~~~~~~
@@ -86,12 +85,6 @@ abstract interface class Meta implements Mapper {
   ///      Check: verify(seed, fingerprint, publicKey)
   Uint8List? get fingerprint;
 
-  ///  Generate address
-  ///
-  /// @param network - address type
-  /// @return Address
-  Address generateAddress(int? network);
-
   //
   //  Validation
   //
@@ -102,18 +95,11 @@ abstract interface class Meta implements Mapper {
   /// @return false on fingerprint not matched
   bool get isValid;
 
-  ///  Check whether meta matches with entity ID
-  ///  (must call this when received a new meta from network)
+  ///  Generate address
   ///
-  /// @param identifier - entity ID
-  /// @return true on matched
-  bool matchIdentifier(ID identifier);
-
-  ///  Check whether meta matches with public key
-  ///
-  /// @param pKey - public key
-  /// @return true on matched
-  bool matchPublicKey(VerifyKey pKey);
+  /// @param network - address type
+  /// @return Address
+  Address generateAddress(int? network);
 
   //
   //  Factory methods

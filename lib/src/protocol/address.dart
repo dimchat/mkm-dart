@@ -58,11 +58,6 @@ abstract interface class Address implements Stringer {
     return holder.addressHelper!.parseAddress(address);
   }
 
-  static Address? create(String address) {
-    var holder = AccountHolder();
-    return holder.addressHelper!.createAddress(address);
-  }
-
   static Address generate(Meta meta, int? network) {
     var holder = AccountHolder();
     return holder.addressHelper!.generateAddress(meta, network);
@@ -89,12 +84,6 @@ abstract interface class AddressFactory {
   /// @param network - address type
   /// @return Address
   Address generateAddress(Meta meta, int? network);
-
-  ///  Create address from string
-  ///
-  /// @param address - address string
-  /// @return Address
-  Address? createAddress(String address);
 
   ///  Parse string object to address
   ///

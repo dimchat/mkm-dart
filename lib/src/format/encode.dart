@@ -48,8 +48,9 @@ import 'helpers.dart';
 ///             ...
 ///        }
 abstract interface class TransportableData implements Mapper {
-
   // ignore_for_file: constant_identifier_names
+
+  /// encode algorithm
   static const DEFAULT = 'base64';
   static const BASE_64 = 'base64';
   static const BASE_58 = 'base58';

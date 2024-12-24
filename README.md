@@ -1,9 +1,16 @@
 # Ming Ke Ming (名可名) -- Account Module (Dart)
 
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/dimchat/mkm-dart/blob/master/LICENSE)
-[![Version](https://img.shields.io/badge/alpha-0.1.0-red.svg)](https://github.com/dimchat/mkm-dart/archive/master.zip)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/dimchat/mkm-dart/pulls)
-[![Platform](https://img.shields.io/badge/Platform-Dart%203-brightgreen.svg)](https://github.com/dimchat/mkm-dart/wiki)
+[![License](https://img.shields.io/github/license/dimchat/mkm-dart)](https://github.com/dimchat/mkm-dart/blob/main/LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreeng)](https://github.com/dimchat/mkm-dart/pulls)
+[![Platform](https://img.shields.io/badge/Platform-Dart%203-brightgreen)](https://github.com/dimchat/mkm-dart/wiki)
+[![Issues](https://img.shields.io/github/issues/dimchat/mkm-dart)](https://github.com/dimchat/mkm-dart/issues)
+[![Version](https://img.shields.io/github/tag/dimchat/mkm-dart)](https://github.com/dimchat/mkm-dart/tags)
+[![Repo Size](https://img.shields.io/github/repo-size/dimchat/mkm-dart)](https://github.com/dimchat/mkm-dart/archive/refs/heads/main.zip)
+
+[![Watchers](https://img.shields.io/github/watchers/dimchat/mkm-dart)](https://github.com/dimchat/mkm-dart/watchers)
+[![Forks](https://img.shields.io/github/forks/dimchat/mkm-dart)](https://github.com/dimchat/mkm-dart/forks)
+[![Stars](https://img.shields.io/github/stars/dimchat/mkm-dart)](https://github.com/dimchat/mkm-dart/stargazers)
+[![Followers](https://img.shields.io/github/followers/dimchat)](https://github.com/orgs/dimchat/followers)
 
 This [document](https://github.com/moky/DIMP/blob/master/MingKeMing-Identity.md) introduces a common **Account Module** for decentralized user identity authentication.
 
@@ -43,7 +50,7 @@ The ID format is ```name@address[/terminal]```.
 ```javascript
 /* Meta(JsON) for hulk@4YeVEN3aUnvC1DNUufCq1bs9zoBSJTzVEj */
 {
-    "version"     : 0x01,
+    "type"        : 0x01,
     "key"         : {
         "algorithm" : "RSA",
         "data"      : "-----BEGIN PUBLIC KEY-----\nMIGJAoGBALB+vbUK48UU9rjlgnohQowME+3JtTb2hLPqtatVOW364/EKFq0/PSdnZVE9V2Zq+pbX7dj3nCS4pWnYf40ELH8wuDm0Tc4jQ70v4LgAcdy3JGTnWUGiCsY+0Z8kNzRkm3FJid592FL7ryzfvIzB9bjg8U2JqlyCVAyUYEnKv4lDAgMBAAE=\n-----END PUBLIC KEY-----",
@@ -90,35 +97,86 @@ group_name = "Group-9527";
 
 The **Address** field was created with the **Fingerprint** in Meta and a **Network ID**:
 
-```java
-public final class BTCAddress extends Address {
+```dart
+import 'dart:typed_data';
 
-    private static byte[] checkCode(byte[] data) {
-        byte[] sha256d = SHA256.digest(SHA256.digest(data));
-        byte[] cc = new byte[4];
-        System.arraycopy(sha256d, 0, cc, 0, 4);
-        return cc;
-    }
+import 'package:mkm/type.dart';
+import 'package:mkm/digest.dart';
+import 'package:mkm/format.dart';
+import 'package:mkm/mkm.dart';
 
-    private static long userNumber(byte[] cc) {
-        return (long)(cc[3] & 0xFF) << 24 | (cc[2] & 0xFF) << 16 | (cc[1] & 0xFF) << 8 | (cc[0] & 0xFF);
-    }
+///  Address like BitCoin
+///  ~~~~~~~~~~~~~~~~~~~~
+///
+///      data format: "network+digest+code"
+///          network    --  1 byte
+///          digest     -- 20 bytes
+///          check code --  4 bytes
+///
+///      algorithm:
+///          fingerprint = PK.data
+///          digest      = ripemd160(sha256(fingerprint));
+///          code        = sha256(sha256(network + digest)).prefix(4);
+///          address     = base58_encode(network + digest + code);
+///
+class BTCAddress extends ConstantString implements Address {
+  BTCAddress(super.string, int network) : _type = network;
 
-    static BTCAddress generate(byte[] fingerprint, NetworkType network) {
-        // 1. digest = ripemd160(sha256(fingerprint))
-        byte[] digest = RIPEMD160.digest(SHA256.digest(fingerprint));
-        // 2. head = network + digest
-        byte[] head = new byte[21];
-        head[0] = network.toByte();
-        System.arraycopy(digest, 0, head, 1, 20);
-        // 3. cc = sha256(sha256(head)).prefix(4)
-        byte[] cc = checkCode(head);
-        // 4. data = base58_encode(head + cc)
-        byte[] data = new byte[25];
-        System.arraycopy(head, 0, data, 0, 21);
-        System.arraycopy(cc,0, data, 21, 4);
-        return new BTCAddress(Base58.encode(data));
+  final int _type;
+
+  @override
+  int get network => _type;
+
+
+  ///  Generate BTC address with fingerprint and network ID
+  ///
+  /// @param fingerprint - meta.fingerprint or key.data
+  /// @param network - address type
+  /// @return Address object
+  static BTCAddress generate(Uint8List fingerprint, int network) {
+    // 1. digest = ripemd160(sha256(fingerprint))
+    Uint8List digest = RIPEMD160.digest(SHA256.digest(fingerprint));
+    // 2. head = network + digest
+    BytesBuilder bb = BytesBuilder(copy: false);
+    bb.addByte(network);
+    bb.add(digest);
+    Uint8List head = bb.toBytes();
+    // 3. cc = sha256(sha256(head)).prefix(4)
+    Uint8List cc = _checkCode(head);
+    // 4. data = base58_encode(head + cc)
+    bb = BytesBuilder(copy: false);
+    bb.add(head);
+    bb.add(cc);
+    return BTCAddress(Base58.encode(bb.toBytes()), network);
+  }
+
+  ///  Parse a string for BTC address
+  ///
+  /// @param address - address string
+  /// @return null on error
+  static BTCAddress? parse(String address) {
+    if (address.length < 26 || address.length > 35) {
+      return null;
     }
+    // decode
+    Uint8List? data = Base58.decode(address);
+    if (data == null || data.length != 25) {
+      return null;
+    }
+    // check code
+    Uint8List prefix = data.sublist(0, 21);
+    Uint8List suffix = data.sublist(21, 25);
+    Uint8List cc = _checkCode(prefix);
+    if (Arrays.equals(cc, suffix)) {
+      return BTCAddress(address, data[0]);
+    } else {
+      return null;
+    }
+  }
+}
+
+Uint8List _checkCode(Uint8List data) {
+  return SHA256.digest(SHA256.digest(data)).sublist(0, 4);
 }
 ```
 

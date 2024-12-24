@@ -47,7 +47,7 @@ abstract interface class ObjectCoder<T> {
 
 class JSON {
 
-  static String encode(dynamic container) {
+  static String encode(Object container) {
     return coder!.encode(container);
   }
 

@@ -36,7 +36,9 @@ abstract interface class GeneralCryptoHelper /*
 
   /// sample data for checking keys
   // ignore: non_constant_identifier_names
-  static final Uint8List PROMISE = Uint8List.fromList('Moky loves May Lee forever!'.codeUnits);
+  static final Uint8List PROMISE = Uint8List.fromList(
+      'Moky loves May Lee forever!'.codeUnits
+  );
 
   /// Compare asymmetric keys
   static bool matchAsymmetricKeys(SignKey sKey, VerifyKey pKey) {
@@ -51,7 +53,6 @@ abstract interface class GeneralCryptoHelper /*
     Map params = {};
     Uint8List ciphertext = encKey.encrypt(PROMISE, params);
     Uint8List? plaintext = decKey.decrypt(ciphertext, params);
-    // check result
     return plaintext != null && Arrays.equals(plaintext, PROMISE);
   }
 
