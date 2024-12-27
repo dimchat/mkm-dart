@@ -71,12 +71,12 @@ abstract interface class ID implements Stringer {
   //
 
   static List<ID> convert(Iterable members) {
-    var holder = AccountHolder();
-    return holder.idHelper!.convertIdentifiers(members);
+    var ext = AccountExtensions();
+    return ext.idHelper!.convertIdentifiers(members);
   }
   static List<String> revert(Iterable<ID> members) {
-    var holder = AccountHolder();
-    return holder.idHelper!.revertIdentifiers(members);
+    var ext = AccountExtensions();
+    return ext.idHelper!.revertIdentifiers(members);
   }
 
   //
@@ -84,27 +84,27 @@ abstract interface class ID implements Stringer {
   //
 
   static ID? parse(Object? identifier) {
-    var holder = AccountHolder();
-    return holder.idHelper!.parseIdentifier(identifier);
+    var ext = AccountExtensions();
+    return ext.idHelper!.parseIdentifier(identifier);
   }
 
   static ID create({String? name, required Address address, String? terminal}) {
-    var holder = AccountHolder();
-    return holder.idHelper!.createIdentifier(name: name, address: address, terminal: terminal);
+    var ext = AccountExtensions();
+    return ext.idHelper!.createIdentifier(name: name, address: address, terminal: terminal);
   }
 
   static ID generate(Meta meta, int? network, {String? terminal}) {
-    var holder = AccountHolder();
-    return holder.idHelper!.generateIdentifier(meta, network, terminal: terminal);
+    var ext = AccountExtensions();
+    return ext.idHelper!.generateIdentifier(meta, network, terminal: terminal);
   }
 
   static IDFactory? getFactory() {
-    var holder = AccountHolder();
-    return holder.idHelper!.getIdentifierFactory();
+    var ext = AccountExtensions();
+    return ext.idHelper!.getIdentifierFactory();
   }
   static void setFactory(IDFactory factory) {
-    var holder = AccountHolder();
-    holder.idHelper!.setIdentifierFactory(factory);
+    var ext = AccountExtensions();
+    ext.idHelper!.setIdentifierFactory(factory);
   }
 }
 
@@ -135,9 +135,11 @@ abstract interface class IDFactory {
   ID? parseIdentifier(String identifier);
 }
 
+
 class Identifier extends ConstantString implements ID {
-  Identifier(super.string, {String? name, required Address address, String? terminal})
-      : _name = name, _address = address, _terminal = terminal;
+  Identifier(super.string, {
+    String? name, required Address address, String? terminal
+  }) : _name = name, _address = address, _terminal = terminal;
 
   final String? _name;
   final Address _address;

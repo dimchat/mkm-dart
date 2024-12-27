@@ -106,22 +106,22 @@ abstract interface class PortableNetworkFile implements Mapper {
 
   static PortableNetworkFile create(TransportableData? data, String? filename,
                                     Uri? url, DecryptKey? password) {
-    var holder = FormatHolder();
-    return holder.pnfHelper!.createPortableNetworkFile(data, filename, url, password);
+    var ext = FormatExtensions();
+    return ext.pnfHelper!.createPortableNetworkFile(data, filename, url, password);
   }
 
   static PortableNetworkFile? parse(Object? pnf) {
-    var holder = FormatHolder();
-    return holder.pnfHelper!.parsePortableNetworkFile(pnf);
+    var ext = FormatExtensions();
+    return ext.pnfHelper!.parsePortableNetworkFile(pnf);
   }
 
   static PortableNetworkFileFactory? getFactory() {
-    var holder = FormatHolder();
-    return holder.pnfHelper!.getPortableNetworkFileFactory();
+    var ext = FormatExtensions();
+    return ext.pnfHelper!.getPortableNetworkFileFactory();
   }
   static void setFactory(PortableNetworkFileFactory factory) {
-    var holder = FormatHolder();
-    holder.pnfHelper!.setPortableNetworkFileFactory(factory);
+    var ext = FormatExtensions();
+    ext.pnfHelper!.setPortableNetworkFileFactory(factory);
   }
 }
 

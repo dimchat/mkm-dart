@@ -45,23 +45,24 @@ abstract interface class GeneralFormatHelper /*
 
 /// Format FactoryManager
 /// ~~~~~~~~~~~~~~~~~~~~~
-class SharedFormatHolder {
-  factory SharedFormatHolder() => _instance;
-  static final SharedFormatHolder _instance = SharedFormatHolder._internal();
-  SharedFormatHolder._internal();
+class SharedFormatExtensions {
+  factory SharedFormatExtensions() => _instance;
+  static final SharedFormatExtensions _instance = SharedFormatExtensions._internal();
+  SharedFormatExtensions._internal();
 
   /// TED
   TransportableDataHelper? get tedHelper =>
-      FormatHolder().tedHelper;
+      FormatExtensions().tedHelper;
 
   set tedHelper(TransportableDataHelper? helper) =>
-      FormatHolder().tedHelper = helper;
+      FormatExtensions().tedHelper = helper;
 
   /// PNF
   PortableNetworkFileHelper? get pnfHelper =>
-      FormatHolder().pnfHelper;
+      FormatExtensions().pnfHelper;
+
   set pnfHelper(PortableNetworkFileHelper? helper) =>
-      FormatHolder().pnfHelper = helper;
+      FormatExtensions().pnfHelper = helper;
 
   /// General Helper
   GeneralFormatHelper? helper;

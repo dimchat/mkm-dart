@@ -99,22 +99,22 @@ abstract interface class TransportableData implements Mapper {
   //
 
   static TransportableData create(Uint8List data, {String? algorithm}) {
-    var holder = FormatHolder();
-    return holder.tedHelper!.createTransportableData(algorithm ?? DEFAULT, data);
+    var ext = FormatExtensions();
+    return ext.tedHelper!.createTransportableData(algorithm ?? DEFAULT, data);
   }
 
   static TransportableData? parse(Object? ted) {
-    var holder = FormatHolder();
-    return holder.tedHelper!.parseTransportableData(ted);
+    var ext = FormatExtensions();
+    return ext.tedHelper!.parseTransportableData(ted);
   }
 
   static TransportableDataFactory? getFactory(String algorithm) {
-    var holder = FormatHolder();
-    return holder.tedHelper!.getTransportableDataFactory(algorithm);
+    var ext = FormatExtensions();
+    return ext.tedHelper!.getTransportableDataFactory(algorithm);
   }
   static void setFactory(String algorithm, TransportableDataFactory factory) {
-    var holder = FormatHolder();
-    holder.tedHelper!.setTransportableDataFactory(algorithm, factory);
+    var ext = FormatExtensions();
+    ext.tedHelper!.setTransportableDataFactory(algorithm, factory);
   }
 }
 

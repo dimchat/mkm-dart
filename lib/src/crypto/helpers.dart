@@ -64,10 +64,10 @@ abstract interface class PrivateKeyHelper {
 /// CryptographyKey FactoryManager
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // protected
-class CryptoHolder {
-  factory CryptoHolder() => _instance;
-  static final CryptoHolder _instance = CryptoHolder._internal();
-  CryptoHolder._internal();
+class CryptoExtensions {
+  factory CryptoExtensions() => _instance;
+  static final CryptoExtensions _instance = CryptoExtensions._internal();
+  CryptoExtensions._internal();
 
   SymmetricKeyHelper? symmetricHelper;
 

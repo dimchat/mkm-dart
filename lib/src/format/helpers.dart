@@ -55,7 +55,7 @@ abstract interface class PortableNetworkFileHelper {
   PortableNetworkFileFactory? getPortableNetworkFileFactory();
 
   PortableNetworkFile createPortableNetworkFile(TransportableData? data, String? filename,
-      Uri? url, DecryptKey? password);
+                                                Uri? url, DecryptKey? password);
 
   PortableNetworkFile? parsePortableNetworkFile(Object? pnf);
 
@@ -65,10 +65,10 @@ abstract interface class PortableNetworkFileHelper {
 /// Format FactoryManager
 /// ~~~~~~~~~~~~~~~~~~~~~
 // protected
-class FormatHolder {
-  factory FormatHolder() => _instance;
-  static final FormatHolder _instance = FormatHolder._internal();
-  FormatHolder._internal();
+class FormatExtensions {
+  factory FormatExtensions() => _instance;
+  static final FormatExtensions _instance = FormatExtensions._internal();
+  FormatExtensions._internal();
 
   TransportableDataHelper? tedHelper;
   PortableNetworkFileHelper? pnfHelper;

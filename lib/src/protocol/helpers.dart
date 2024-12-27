@@ -96,10 +96,10 @@ abstract interface class DocumentHelper {
 /// Account FactoryManager
 /// ~~~~~~~~~~~~~~~~~~~~~~
 // protected
-class AccountHolder {
-  factory AccountHolder() => _instance;
-  static final AccountHolder _instance = AccountHolder._internal();
-  AccountHolder._internal();
+class AccountExtensions {
+  factory AccountExtensions() => _instance;
+  static final AccountExtensions _instance = AccountExtensions._internal();
+  AccountExtensions._internal();
 
   AddressHelper? addressHelper;
   IdentifierHelper? idHelper;

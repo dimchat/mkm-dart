@@ -66,31 +66,31 @@ abstract interface class GeneralCryptoHelper /*
 
 /// CryptographyKey FactoryManager
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-class SharedCryptoHolder {
-  factory SharedCryptoHolder() => _instance;
-  static final SharedCryptoHolder _instance = SharedCryptoHolder._internal();
-  SharedCryptoHolder._internal();
+class SharedCryptoExtensions {
+  factory SharedCryptoExtensions() => _instance;
+  static final SharedCryptoExtensions _instance = SharedCryptoExtensions._internal();
+  SharedCryptoExtensions._internal();
 
   /// Symmetric Key
   SymmetricKeyHelper? get symmetricHelper =>
-      CryptoHolder().symmetricHelper;
+      CryptoExtensions().symmetricHelper;
 
   set symmetricHelper(SymmetricKeyHelper? helper) =>
-      CryptoHolder().symmetricHelper = helper;
+      CryptoExtensions().symmetricHelper = helper;
 
   /// Private Key
   PrivateKeyHelper? get privateHelper =>
-      CryptoHolder().privateHelper;
+      CryptoExtensions().privateHelper;
 
   set privateHelper(PrivateKeyHelper? helper) =>
-      CryptoHolder().privateHelper = helper;
+      CryptoExtensions().privateHelper = helper;
 
   /// Public Key
   PublicKeyHelper? get publicHelper =>
-      CryptoHolder().publicHelper;
+      CryptoExtensions().publicHelper;
 
   set publicHelper(PublicKeyHelper? helper) =>
-      CryptoHolder().publicHelper = helper;
+      CryptoExtensions().publicHelper = helper;
 
   /// General Helper
   GeneralCryptoHelper? helper;
