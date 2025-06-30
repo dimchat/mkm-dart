@@ -43,7 +43,7 @@ abstract interface class TransportableDataHelper {
   void setTransportableDataFactory(String algorithm, TransportableDataFactory factory);
   TransportableDataFactory? getTransportableDataFactory(String algorithm);
 
-  TransportableData createTransportableData(Uint8List data, String algorithm);
+  TransportableData createTransportableData(Uint8List data, String? algorithm);
 
   TransportableData? parseTransportableData(Object? ted);
 

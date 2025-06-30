@@ -1,3 +1,7 @@
+## 2.0.1
+
+- Default algorithm to encode data.
+
 ## 2.0.0
 
 - Data Converter.

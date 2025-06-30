@@ -83,8 +83,8 @@ abstract interface class TransportableData implements Mapper {
   //  Conveniences
   //
 
-  static Object encode(Uint8List data, {required String algorithm}) {
-    TransportableData ted = create(data, algorithm: algorithm);
+  static Object encode(Uint8List data) {
+    TransportableData ted = create(data);
     return ted.toObject();
   }
 
@@ -97,7 +97,7 @@ abstract interface class TransportableData implements Mapper {
   //  Factory methods
   //
 
-  static TransportableData create(Uint8List data, {required String algorithm}) {
+  static TransportableData create(Uint8List data, {String? algorithm}) {
     var ext = FormatExtensions();
     return ext.tedHelper!.createTransportableData(data, algorithm);
   }
