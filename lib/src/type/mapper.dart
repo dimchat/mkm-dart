@@ -44,20 +44,20 @@ abstract interface class Mapper implements Map<String, dynamic> {
   ///  Get inner map
   ///
   /// @return Map
-  Map toMap();
+  Map<String, dynamic> toMap();
 
   ///  Copy inner map
   ///
   /// @param deepCopy - deep copy
   /// @return Map
-  Map copyMap(bool deepCopy);
+  Map<String, dynamic> copyMap(bool deepCopy);
 }
 
 class Dictionary implements Mapper {
 
-  final Map _map;
+  final Map<String, dynamic> _map;
 
-  Dictionary(Map? dict)
+  Dictionary(Map<String, dynamic>? dict)
       : _map = dict == null ? {}
       : dict is Mapper ? dict.toMap()
       : dict;
@@ -110,10 +110,10 @@ class Dictionary implements Mapper {
   }
 
   @override
-  Map toMap() => _map;
+  Map<String, dynamic> toMap() => _map;
 
   @override
-  Map copyMap(bool deepCopy) {
+  Map<String, dynamic> copyMap(bool deepCopy) {
     if (deepCopy) {
       return Copier.deepCopyMap(_map);
     } else {

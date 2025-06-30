@@ -1,3 +1,7 @@
+## 2.0.0
+
+- Data Converter.
+
 ## 1.2.2
 
 - Meta Type.
