@@ -48,13 +48,12 @@ import 'helpers.dart';
 ///             ...
 ///        }
 abstract interface class TransportableData implements Mapper {
-  // ignore_for_file: constant_identifier_names
 
   /// encode algorithm
-  static const DEFAULT = 'base64';
-  static const BASE_64 = 'base64';
-  static const BASE_58 = 'base58';
-  static const HEX     = 'hex';
+  // static const DEFAULT = 'base64';
+  // static const BASE_64 = 'base64';
+  // static const BASE_58 = 'base58';
+  // static const HEX     = 'hex';
 
   ///  Get encode algorithm
   ///
@@ -84,8 +83,8 @@ abstract interface class TransportableData implements Mapper {
   //  Conveniences
   //
 
-  static Object encode(Uint8List data) {
-    TransportableData ted = create(data);
+  static Object encode(Uint8List data, {required String algorithm}) {
+    TransportableData ted = create(data, algorithm: algorithm);
     return ted.toObject();
   }
 
@@ -98,9 +97,9 @@ abstract interface class TransportableData implements Mapper {
   //  Factory methods
   //
 
-  static TransportableData create(Uint8List data, {String? algorithm}) {
+  static TransportableData create(Uint8List data, {required String algorithm}) {
     var ext = FormatExtensions();
-    return ext.tedHelper!.createTransportableData(algorithm ?? DEFAULT, data);
+    return ext.tedHelper!.createTransportableData(data, algorithm);
   }
 
   static TransportableData? parse(Object? ted) {

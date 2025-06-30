@@ -78,8 +78,8 @@ class EntityType {
   // static const int BOT_GROUP     = (0x05); // 0000 0101
 
   ///  Management: 6, 7, 8
-  static const int SUPERVISOR       = (0x06); // 0000 0110 (Company President)
-  static const int COMPANY          = (0x07); // 0000 0111 (Super Group for ISP/ICP)
+  // static const int SUPERVISOR    = (0x06); // 0000 0110 (Company CEO)
+  // static const int COMPANY       = (0x07); // 0000 0111 (Super Group for ISP/ICP)
   // static const int CA            = (0x08); // 0000 1000 (Certification Authority)
 
   // ///  Customized: 64, 65

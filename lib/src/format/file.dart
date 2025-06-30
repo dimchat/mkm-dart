@@ -99,9 +99,8 @@ abstract interface class PortableNetworkFile implements Mapper {
     return create(null, null, url, password);
   }
   /// Create from file data
-  static PortableNetworkFile createFromData(Uint8List data, String? filename) {
-    TransportableData ted = TransportableData.create(data);
-    return create(ted, filename, null, null);
+  static PortableNetworkFile createFromData(TransportableData data, String? filename) {
+    return create(data, filename, null, null);
   }
 
   static PortableNetworkFile create(TransportableData? data, String? filename,

@@ -88,25 +88,12 @@ abstract interface class TAI {
 ///  This class is used to generate entity profile
 ///
 ///      data format: {
-///          ID        : "EntityID",        // entity ID
+///          did       : "EntityID",        // entity ID
 ///          type      : "visa",            // "bulletin", ...
 ///          data      : "{JSON}",          // data = json_encode(info)
 ///          signature : "{BASE64_ENCODE}"  // signature = sign(data, SK);
 ///      }
 abstract interface class Document implements TAI, Mapper {
-
-  //
-  //  Document types
-  //
-  static const String VISA     = 'visa';      // for user info (communicate key)
-  static const String PROFILE  = 'profile';   // for user profile (reserved)
-  static const String BULLETIN = 'bulletin';  // for group info (owner, assistants)
-  // ignore_for_file: constant_identifier_names
-
-  ///  Get document type
-  ///
-  /// @return document type
-  String? get type;
 
   ///  Get entity ID
   ///
@@ -123,6 +110,31 @@ abstract interface class Document implements TAI, Mapper {
   /// @return name string
   String? get name;
   set name(String? value);
+
+  //
+  //  Conveniences
+  //
+
+  static List<Document> convert(Iterable array) {
+    List<Document> documents = [];
+    Document? doc;
+    for (var item in array) {
+      doc = parse(item);
+      if (doc == null) {
+        continue;
+      }
+      documents.add(doc);
+    }
+    return documents;
+  }
+
+  static List<Map> revert(Iterable<Document> documents) {
+    List<Map> array = [];
+    for (Document doc in documents) {
+      array.add(doc.toMap());
+    }
+    return array;
+  }
 
   //
   //  Factory methods

@@ -70,13 +70,24 @@ abstract interface class ID implements Stringer {
   //  Conveniences
   //
 
-  static List<ID> convert(Iterable members) {
-    var ext = AccountExtensions();
-    return ext.idHelper!.convertIdentifiers(members);
+  static List<ID> convert(Iterable array) {
+    List<ID> members = [];
+    ID? did;
+    for (var item in array) {
+      did = parse(item);
+      if (did == null) {
+        continue;
+      }
+      members.add(did);
+    }
+    return members;
   }
-  static List<String> revert(Iterable<ID> members) {
-    var ext = AccountExtensions();
-    return ext.idHelper!.revertIdentifiers(members);
+  static List<String> revert(Iterable<ID> identifiers) {
+    List<String> array = [];
+    for (ID did in identifiers) {
+      array.add(did.toString());
+    }
+    return array;
   }
 
   //

@@ -82,10 +82,9 @@ abstract interface class DecryptKey implements CryptographyKey {
 }
 
 abstract interface class AsymmetricKey implements CryptographyKey {
-  // ignore_for_file: constant_identifier_names
 
-  static const String RSA = 'RSA';  //-- "RSA/ECB/PKCS1Padding", "SHA256withRSA"
-  static const String ECC = 'ECC';
+  // static const String RSA = 'RSA';  //-- "RSA/ECB/PKCS1Padding", "SHA256withRSA"
+  // static const String ECC = 'ECC';
 
 }
 

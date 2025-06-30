@@ -61,9 +61,6 @@ abstract interface class IdentifierHelper {
 
   ID generateIdentifier(Meta meta, int? network, {String? terminal});
 
-  List<ID> convertIdentifiers(Iterable members);
-  List<String> revertIdentifiers(Iterable<ID> members);
-
 }
 
 abstract interface class MetaHelper {

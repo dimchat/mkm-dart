@@ -52,15 +52,6 @@ import 'helpers.dart';
 ///          fingerprint = sign(seed, SK);
 abstract interface class Meta implements Mapper {
 
-  ///  MetaType
-  ///  ~~~~~~~~
-  ///  Meta algorithm names
-  static const String MKM = 'MKM'; // '1';
-  static const String BTC = 'BTC'; // '2';
-  static const String ETH = 'ETH'; // '4';
-  // ...
-  // ignore_for_file: constant_identifier_names
-
   ///  Meta algorithm version
   ///
   ///      1 = MKM : username@address (default)

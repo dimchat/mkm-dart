@@ -26,7 +26,56 @@
 
 abstract interface class Converter {
 
-  static String? getString(Object? value, String? defaultValue) {
+  // ignore_for_file: non_constant_identifier_names
+  static final Map<String, bool> BOOLEAN_STATES = {
+    '1': true, 'yes': true, 'true': true, 'on': true,
+
+    '0': false, 'no': false, 'false': false, 'off': false,
+    //'+0': false, '-0': false, '0.0': false, '+0.0': false, '-0.0': false,
+    'null': false, 'none': false, 'undefined': false,
+  };
+  static/* final*/ int MAX_BOOLEAN_LEN = 'undefined'.length;
+
+  static String? getString(Object? value, String? defaultValue) =>
+      converter.getString(value, defaultValue);
+
+  /// assume value can be a config string:
+  ///     'true', 'false', 'yes', 'no', 'on', 'off', '1', '0', ...
+  static bool? getBool(Object? value, bool? defaultValue) =>
+      converter.getBool(value, defaultValue);
+
+  static int? getInt(Object? value, int? defaultValue) =>
+      converter.getInt(value, defaultValue);
+
+  static double? getDouble(Object? value, double? defaultValue) =>
+      converter.getDouble(value, defaultValue);
+
+  /// assume value can be a timestamp (seconds from 1970-01-01 00:00:00)
+  static DateTime? getDateTime(Object? value, DateTime? defaultValue) =>
+      converter.getDateTime(value, defaultValue);
+
+  static DataConverter converter = BaseConverter();
+
+}
+
+abstract interface class DataConverter {
+
+  String? getString(Object? value, String? defaultValue);
+
+  bool? getBool(Object? value, bool? defaultValue);
+
+  int? getInt(Object? value, int? defaultValue);
+
+  double? getDouble(Object? value, double? defaultValue);
+
+  DateTime? getDateTime(Object? value, DateTime? defaultValue);
+
+}
+
+class BaseConverter implements DataConverter {
+
+  @override
+  String? getString(Object? value, String? defaultValue) {
     if (value == null) {
       return defaultValue;
     } else if (value is String) {
@@ -38,9 +87,13 @@ abstract interface class Converter {
     }
   }
 
-  /// assume value can be a config string:
-  ///     'true', 'false', 'yes', 'no', 'on', 'off', '1', '0', ...
-  static bool? getBool(Object? value, bool? defaultValue) {
+  // private
+  String getStr(Object value) => value is String
+      ? value
+      : value.toString();
+
+  @override
+  bool? getBool(Object? value, bool? defaultValue) {
     if (value == null) {
       return defaultValue;
     } else if (value is bool) {
@@ -50,37 +103,25 @@ abstract interface class Converter {
       assert(value == 1 || value == 0, 'bool value error: $value');
       return value != 0;
     }
-    String text;
-    if (value is String) {
-      text = value;
-    } else {
-      text = value.toString();
-    }
+    String text = getStr(value);
     text = text.trim();
     int size = text.length;
     if (size == 0) {
       return false;
-    } else if (size > MAX_BOOLEAN_LEN) {
-      return true;
+    } else if (size > Converter.MAX_BOOLEAN_LEN) {
+      throw FormatException('bool value error: "$value"');
     } else {
       text = text.toLowerCase();
     }
-    bool? state = BOOLEAN_STATES[text];
-    // return state == null || state;
-    return state ?? true;
+    bool? state = Converter.BOOLEAN_STATES[text];
+    if (state == null) {
+      throw FormatException('bool value error: "$value"');
+    }
+    return state;
   }
 
-  // ignore_for_file: non_constant_identifier_names
-  static final Map<String, bool> BOOLEAN_STATES = {
-    '1': true, 'yes': true, 'true': true, 'on': true,
-
-    '0': false, 'no': false, 'false': false, 'off': false,
-    '+0': false, '-0': false, '+0.0': false, '-0.0': false,
-    'none': false, 'null': false, 'undefined': false,
-  };
-  static/* final*/ int MAX_BOOLEAN_LEN = 'undefined'.length;
-
-  static int? getInt(Object? value, int? defaultValue) {
+  @override
+  int? getInt(Object? value, int? defaultValue) {
     if (value == null) {
       return defaultValue;
     } else if (value is int) {
@@ -92,11 +133,12 @@ abstract interface class Converter {
     } else if (value is bool) {
       return value ? 1 : 0;
     }
-    String str = value is String? value : value.toString();
+    String str = getStr(value);
     return int.parse(str);
   }
 
-  static double? getDouble(Object? value, double? defaultValue) {
+  @override
+  double? getDouble(Object? value, double? defaultValue) {
     if (value == null) {
       return defaultValue;
     } else if (value is double) {
@@ -108,19 +150,22 @@ abstract interface class Converter {
     } else if (value is bool) {
       return value ? 1.0 : 0.0;
     }
-    String str = value is String? value : value.toString();
+    String str = getStr(value);
     return double.parse(str);
   }
 
-  /// assume value can be a timestamp (seconds from 1970-01-01 00:00:00)
-  static DateTime? getDateTime(Object? value, DateTime? defaultValue) {
+  @override
+  DateTime? getDateTime(Object? value, DateTime? defaultValue) {
     if (value == null) {
       return defaultValue;
     } else if (value is DateTime) {
       // exactly
       return value;
     }
-    double seconds = getDouble(value, 0)!;
+    double? seconds = getDouble(value, null);
+    if (seconds == null || seconds < 0) {
+      throw FormatException('Timestamp error: "$value"');
+    }
     double millis = seconds * 1000;
     return DateTime.fromMillisecondsSinceEpoch(millis.toInt());
   }
