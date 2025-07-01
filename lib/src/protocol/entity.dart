@@ -60,35 +60,35 @@
 ///      1000 0000 - broadcast flag
 ///
 ///      (All above are just some advices to help choosing numbers :P)
-class EntityType {
+abstract interface class EntityType {
   // ignore_for_file: constant_identifier_names
 
   ///  Main: 0, 1
-  static const int USER             = (0x00); // 0000 0000
-  static const int GROUP            = (0x01); // 0000 0001 (User Group)
+  static const USER             = (0x00); // 0000 0000
+  static const GROUP            = (0x01); // 0000 0001 (User Group)
 
   ///  Network: 2, 3
-  static const int STATION          = (0x02); // 0000 0010 (Server Node)
-  static const int ISP              = (0x03); // 0000 0011 (Service Provider)
-  // static const int STATION_GROUP = (0x03); // 0000 0011
+  static const STATION          = (0x02); // 0000 0010 (Server Node)
+  static const ISP              = (0x03); // 0000 0011 (Service Provider)
+  // static const STATION_GROUP = (0x03); // 0000 0011
 
   ///  Bot: 4, 5
-  static const int BOT              = (0x04); // 0000 0100 (Business Node)
-  static const int ICP              = (0x05); // 0000 0101 (Content Provider)
-  // static const int BOT_GROUP     = (0x05); // 0000 0101
+  static const BOT              = (0x04); // 0000 0100 (Business Node)
+  static const ICP              = (0x05); // 0000 0101 (Content Provider)
+  // static const BOT_GROUP     = (0x05); // 0000 0101
 
   ///  Management: 6, 7, 8
-  // static const int SUPERVISOR    = (0x06); // 0000 0110 (Company CEO)
-  // static const int COMPANY       = (0x07); // 0000 0111 (Super Group for ISP/ICP)
-  // static const int CA            = (0x08); // 0000 1000 (Certification Authority)
+  // static const SUPERVISOR    = (0x06); // 0000 0110 (Company CEO)
+  // static const COMPANY       = (0x07); // 0000 0111 (Super Group for ISP/ICP)
+  // static const CA            = (0x08); // 0000 1000 (Certification Authority)
 
   // ///  Customized: 64, 65
-  // static const int APP_USER      = (0x40); // 0100 0000 (Application Customized User)
-  // static const int APP_GROUP     = (0x41); // 0100 0001 (Application Customized Group)
+  // static const APP_USER      = (0x40); // 0100 0000 (Application Customized User)
+  // static const APP_GROUP     = (0x41); // 0100 0001 (Application Customized Group)
 
   ///  Broadcast: 128, 129
-  static const int ANY              = (0x80); // 1000 0000 (anyone@anywhere)
-  static const int EVERY            = (0x81); // 1000 0001 (everyone@everywhere)
+  static const ANY              = (0x80); // 1000 0000 (anyone@anywhere)
+  static const EVERY            = (0x81); // 1000 0001 (everyone@everywhere)
 
 
   static bool isUser(int network) {

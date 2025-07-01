@@ -67,7 +67,7 @@ abstract interface class TAI {
   ///  Get all properties
   ///
   /// @return properties, null on invalid
-  Map<String, dynamic>? get properties;
+  Map? get properties;
 
   ///  Get property data with key
   ///
@@ -128,8 +128,8 @@ abstract interface class Document implements TAI, Mapper {
     return documents;
   }
 
-  static List<Map<String, dynamic>> revert(Iterable<Document> documents) {
-    List<Map<String, dynamic>> array = [];
+  static List<Map> revert(Iterable<Document> documents) {
+    List<Map> array = [];
     for (Document doc in documents) {
       array.add(doc.toMap());
     }

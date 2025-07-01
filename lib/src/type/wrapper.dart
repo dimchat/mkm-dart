@@ -80,11 +80,11 @@ abstract interface class Wrapper {
   }
 
   /// Unwrap values for keys in map
-  static Map<String, dynamic> unwrapMap(Map dict) {
+  static Map unwrapMap(Map dict) {
     if (dict is Mapper) {
       dict = dict.toMap();
     }
-    Map<String, dynamic> result = {};
+    Map result = {};
     dict.forEach((key, value) {
       result[key] = unwrap(value);
     });

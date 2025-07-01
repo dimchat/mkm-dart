@@ -1,3 +1,7 @@
+## 2.0.2
+
+- Simplify Dictionary.
+
 ## 2.0.1
 
 - Default algorithm to encode data.

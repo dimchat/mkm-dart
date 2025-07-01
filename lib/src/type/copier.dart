@@ -55,16 +55,16 @@ abstract interface class Copier {
     }
   }
 
-  static Map<String, dynamic> copyMap(Map dict) {
-    Map<String, dynamic> clone = {};
+  static Map copyMap(Map dict) {
+    Map clone = {};
     dict.forEach((key, value) {
       clone[key] = value;
     });
     return clone;
   }
 
-  static Map<String, dynamic> deepCopyMap(Map dict) {
-    Map<String, dynamic> clone = {};
+  static Map deepCopyMap(Map dict) {
+    Map clone = {};
     dict.forEach((key, value) {
       clone[key] = deepCopy(value);
     });
