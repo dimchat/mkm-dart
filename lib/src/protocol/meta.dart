@@ -42,10 +42,10 @@ import 'helpers.dart';
 ///  This class is used to generate entity meta
 ///
 ///      data format: {
-///          type: 1,             // algorithm version
-///          key: "{public key}", // PK = secp256k1(SK);
-///          seed: "moKy",        // user/group name
-///          fingerprint: "..."   // CT = sign(seed, SK);
+///          type        : 1,              // algorithm version
+///          key         : "{public key}", // PK = secp256k1(SK);
+///          seed        : "moKy",         // user/group name
+///          fingerprint : "..."           // CT = sign(seed, SK);
 ///      }
 ///
 ///      algorithm:

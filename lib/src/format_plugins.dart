@@ -39,7 +39,7 @@ abstract interface class GeneralFormatHelper /*
   //  Algorithm
   //
 
-  String? getFormatAlgorithm(Map ted, String? defaultValue);
+  String? getFormatAlgorithm(Map ted, [String? defaultValue]);
 
 }
 

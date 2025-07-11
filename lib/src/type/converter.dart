@@ -24,9 +24,11 @@
  * =============================================================================
  */
 
-abstract interface class Converter {
-
+/// Data Convert Interface
+/// ~~~~~~~~~~~~~~~~~~~~~~
+abstract class Converter {
   // ignore_for_file: non_constant_identifier_names
+
   static final Map<String, bool> BOOLEAN_STATES = {
     '1': true, 'yes': true, 'true': true, 'on': true,
 
@@ -36,22 +38,22 @@ abstract interface class Converter {
   };
   static/* final*/ int MAX_BOOLEAN_LEN = 'undefined'.length;
 
-  static String? getString(Object? value, String? defaultValue) =>
+  static String? getString(Object? value, [String? defaultValue]) =>
       converter.getString(value, defaultValue);
 
   /// assume value can be a config string:
   ///     'true', 'false', 'yes', 'no', 'on', 'off', '1', '0', ...
-  static bool? getBool(Object? value, bool? defaultValue) =>
+  static bool? getBool(Object? value, [bool? defaultValue]) =>
       converter.getBool(value, defaultValue);
 
-  static int? getInt(Object? value, int? defaultValue) =>
+  static int? getInt(Object? value, [int? defaultValue]) =>
       converter.getInt(value, defaultValue);
 
-  static double? getDouble(Object? value, double? defaultValue) =>
+  static double? getDouble(Object? value, [double? defaultValue]) =>
       converter.getDouble(value, defaultValue);
 
   /// assume value can be a timestamp (seconds from 1970-01-01 00:00:00)
-  static DateTime? getDateTime(Object? value, DateTime? defaultValue) =>
+  static DateTime? getDateTime(Object? value, [DateTime? defaultValue]) =>
       converter.getDateTime(value, defaultValue);
 
   static DataConverter converter = BaseConverter();
@@ -60,13 +62,13 @@ abstract interface class Converter {
 
 abstract interface class DataConverter {
 
-  String? getString(Object? value, String? defaultValue);
+  String?     getString(Object? value, String?   defaultValue);
 
-  bool? getBool(Object? value, bool? defaultValue);
+  bool?         getBool(Object? value, bool?     defaultValue);
 
-  int? getInt(Object? value, int? defaultValue);
+  int?           getInt(Object? value, int?      defaultValue);
 
-  double? getDouble(Object? value, double? defaultValue);
+  double?     getDouble(Object? value, double?   defaultValue);
 
   DateTime? getDateTime(Object? value, DateTime? defaultValue);
 
@@ -99,7 +101,11 @@ class BaseConverter implements DataConverter {
     } else if (value is bool) {
       // exactly
       return value;
-    } else if (value is num) {
+    } else if (value is num) {  // int, double
+      if (value is double) {
+        assert(value == 1.0 || value == 0.0, 'bool value error: $value');
+        return value != 0.0;
+      }
       assert(value == 1 || value == 0, 'bool value error: $value');
       return value != 0;
     }

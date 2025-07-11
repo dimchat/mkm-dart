@@ -39,9 +39,9 @@ abstract interface class GeneralAccountHelper /*
   //  Algorithm Version
   //
 
-  String? getMetaType(Map meta, String? defaultValue);
+  String? getMetaType(Map meta, [String? defaultValue]);
 
-  String? getDocumentType(Map doc, String? defaultValue);
+  String? getDocumentType(Map doc, [String? defaultValue]);
 
 }
 

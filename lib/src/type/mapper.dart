@@ -30,12 +30,12 @@ import 'stringer.dart';
 
 abstract interface class Mapper implements Map<String, dynamic> {
 
-  String? getString(String key, String? defaultValue);
-  bool?     getBool(String key, bool?   defaultValue);
-  int?       getInt(String key, int?    defaultValue);
-  double? getDouble(String key, double? defaultValue);
+  String? getString(String key, [String? defaultValue]);
+  bool?     getBool(String key, [bool?   defaultValue]);
+  int?       getInt(String key, [int?    defaultValue]);
+  double? getDouble(String key, [double? defaultValue]);
 
-  DateTime? getDateTime(String key, DateTime? defaultValue);
+  DateTime? getDateTime(String key, [DateTime? defaultValue]);
   void setDateTime(String key, DateTime? time);
 
   void setString(String key, Stringer? stringer);
@@ -63,23 +63,23 @@ class Dictionary implements Mapper {
       : dict;
 
   @override
-  String? getString(String key, String? defaultValue) =>
+  String? getString(String key, [String? defaultValue]) =>
       Converter.getString(_map[key], defaultValue);
 
   @override
-  bool? getBool(String key, bool? defaultValue) =>
+  bool? getBool(String key, [bool? defaultValue]) =>
       Converter.getBool(_map[key], defaultValue);
 
   @override
-  int? getInt(String key, int? defaultValue) =>
+  int? getInt(String key, [int? defaultValue]) =>
       Converter.getInt(_map[key], defaultValue);
 
   @override
-  double? getDouble(String key, double? defaultValue) =>
+  double? getDouble(String key, [double? defaultValue]) =>
       Converter.getDouble(_map[key], defaultValue);
 
   @override
-  DateTime? getDateTime(String key, DateTime? defaultValue) =>
+  DateTime? getDateTime(String key, [DateTime? defaultValue]) =>
       Converter.getDateTime(_map[key], defaultValue);
 
   @override

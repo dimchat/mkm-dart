@@ -88,7 +88,7 @@ abstract interface class TAI {
 ///  This class is used to generate entity profile
 ///
 ///      data format: {
-///          did       : "EntityID",        // entity ID
+///          did       : "{EntityID}",      // entity ID
 ///          type      : "visa",            // "bulletin", ...
 ///          data      : "{JSON}",          // data = json_encode(info)
 ///          signature : "{BASE64_ENCODE}"  // signature = sign(data, SK);

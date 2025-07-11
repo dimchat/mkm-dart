@@ -60,7 +60,7 @@ abstract interface class GeneralCryptoHelper /*
   //  Algorithm
   //
 
-  String? getKeyAlgorithm(Map key, String? defaultValue);
+  String? getKeyAlgorithm(Map key, [String? defaultValue]);
 
 }
 
