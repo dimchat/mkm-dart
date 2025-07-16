@@ -59,7 +59,7 @@ abstract interface class EncryptKey implements CryptographyKey {
   /// @param plaintext - plain data
   /// @param extra     - store extra variables ('IV' for 'AES')
   /// @return ciphertext
-  Uint8List encrypt(Uint8List plaintext, Map? extra);
+  Uint8List encrypt(Uint8List plaintext, [Map? extra]);
 }
 
 abstract interface class DecryptKey implements CryptographyKey {
@@ -72,7 +72,7 @@ abstract interface class DecryptKey implements CryptographyKey {
   /// @param ciphertext - encrypted data
   /// @param params     - extra params ('IV' for 'AES')
   /// @return plaintext
-  Uint8List? decrypt(Uint8List ciphertext, Map? params);
+  Uint8List? decrypt(Uint8List ciphertext, [Map? params]);
 
   ///  OK = decrypt(encrypt(data, PK), SK) == data
   ///

@@ -58,7 +58,7 @@ abstract interface class Address implements Stringer {
     return ext.addressHelper!.parseAddress(address);
   }
 
-  static Address generate(Meta meta, int? network) {
+  static Address generate(Meta meta, [int? network]) {
     var ext = AccountExtensions();
     return ext.addressHelper!.generateAddress(meta, network);
   }

@@ -50,14 +50,14 @@ abstract interface class Mapper implements Map<String, dynamic> {
   ///
   /// @param deepCopy - deep copy
   /// @return Map
-  Map copyMap(bool deepCopy);
+  Map copyMap([bool deepCopy = false]);
 }
 
 class Dictionary implements Mapper {
 
   final Map _map;
 
-  Dictionary(Map? dict)
+  Dictionary([Map? dict])
       : _map = dict == null ? {}
       : dict is Mapper ? dict.toMap()
       : dict;
@@ -113,7 +113,7 @@ class Dictionary implements Mapper {
   Map toMap() => _map;
 
   @override
-  Map copyMap(bool deepCopy) {
+  Map copyMap([bool deepCopy = false]) {
     if (deepCopy) {
       return Copier.deepCopyMap(_map);
     } else {
