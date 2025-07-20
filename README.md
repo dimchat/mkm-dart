@@ -28,8 +28,7 @@ It consists of 4 fields:
 | seed        | Entity Name (Optional)                   |
 | fingerprint | Signature to generate address (Optional) |
 
-1. if ```seed``` exists, ```fingerprint = privateKey.sign(seed)```;
-2. if ```seed``` not exists, ```fingerprint = publicKey.data```.
+If ```seed``` exists, ```fingerprint = privateKey.sign(seed)```
 
 ### Meta Type
 
@@ -94,6 +93,7 @@ It's equivalent to ```meta.seed```
 
 The **Address** field was created with the Meta and a **Network ID**:
 
+#### BTC Address
 ```dart
 import 'dart:typed_data';
 
@@ -128,7 +128,7 @@ class BTCAddress extends ConstantString implements Address {
   ///  Generate BTC address with fingerprint and network ID
   ///
   /// @param fingerprint - meta.fingerprint or key.data
-  /// @param network - address type
+  /// @param network     - address type
   /// @return Address object
   static BTCAddress generate(Uint8List fingerprint, int network) {
     // 1. digest = ripemd160(sha256(fingerprint))
@@ -174,6 +174,132 @@ class BTCAddress extends ConstantString implements Address {
 
 Uint8List _checkCode(Uint8List data) {
   return SHA256.digest(SHA256.digest(data)).sublist(0, 4);
+}
+```
+
+#### ETH Address
+```dart
+import 'dart:typed_data';
+
+import 'package:mkm/type.dart';
+import 'package:mkm/digest.dart';
+import 'package:mkm/format.dart';
+import 'package:mkm/mkm.dart';
+
+///  Address like Ethereum
+///  ~~~~~~~~~~~~~~~~~~~~~
+///
+///      data format: "0x{address}"
+///
+///      algorithm:
+///          fingerprint = PK.data;
+///          digest      = keccak256(fingerprint);
+///          address     = hex_encode(digest.suffix(20));
+///
+class ETHAddress extends ConstantString implements Address {
+  ETHAddress(super.string);
+
+  @override
+  int get network => EntityType.USER;
+
+  static String? getValidateAddress(String address) {
+    if (!_ETH.isETH(address)) {
+      // not an ETH address
+      return null;
+    }
+    String lower = address.substring(2).toLowerCase();
+    String eip55 = _ETH.eip55(lower);
+    return '0x$eip55';
+  }
+
+  static bool isValidate(String address) {
+    String? validate = getValidateAddress(address);
+    return validate != null && validate == address;
+  }
+
+  ///  Generate ETH address with key.data
+  ///
+  /// @param fingerprint = key.data
+  /// @return Address object
+  static ETHAddress generate(Uint8List fingerprint) {
+    if (fingerprint.length == 65) {
+      // skip first char
+      fingerprint = fingerprint.sublist(1);
+    }
+    assert(fingerprint.length == 64, 'key data error: ${fingerprint.length}');
+    // 1. digest = keccak256(fingerprint);
+    Uint8List digest = Keccak256.digest(fingerprint);
+    // 2. address = hex_encode(digest.suffix(20));
+    Uint8List tail = digest.sublist(digest.length - 20);
+    String address = _ETH.eip55(Hex.encode(tail));
+    return ETHAddress('0x$address');
+  }
+
+  ///  Parse a string for ETH address
+  ///
+  /// @param address - address string
+  /// @return null on error
+  static ETHAddress? parse(String address) {
+    if (!_ETH.isETH(address)) {
+      // not an ETH address
+      return null;
+    }
+    return ETHAddress(address);
+  }
+}
+
+class _ETH {
+
+  // https://eips.ethereum.org/EIPS/eip-55
+  static String eip55(String hex) {
+    StringBuffer sb = StringBuffer();
+    Uint8List hash = Keccak256.digest(UTF8.encode(hex));
+    int ch;
+    for (int i = 0; i < 40; ++i) {
+      ch = hex.codeUnitAt(i);
+      if (ch > _c9) {
+        // check for each 4 bits in the hash table
+        // if the first bit is '1',
+        //     change the character to uppercase
+        ch -= (hash[i >> 1] << (i << 2 & 4) & 0x80) >> 2;
+      }
+      sb.writeCharCode(ch);
+    }
+    return sb.toString();
+  }
+
+  static bool isETH(String address) {
+    if (address.length != 42) {
+      return false;
+    }
+    if (address.codeUnitAt(0) != _c0 || address.codeUnitAt(1) != _cx) {
+      return false;
+    }
+    int ch;
+    for (int i = 2; i < 42; ++i) {
+      ch = address.codeUnitAt(i);
+      if (ch >= _c0 && ch <= _c9) {
+        continue;
+      }
+      if (ch >= _cA && ch <= _cZ) {
+        continue;
+      }
+      if (ch >= _ca && ch <= _cz) {
+        continue;
+      }
+      // unexpected character
+      return false;
+    }
+    return true;
+  }
+
+  static final int _c0 = '0'.codeUnitAt(0);
+  static final int _c9 = '9'.codeUnitAt(0);
+  static final int _cA = 'A'.codeUnitAt(0);
+  static final int _cZ = 'Z'.codeUnitAt(0);
+  static final int _ca = 'a'.codeUnitAt(0);
+  static final int _cx = 'x'.codeUnitAt(0);
+  static final int _cz = 'z'.codeUnitAt(0);
 }
 ```
 
