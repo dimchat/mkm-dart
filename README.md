@@ -43,7 +43,7 @@ If ```seed``` exists, ```fingerprint = privateKey.sign(seed)```
 ```javascript
 /* Meta(JsON) for hulk@4YeVEN3aUnvC1DNUufCq1bs9zoBSJTzVEj */
 {
-    "type"        : 0x01,
+    "type"        : '1',
     "key"         : {
         "algorithm" : "RSA",
         "data"      : "-----BEGIN PUBLIC KEY-----\nMIGJAoGBALB+vbUK48UU9rjlgnohQowME+3JtTb2hLPqtatVOW364/EKFq0/PSdnZVE9V2Zq+pbX7dj3nCS4pWnYf40ELH8wuDm0Tc4jQ70v4LgAcdy3JGTnWUGiCsY+0Z8kNzRkm3FJid592FL7ryzfvIzB9bjg8U2JqlyCVAyUYEnKv4lDAgMBAAE=\n-----END PUBLIC KEY-----",
@@ -100,7 +100,7 @@ import 'dart:typed_data';
 import 'package:mkm/type.dart';
 import 'package:mkm/digest.dart';
 import 'package:mkm/format.dart';
-import 'package:mkm/mkm.dart';
+import 'package:mkm/protocol.dart';
 
 ///  Address like BitCoin
 ///  ~~~~~~~~~~~~~~~~~~~~
@@ -184,7 +184,7 @@ import 'dart:typed_data';
 import 'package:mkm/type.dart';
 import 'package:mkm/digest.dart';
 import 'package:mkm/format.dart';
-import 'package:mkm/mkm.dart';
+import 'package:mkm/protocol.dart';
 
 ///  Address like Ethereum
 ///  ~~~~~~~~~~~~~~~~~~~~~

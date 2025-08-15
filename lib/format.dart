@@ -7,8 +7,6 @@ library mkm;
 export 'src/format/string.dart';
 export 'src/format/object.dart';
 export 'src/format/data.dart';
-
-export 'src/format/encode.dart';
-export 'src/format/file.dart';
-
-// export 'src/format/helpers.dart';  // -> 'plugins.dart'
+export 'src/format/encode.dart';      // -> 'protocol.dart'
+export 'src/format/file.dart';        // -> 'protocol.dart'
+// export 'src/format/helpers.dart';  // -> 'ext.dart'
