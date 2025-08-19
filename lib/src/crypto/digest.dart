@@ -25,30 +25,12 @@
  */
 import 'dart:typed_data';
 
-///  Data Digest
-///  ~~~~~~~~~~~
+///  Message Digest
+///  ~~~~~~~~~~~~~~
 ///  MD5, SHA1, SHA256, Keccak256, RipeMD160, ...
-abstract interface class DataDigester {
+abstract interface class MessageDigester {
 
   Uint8List digest(Uint8List data);
-}
-
-class MD5 {
-
-  static Uint8List digest(Uint8List data) {
-    return digester!.digest(data);
-  }
-
-  static DataDigester? digester;
-}
-
-class SHA1 {
-
-  static Uint8List digest(Uint8List data) {
-    return digester!.digest(data);
-  }
-
-  static DataDigester? digester;
 }
 
 class SHA256 {
@@ -57,16 +39,16 @@ class SHA256 {
     return digester!.digest(data);
   }
 
-  static DataDigester? digester;
+  static MessageDigester? digester;
 }
 
-class Keccak256 {
+class KECCAK256 {
 
   static Uint8List digest(Uint8List data) {
     return digester!.digest(data);
   }
 
-  static DataDigester? digester;
+  static MessageDigester? digester;
 }
 
 class RIPEMD160 {
@@ -75,5 +57,5 @@ class RIPEMD160 {
     return digester!.digest(data);
   }
 
-  static DataDigester? digester;
+  static MessageDigester? digester;
 }

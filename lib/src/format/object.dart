@@ -72,20 +72,6 @@ class MapCoder implements ObjectCoder<Map> {
   }
 }
 
-/// coder for json <=> list
-class ListCoder implements ObjectCoder<List> {
-
-  @override
-  String encode(List object) {
-    return JSON.encode(object);
-  }
-
-  @override
-  List? decode(String string) {
-    return JSON.decode(string);
-  }
-}
-
 class JSONMap {
 
   static String encode(Map container) {
@@ -97,17 +83,4 @@ class JSONMap {
   }
 
   static ObjectCoder<Map> coder = MapCoder();
-}
-
-class JSONList {
-
-  static String encode(List container) {
-    return coder.encode(container);
-  }
-
-  static List? decode(String json) {
-    return coder.decode(json);
-  }
-
-  static ObjectCoder<List> coder = ListCoder();
 }
