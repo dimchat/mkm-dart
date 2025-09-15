@@ -199,7 +199,7 @@ class Dictionary implements Mapper {
 
   @override
   void forEach(void Function(String key, dynamic value) action) =>
-      _map.forEach((key, value) => action);
+      _map.forEach((key, value) => action(key, value));
 
   @override
   Iterable<String> get keys => _map.keys.cast();
