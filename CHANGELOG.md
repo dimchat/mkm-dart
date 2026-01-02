@@ -1,3 +1,7 @@
+## 2.2.2
+
+- Remove document ID & name.
+
 ## 2.2.1
 
 - Mapper forEach.
