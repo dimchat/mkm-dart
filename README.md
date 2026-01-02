@@ -27,6 +27,7 @@ This [document](https://github.com/moky/DIMP/blob/master/MingKeMing-Identity.md)
     - [Name](#id-name)
     - [Address](#id-address)
     - [Terminal](#terminal)
+- [Samples](#samples)
 
 ## Meta
 
@@ -54,7 +55,7 @@ If ```seed``` exists, ```fingerprint = privateKey.sign(seed)```
 
 ### Public Key
 
-A **public key** (PK) was binded to an ID by the **Meta Algorithm**.
+A **public key** (PK) was bound to an ID by the **Meta Algorithm**.
 
 ### Seed
 
@@ -69,24 +70,8 @@ data = UTF8.encode(seed);
 fingerprint = privateKey.sign(data);
 ````
 
-### Meta Example
-```javascript
-/* Meta(JsON) for hulk@4YeVEN3aUnvC1DNUufCq1bs9zoBSJTzVEj */
-{
-    "type"        : '1',
-    "key"         : {
-        "algorithm" : "RSA",
-        "data"      : "-----BEGIN PUBLIC KEY-----\nMIGJAoGBALB+vbUK48UU9rjlgnohQowME+3JtTb2hLPqtatVOW364/EKFq0/PSdnZVE9V2Zq+pbX7dj3nCS4pWnYf40ELH8wuDm0Tc4jQ70v4LgAcdy3JGTnWUGiCsY+0Z8kNzRkm3FJid592FL7ryzfvIzB9bjg8U2JqlyCVAyUYEnKv4lDAgMBAAE=\n-----END PUBLIC KEY-----",
-        "mode"      : "ECB",
-        "padding"   : "PKCS1",
-        "digest"    : "SHA256"
-    },
-    "seed"        : "hulk",
-    "fingerprint" : "jIPGWpWSbR/DQH6ol3t9DSFkYroVHQDvtbJErmFztMUP2DgRrRSNWuoKY5Y26qL38wfXJQXjYiWqNWKQmQe/gK8M8NkU7lRwm+2nh9wSBYV6Q4WXsCboKbnM0+HVn9Vdfp21hMMGrxTX1pBPRbi0567ZjNQC8ffdW2WvQSoec2I="
-}
-```
-
 ## ID
+
 The **ID** is used to identify an **entity**(user/group). It consists of 3 fields:
 
 | Field       | Description                    |
@@ -97,12 +82,6 @@ The **ID** is used to identify an **entity**(user/group). It consists of 3 field
 | terminal    | Login point (Optional)         |
 
 The ID format is ```name@address[/terminal]```.
-
-```
-# ID examples
-ID1 = "hulk@4YeVEN3aUnvC1DNUufCq1bs9zoBSJTzVEj";  // Immortal Hulk
-ID2 = "moki@4WDfe3zZ4T7opFSi3iDAKiuTnUHjxmXekk";  // Monkey King
-```
 
 ### ID Type
 
@@ -152,14 +131,16 @@ class EntityType {
 ```
 
 ### ID Name
+
 The **Name** field is a username, or just a random string for group:
 
 1. The length of name must more than 1 byte, less than 32 bytes;
 2. It should be composed by a-z, A-Z, 0-9, or charactors '_', '-', '.';
 3. It cannot contain key charactors('@', '/').
 
-```
-# Name examples
+Name examples:
+
+```dart
 user_name  = "Albert.Moky";
 group_name = "Group-9527";
 ```
@@ -171,6 +152,7 @@ It's equivalent to ```meta.seed```
 The **Address** field was created with the Meta and a **Network ID**:
 
 #### BTC Address
+
 ```dart
 import 'dart:typed_data';
 
@@ -255,6 +237,7 @@ Uint8List _checkCode(Uint8List data) {
 ```
 
 #### ETH Address
+
 ```dart
 import 'dart:typed_data';
 
@@ -387,9 +370,35 @@ you must verify it with the consensus algorithm before accepting its **public ke
 
 A resource identifier as **Login Point**.
 
-(All data encode with **BASE64** algorithm as default, excepts the **address**)
+## Samples
+
+ID examples
+
+```dart
+ID1 = "hulk@4YeVEN3aUnvC1DNUufCq1bs9zoBSJTzVEj";  // Immortal Hulk
+ID2 = "moki@4WDfe3zZ4T7opFSi3iDAKiuTnUHjxmXekk";  // Monkey King
+```
+
+Meta Example (JsON) for ```hulk@4YeVEN3aUnvC1DNUufCq1bs9zoBSJTzVEj```
+
+```javascript
+{
+    "type"        : "1",
+    "key"         : {
+        "algorithm" : "RSA",
+        "data"      : "-----BEGIN PUBLIC KEY-----\nMIGJAoGBALB+vbUK48UU9rjlgnohQowME+3JtTb2hLPqtatVOW364/EKFq0/PSdnZVE9V2Zq+pbX7dj3nCS4pWnYf40ELH8wuDm0Tc4jQ70v4LgAcdy3JGTnWUGiCsY+0Z8kNzRkm3FJid592FL7ryzfvIzB9bjg8U2JqlyCVAyUYEnKv4lDAgMBAAE=\n-----END PUBLIC KEY-----",
+        "mode"      : "ECB",
+        "padding"   : "PKCS1",
+        "digest"    : "SHA256"
+    },
+    "seed"        : "hulk",
+    "fingerprint" : "jIPGWpWSbR/DQH6ol3t9DSFkYroVHQDvtbJErmFztMUP2DgRrRSNWuoKY5Y26qL38wfXJQXjYiWqNWKQmQe/gK8M8NkU7lRwm+2nh9wSBYV6Q4WXsCboKbnM0+HVn9Vdfp21hMMGrxTX1pBPRbi0567ZjNQC8ffdW2WvQSoec2I="
+}
+```
+
+(All data encoded with **BASE64** algorithm as default, excepts the **address**)
 
 ----
 
-Copyright &copy; 2023-2025 Albert Moky
+Copyright &copy; 2023-2026 Albert Moky
 [![Followers](https://img.shields.io/github/followers/moky)](https://github.com/moky?tab=followers)

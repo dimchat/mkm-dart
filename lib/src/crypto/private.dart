@@ -32,8 +32,8 @@ import 'public.dart';
 ///  This class is used to decrypt symmetric key or sign message data
 ///
 ///  key data format: {
-///      algorithm : "RSA", // "ECC", ...
-///      data      : "{BASE64_ENCODE}",
+///      "algorithm" : "RSA", // "ECC", ...
+///      "data"      : "{BASE64_ENCODE}",
 ///      ...
 ///  }
 abstract interface class PrivateKey implements SignKey {

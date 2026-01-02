@@ -31,8 +31,8 @@ import 'keys.dart';
 ///  This class is used to encrypt or decrypt message data
 ///
 ///  key data format: {
-///      algorithm : "AES", // "DES", ...
-///      data      : "{BASE64_ENCODE}",
+///      "algorithm" : "AES", // "DES", ...
+///      "data"      : "{BASE64_ENCODE}",
 ///      ...
 ///  }
 abstract interface class SymmetricKey implements EncryptKey, DecryptKey {

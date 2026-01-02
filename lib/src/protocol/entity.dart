@@ -77,7 +77,7 @@ abstract interface class EntityType {
   static const ICP              = (0x05); // 0000 0101 (Content Provider)
   // static const BOT_GROUP     = (0x05); // 0000 0101
 
-  ///  Management: 6, 7, 8
+  // ///  Management: 6, 7, 8
   // static const SUPERVISOR    = (0x06); // 0000 0110 (Company CEO)
   // static const COMPANY       = (0x07); // 0000 0111 (Super Group for ISP/ICP)
   // static const CA            = (0x08); // 0000 1000 (Certification Authority)

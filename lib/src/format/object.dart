@@ -63,12 +63,12 @@ class MapCoder implements ObjectCoder<Map> {
 
   @override
   String encode(Map object) {
-    return JSON.encode(object);
+    return JSON.coder!.encode(object);
   }
 
   @override
   Map? decode(String string) {
-    return JSON.decode(string);
+    return JSON.coder!.decode(string);
   }
 }
 

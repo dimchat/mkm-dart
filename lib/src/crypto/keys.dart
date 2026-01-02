@@ -32,8 +32,8 @@ import '../type/mapper.dart';
 ///  Cryptography key with designated algorithm
 ///
 ///  key data format: {
-///      algorithm : "RSA", // ECC, AES, ...
-///      data      : "{BASE64_ENCODE}",
+///      "algorithm" : "RSA", // ECC, AES, ...
+///      "data"      : "{BASE64_ENCODE}",
 ///      ...
 ///  }
 abstract interface class CryptographyKey implements Mapper {
