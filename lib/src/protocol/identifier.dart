@@ -96,26 +96,26 @@ abstract interface class ID implements Stringer {
 
   static ID? parse(Object? identifier) {
     var ext = AccountExtensions();
-    return ext.idHelper!.parseIdentifier(identifier);
+    return ext.idHelper!.parseID(identifier);
   }
 
   static ID create({String? name, required Address address, String? terminal}) {
     var ext = AccountExtensions();
-    return ext.idHelper!.createIdentifier(name: name, address: address, terminal: terminal);
+    return ext.idHelper!.createID(name: name, address: address, terminal: terminal);
   }
 
   static ID generate(Meta meta, int? network, {String? terminal}) {
     var ext = AccountExtensions();
-    return ext.idHelper!.generateIdentifier(meta, network, terminal: terminal);
+    return ext.idHelper!.generateID(meta, network, terminal: terminal);
   }
 
   static IDFactory? getFactory() {
     var ext = AccountExtensions();
-    return ext.idHelper!.getIdentifierFactory();
+    return ext.idHelper!.getIDFactory();
   }
   static void setFactory(IDFactory factory) {
     var ext = AccountExtensions();
-    ext.idHelper!.setIdentifierFactory(factory);
+    ext.idHelper!.setIDFactory(factory);
   }
 }
 
@@ -129,7 +129,7 @@ abstract interface class IDFactory {
   /// @param network  - ID.type
   /// @param terminal - ID.terminal
   /// @return ID
-  ID generateIdentifier(Meta meta, int? network, {String? terminal});
+  ID generateID(Meta meta, int? network, {String? terminal});
 
   ///  Create ID
   ///
@@ -137,13 +137,13 @@ abstract interface class IDFactory {
   /// @param address  - ID.address
   /// @param terminal - ID.terminal
   /// @return ID
-  ID createIdentifier({String? name, required Address address, String? terminal});
+  ID createID({String? name, required Address address, String? terminal});
 
   ///  Parse string object to ID
   ///
   /// @param identifier - ID string
   /// @return ID
-  ID? parseIdentifier(String identifier);
+  ID? parseID(String identifier);
 }
 
 

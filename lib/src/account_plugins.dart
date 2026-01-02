@@ -33,7 +33,7 @@ import 'protocol/helpers.dart';
 ///  Account GeneralFactory
 ///  ~~~~~~~~~~~~~~~~~~~~~~
 abstract interface class GeneralAccountHelper /*
-    implements AddressHelper, IdentifierHelper, MetaHelper, DocumentHelper */{
+    implements AddressHelper, IDHelper, MetaHelper, DocumentHelper */{
 
   //
   //  Algorithm Version
@@ -61,10 +61,10 @@ class SharedAccountExtensions {
       AccountExtensions().addressHelper = helper;
 
   /// ID
-  IdentifierHelper? get idHelper =>
+  IDHelper? get idHelper =>
       AccountExtensions().idHelper;
 
-  set idHelper(IdentifierHelper? helper) =>
+  set idHelper(IDHelper? helper) =>
       AccountExtensions().idHelper = helper;
 
   /// Meta

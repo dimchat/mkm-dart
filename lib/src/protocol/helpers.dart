@@ -50,16 +50,19 @@ abstract interface class AddressHelper {
 
 }
 
-abstract interface class IdentifierHelper {
+abstract interface class IDHelper {
 
-  void setIdentifierFactory(IDFactory factory);
-  IDFactory? getIdentifierFactory();
+  void setIDFactory(IDFactory factory);
+  IDFactory? getIDFactory();
 
-  ID? parseIdentifier(Object? identifier);
+  ID? parseID(Object? identifier);
 
-  ID createIdentifier({String? name, required Address address, String? terminal});
+  ID createID({
+    String? name,
+    required Address address, String? terminal
+  });
 
-  ID generateIdentifier(Meta meta, int? network, {String? terminal});
+  ID generateID(Meta meta, int? network, {String? terminal});
 
 }
 
@@ -68,8 +71,10 @@ abstract interface class MetaHelper {
   void setMetaFactory(String type, MetaFactory factory);
   MetaFactory? getMetaFactory(String type);
 
-  Meta createMeta(String type, VerifyKey pKey,
-      {String? seed, TransportableData? fingerprint});
+  Meta createMeta(String type, VerifyKey pKey, {
+    String? seed,
+    TransportableData? fingerprint
+  });
 
   Meta generateMeta(String type, SignKey sKey, {String? seed});
 
@@ -82,8 +87,10 @@ abstract interface class DocumentHelper {
   void setDocumentFactory(String docType, DocumentFactory factory);
   DocumentFactory? getDocumentFactory(String docType);
 
-  Document createDocument(String docType, ID identifier,
-      {String? data, TransportableData? signature});
+  Document createDocument(String docType, {
+    String? data,
+    TransportableData? signature
+  });
 
   Document? parseDocument(Object? doc);
 
@@ -99,7 +106,7 @@ class AccountExtensions {
   AccountExtensions._internal();
 
   AddressHelper? addressHelper;
-  IdentifierHelper? idHelper;
+  IDHelper? idHelper;
 
   MetaHelper? metaHelper;
   DocumentHelper? docHelper;

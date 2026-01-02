@@ -35,7 +35,6 @@ import '../format/encode.dart';
 import '../type/mapper.dart';
 
 import 'helpers.dart';
-import 'identifier.dart';
 
 ///  The Additional Information
 ///
@@ -49,6 +48,8 @@ abstract interface class TAI {
   ///
   /// @return false on signature not matched
   bool get isValid;
+
+  //-------- signature
 
   ///  Verify 'data' and 'signature' with public key
   ///
@@ -81,6 +82,7 @@ abstract interface class TAI {
   /// @param name - property name
   /// @param value - property data
   void setProperty(String name, Object? value);
+
 }
 
 ///  User/Group Profile
@@ -88,28 +90,30 @@ abstract interface class TAI {
 ///  This class is used to generate entity profile
 ///
 ///      data format: {
-///          did       : "{EntityID}",      // entity ID
-///          type      : "visa",            // "bulletin", ...
-///          data      : "{JSON}",          // data = json_encode(info)
-///          signature : "{BASE64_ENCODE}"  // signature = sign(data, SK);
+///          "did"       : "{EntityID}",      // entity ID
+///          "type"      : "visa",            // "bulletin", ...
+///          "data"      : "{JSON}",          // data = json_encode(info)
+///          "signature" : "{BASE64_ENCODE}"  // signature = sign(data, SK);
 ///      }
 abstract interface class Document implements TAI, Mapper {
 
-  ///  Get entity ID
-  ///
-  /// @return entity ID
-  ID get identifier;
+  // ///  Get entity ID
+  // ///
+  // /// @return entity ID
+  // ID get identifier;
+
+  //---- properties getter/setter
 
   ///  Get sign time
   ///
   /// @return date object or null
   DateTime? get time;
 
-  ///  Get entity name
-  ///
-  /// @return name string
-  String? get name;
-  set name(String? value);
+  // ///  Get entity name
+  // ///
+  // /// @return name string
+  // String? get name;
+  // set name(String? value);
 
   //
   //  Conveniences
@@ -142,9 +146,9 @@ abstract interface class Document implements TAI, Mapper {
 
   /// 1. Create from stored info
   /// 2. Create new empty document
-  static Document create(String type, ID identifier, {String? data, TransportableData? signature}) {
+  static Document create(String type, {String? data, TransportableData? signature}) {
     var ext = AccountExtensions();
-    return ext.docHelper!.createDocument(type, identifier, data: data, signature: signature);
+    return ext.docHelper!.createDocument(type, data: data, signature: signature);
   }
 
   static Document? parse(Object? doc) {
@@ -169,11 +173,10 @@ abstract interface class DocumentFactory {
   ///  Create document with data & signature loaded from local storage
   ///  Create a new empty document with entity ID only
   ///
-  /// @param identifier - entity ID
   /// @param data       - document data (JsON)
   /// @param signature  - document signature (Base64)
   /// @return Document
-  Document createDocument(ID identifier, {String? data, TransportableData? signature});
+  Document createDocument({String? data, TransportableData? signature});
 
   ///  Parse map object to entity document
   ///
