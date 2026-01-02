@@ -25,9 +25,48 @@
  */
 import 'mapper.dart';
 
-abstract interface class Copier {
+/// Data Copy Interface
+/// ~~~~~~~~~~~~~~~~~~~
+abstract class Copier {
 
-  static dynamic copy(Object? object) {
+  static dynamic copy(Object? object) =>
+      copier.copy(object);
+
+  static dynamic deepCopy(Object? object) =>
+      copier.deepCopy(object);
+
+  static Map copyMap(Map dict) =>
+      copier.copyMap(dict);
+
+  static Map deepCopyMap(Map dict) =>
+      copier.deepCopyMap(dict);
+
+  static List copyList(List array) =>
+      copier.copyList(array);
+
+  static List deepCopyList(List array) =>
+      copier.deepCopyList(array);
+
+  static DataCopier copier = BaseCopier();
+
+}
+
+abstract interface class DataCopier {
+
+  dynamic copy(Object? object);
+  List copyList(List array);
+  Map copyMap(Map dict);
+
+  dynamic deepCopy(Object? object);
+  List deepCopyList(List array);
+  Map deepCopyMap(Map dict);
+
+}
+
+class BaseCopier implements DataCopier {
+
+  @override
+  copy(Object? object) {
     if (object == null) {
       return null;
     } else if (object is Mapper) {
@@ -41,7 +80,26 @@ abstract interface class Copier {
     }
   }
 
-  static dynamic deepCopy(Object? object) {
+  @override
+  List copyList(List array) {
+    List clone = [];
+    for (var item in array) {
+      clone.add(item);
+    }
+    return clone;
+  }
+
+  @override
+  Map copyMap(Map dict) {
+    Map clone = {};
+    dict.forEach((key, value) {
+      clone[key] = value;
+    });
+    return clone;
+  }
+
+  @override
+  deepCopy(Object? object) {
     if (object == null) {
       return null;
     } else if (object is Mapper) {
@@ -55,15 +113,17 @@ abstract interface class Copier {
     }
   }
 
-  static Map copyMap(Map dict) {
-    Map clone = {};
-    dict.forEach((key, value) {
-      clone[key] = value;
-    });
+  @override
+  List deepCopyList(List array) {
+    List clone = [];
+    for (var item in array) {
+      clone.add(deepCopy(item));
+    }
     return clone;
   }
 
-  static Map deepCopyMap(Map dict) {
+  @override
+  Map deepCopyMap(Map dict) {
     Map clone = {};
     dict.forEach((key, value) {
       clone[key] = deepCopy(value);
@@ -71,19 +131,4 @@ abstract interface class Copier {
     return clone;
   }
 
-  static List copyList(List array) {
-    List clone = [];
-    for (var item in array) {
-      clone.add(item);
-    }
-    return clone;
-  }
-
-  static List deepCopyList(List array) {
-    List clone = [];
-    for (var item in array) {
-      clone.add(deepCopy(item));
-    }
-    return clone;
-  }
 }

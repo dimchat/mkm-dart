@@ -26,12 +26,58 @@
 import 'mapper.dart';
 import 'stringer.dart';
 
-abstract interface class Wrapper {
+/// Data Wrap Interface
+/// ~~~~~~~~~~~~~~~~~~~
+abstract class Wrapper {
 
   ///  Get inner String
   ///  ~~~~~~~~~~~~~~~~
   ///  Remove first wrapper
-  static String? getString(Object? str) {
+  static String? getString(Object? str) =>
+      wrapper.getString(str);
+
+  ///  Get inner Map
+  ///  ~~~~~~~~~~~~~
+  ///  Remove first wrapper
+  static Map? getMap(Object? dict) =>
+      wrapper.getMap(dict);
+
+  ///  Unwrap recursively
+  ///  ~~~~~~~~~~~~~~~~~~
+  ///  Remove all wrappers
+  static dynamic unwrap(Object? object) =>
+      wrapper.unwrap(object);
+
+  /// Unwrap values for keys in map
+  static Map unwrapMap(Map dict) =>
+      wrapper.unwrapMap(dict);
+
+  /// Unwrap values in the array
+  static List unwrapList(List array) =>
+      wrapper.unwrapList(array);
+
+  static DataWrapper wrapper = BaseWrapper();
+
+}
+
+abstract interface class DataWrapper {
+
+  String? getString(Object? str);
+
+  Map? getMap(Object? dict);
+
+  dynamic unwrap(Object? object);
+
+  Map unwrapMap(Map dict);
+
+  List unwrapList(List array);
+
+}
+
+class BaseWrapper implements DataWrapper {
+
+  @override
+  String? getString(Object? str) {
     if (str == null) {
       return null;
     } else if (str is Stringer) {
@@ -44,10 +90,8 @@ abstract interface class Wrapper {
     }
   }
 
-  ///  Get inner Map
-  ///  ~~~~~~~~~~~~~
-  ///  Remove first wrapper
-  static Map? getMap(Object? dict) {
+  @override
+  Map? getMap(Object? dict) {
     if (dict == null) {
       return null;
     } else if (dict is Mapper) {
@@ -60,10 +104,8 @@ abstract interface class Wrapper {
     }
   }
 
-  ///  Unwrap recursively
-  ///  ~~~~~~~~~~~~~~~~~~
-  ///  Remove all wrappers
-  static dynamic unwrap(Object? object) {
+  @override
+  dynamic unwrap(Object? object) {
     if (object == null) {
       return null;
     } else if (object is Mapper) {
@@ -79,8 +121,8 @@ abstract interface class Wrapper {
     }
   }
 
-  /// Unwrap values for keys in map
-  static Map unwrapMap(Map dict) {
+  @override
+  Map unwrapMap(Map dict) {
     if (dict is Mapper) {
       dict = dict.toMap();
     }
@@ -91,8 +133,8 @@ abstract interface class Wrapper {
     return result;
   }
 
-  /// Unwrap values in the array
-  static List unwrapList(List array) {
+  @override
+  List unwrapList(List array) {
     List result = [];
     for (var item in array) {
       result.add(unwrap(item));

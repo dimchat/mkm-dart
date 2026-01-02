@@ -23,12 +23,39 @@
  * SOFTWARE.
  * =============================================================================
  */
-
 import 'dart:typed_data';
 
-abstract interface class Comparator {
+/// Data Compare Interface
+/// ~~~~~~~~~~~~~~~~~~~~~~
+abstract class Comparator {
 
-  static bool different(dynamic a, dynamic b) {
+  static bool different(dynamic a, dynamic b) =>
+      comparator.different(a, b);
+
+  static bool mapEquals<K, V>(Map<K, V> a, Map<K, V> b) =>
+      comparator.mapEquals(a, b);
+
+  static bool listEquals<T>(List<T> a, List<T> b) =>
+      comparator.listEquals(a, b);
+
+  static DataComparator comparator = BaseComparator();
+
+}
+
+abstract interface class DataComparator {
+
+  bool different(dynamic a, dynamic b);
+
+  bool mapEquals<K, V>(Map<K, V> a, Map<K, V> b);
+
+  bool listEquals<T>(List<T> a, List<T> b);
+
+}
+
+class BaseComparator implements DataComparator {
+
+  @override
+  bool different(a, b) {
     if (a == null) {
       return b != null;
     } else if (b == null) {
@@ -48,7 +75,8 @@ abstract interface class Comparator {
     }
   }
 
-  static bool mapEquals<K, V>(Map<K, V> a, Map<K, V> b) {
+  @override
+  bool mapEquals<K, V>(Map<K, V> a, Map<K, V> b) {
     if (identical(a, b)) {
       // same object
       return true;
@@ -65,7 +93,8 @@ abstract interface class Comparator {
     return true;
   }
 
-  static bool listEquals<T>(List<T> a, List<T> b) {
+  @override
+  bool listEquals<T>(List<T> a, List<T> b) {
     // byte
     if (a is Uint8List) {
       return b is Uint8List && Arrays.equals(a, b);
