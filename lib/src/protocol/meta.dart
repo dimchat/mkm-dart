@@ -31,7 +31,7 @@
 import 'dart:typed_data';
 
 import '../crypto/keys.dart';
-import '../format/encode.dart';
+import '../crypto/ted.dart';
 import '../type/mapper.dart';
 
 import 'address.dart';

@@ -27,6 +27,10 @@ import 'private.dart';
 import 'public.dart';
 import 'symmetric.dart';
 
+import 'keys.dart';
+import 'ted.dart';
+import 'pnf.dart';
+
 ///  General Helpers
 ///  ~~~~~~~~~~~~~~~
 
@@ -73,5 +77,43 @@ class CryptoExtensions {
 
   PrivateKeyHelper? privateHelper;
   PublicKeyHelper? publicHelper;
+
+}
+
+///  General Helpers
+///  ~~~~~~~~~~~~~~~
+
+abstract interface class TransportableDataHelper {
+
+  void setTransportableDataFactory(String algorithm, TransportableDataFactory factory);
+  TransportableDataFactory? getTransportableDataFactory(String algorithm);
+
+  TransportableData? parseTransportableData(Object? ted);
+
+}
+
+abstract interface class TransportableFileHelper {
+
+  void setTransportableFileFactory(TransportableFileFactory factory);
+  TransportableFileFactory? getTransportableFileFactory();
+
+  TransportableFile createTransportableFile(TransportableData? data, String? filename,
+      Uri? url, DecryptKey? password);
+
+  TransportableFile? parseTransportableFile(Object? pnf);
+
+}
+
+
+/// Format FactoryManager
+/// ~~~~~~~~~~~~~~~~~~~~~
+// protected
+class FormatExtensions {
+  factory FormatExtensions() => _instance;
+  static final FormatExtensions _instance = FormatExtensions._internal();
+  FormatExtensions._internal();
+
+  TransportableDataHelper? tedHelper;
+  TransportableFileHelper? pnfHelper;
 
 }

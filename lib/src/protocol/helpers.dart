@@ -29,7 +29,7 @@
  * ==============================================================================
  */
 import '../crypto/keys.dart';
-import '../format/encode.dart';
+import '../crypto/ted.dart';
 
 import 'address.dart';
 import 'document.dart';

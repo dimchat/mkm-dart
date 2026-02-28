@@ -31,7 +31,7 @@
 import 'dart:typed_data';
 
 import '../crypto/keys.dart';
-import '../format/encode.dart';
+import '../crypto/ted.dart';
 import '../type/mapper.dart';
 
 import 'helpers.dart';
@@ -171,7 +171,7 @@ abstract interface class Document implements TAI, Mapper {
 abstract interface class DocumentFactory {
 
   ///  Create document with data & signature loaded from local storage
-  ///  Create a new empty document with entity ID only
+  ///  Create a new empty document with type
   ///
   /// @param data       - document data (JsON)
   /// @param signature  - document signature (Base64)

@@ -1,9 +1,4 @@
 /* license: https://mit-license.org
- *
- *  Ming-Ke-Ming : Decentralized User Identity Authentication
- *
- *                                Written in 2023 by Moky <albert.moky@gmail.com>
- *
  * ==============================================================================
  * The MIT License (MIT)
  *
@@ -30,24 +25,61 @@
  */
 import 'dart:typed_data';
 
-import '../type/mapper.dart';
+import '../type/stringer.dart';
 
 import 'helpers.dart';
 
 
+///  Serializable Data or File Content
+///
+///  0. "{BASE64_ENCODE}"
+///  1. "data:image/png;base64,{BASE64_ENCODE}"
+///  2. "https://..."
+///  3. mapping:
+///
+/// ```
+///    {
+///        "data"     : "...",        // base64_encode(fileContent)
+///        "filename" : "avatar.png",
+///
+///        "URL"      : "http://...", // download from CDN
+///        // before fileContent uploaded to a public CDN,
+///        // it can be encrypted by a symmetric key
+///        "key"      : {             // symmetric key to decrypt file data
+///            "algorithm" : "AES",   // "DES", ...
+///            "data"      : "{BASE64_ENCODE}"
+///        }
+///    }
+/// ```
+abstract interface class TransportableResource {
+
+  /*  Format
+   *  ~~~~~~
+   *
+   *      TED - TransportableData
+   *          0. "{BASE64_ENCODE}"
+   *          1. "data:image/png;base64,{BASE64_ENCODE}"
+   *
+   *      PNF - TransportableFile
+   *          2. "https://..."
+   *          3. {...}
+   */
+
+  ///  Encode data
+  ///
+  /// @return String or Map
+  Object serialize();
+
+}
+
+
 ///  Transportable Data
-///  ~~~~~~~~~~~~~~~~~~
+///
 ///  TED - Transportable Encoded Data
 ///
-///     0. "{BASE64_ENCODE}"
-///     1. "base64,{BASE64_ENCODE}"
-///     2. "data:image/png;base64,{BASE64_ENCODE}"
-///     3. {
-///             algorithm : "base64",
-///             data      : "...",      // base64_encode(data)
-///             ...
-///        }
-abstract interface class TransportableData implements Mapper {
+///  0. "{BASE64_ENCODE}"
+///  1. "data:image/png;base64,{BASE64_ENCODE}"
+abstract interface class TransportableData implements Stringer, TransportableResource {
 
   /// encode algorithm
   // static const DEFAULT = 'base64';
@@ -55,52 +87,37 @@ abstract interface class TransportableData implements Mapper {
   // static const BASE_58 = 'base58';
   // static const HEX     = 'hex';
 
-  ///  Get encode algorithm
+  ///  Get data encode algorithm
   ///
   /// @return "base64"
-  String? get algorithm;
+  String? get encoding;
 
   ///  Get original data
   ///
   /// @return plaintext
-  Uint8List? get data;
+  Uint8List? get bytes;
+
+  ///  Get data size
+  ///
+  /// @return the length of this view, in bytes.
+  int get lengthInBytes;
 
   ///  Get encoded string
   ///
   /// @return "{BASE64_ENCODE}}", or
-  ///         "base64,{BASE64_ENCODE}", or
-  ///         "data:image/png;base64,{BASE64_ENCODE}", or
-  ///         "{...}"
+  ///         "data:image/png;base64,{BASE64_ENCODE}"
   @override
   String toString();
 
-  ///  toJson()
+  ///  toString()
   ///
-  /// @return String, or Map
-  Object toObject();
-
-  //
-  //  Conveniences
-  //
-
-  static Object encode(Uint8List data) {
-    TransportableData ted = create(data);
-    return ted.toObject();
-  }
-
-  static Uint8List? decode(Object encoded) {
-    TransportableData? ted = parse(encoded);
-    return ted?.data;
-  }
+  /// @return String
+  @override
+  Object serialize();
 
   //
   //  Factory methods
   //
-
-  static TransportableData create(Uint8List data, {String? algorithm}) {
-    var ext = FormatExtensions();
-    return ext.tedHelper!.createTransportableData(data, algorithm);
-  }
 
   static TransportableData? parse(Object? ted) {
     var ext = FormatExtensions();
@@ -119,18 +136,11 @@ abstract interface class TransportableData implements Mapper {
 
 
 ///  TED Factory
-///  ~~~~~~~~~~~
 abstract interface class TransportableDataFactory {
-
-  ///  Create TED
-  ///
-  /// @param data - original data
-  /// @return TED object
-  TransportableData createTransportableData(Uint8List data);
 
   ///  Parse map object to TED
   ///
   /// @param ted  - TED info
   /// @return TED object
-  TransportableData? parseTransportableData(Map ted);
+  TransportableData? parseTransportableData(String ted);
 }

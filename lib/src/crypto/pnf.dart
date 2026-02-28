@@ -1,9 +1,4 @@
 /* license: https://mit-license.org
- *
- *  Ming-Ke-Ming : Decentralized User Identity Authentication
- *
- *                                Written in 2023 by Moky <albert.moky@gmail.com>
- *
  * ==============================================================================
  * The MIT License (MIT)
  *
@@ -28,41 +23,40 @@
  * SOFTWARE.
  * ==============================================================================
  */
-import 'dart:typed_data';
-
-import '../crypto/keys.dart';
 import '../type/mapper.dart';
 
-import 'encode.dart';
+import 'keys.dart';
+import 'ted.dart';
 import 'helpers.dart';
 
 
 ///  Transportable File
-///  ~~~~~~~~~~~~~~~~~~
+///
 ///  PNF - Portable Network File
 ///
-///     0. "{URL}"
-///     1. "base64,{BASE64_ENCODE}"
-///     2. "data:image/png;base64,{BASE64_ENCODE}"
-///     3. {
-///             data     : "...",        // base64_encode(fileContent)
-///             filename : "avatar.png",
+///  2. "data:image/png;base64,{BASE64_ENCODE}"
+///  3. mapping:
 ///
-///             URL      : "http://...", // download from CDN
-///             // before fileContent uploaded to a public CDN,
-///             // it can be encrypted by a symmetric key
-///             key      : {             // symmetric key to decrypt file content
-///                 algorithm : "AES",   // "DES", ...
-///                 data      : "{BASE64_ENCODE}",
-///                 ...
-///             }
+/// ```
+///    {
+///        "data"     : "...",        // base64_encode(fileContent)
+///        "filename" : "avatar.png",
+///
+///        "URL"      : "http://...", // download from CDN
+///        // before fileContent uploaded to a public CDN,
+///        // it can be encrypted by a symmetric key
+///        "key"      : {             // symmetric key to decrypt file data
+///            "algorithm" : "AES",   // "DES", ...
+///            "data"      : "{BASE64_ENCODE}"
 ///        }
-abstract interface class PortableNetworkFile implements Mapper {
+///    }
+/// ```
+abstract interface class TransportableFile implements Mapper, TransportableResource {
 
   /// When file data is too big, don't set it in this dictionary,
   /// but upload it to a CDN and set the download URL instead.
-  Uint8List? get data;
-  set data(Uint8List? fileData);
+  TransportableData? get data;
+  set data(TransportableData? fileData);
 
   String? get filename;
   set filename(String? name);
@@ -79,55 +73,61 @@ abstract interface class PortableNetworkFile implements Mapper {
   ///  Get encoded string
   ///
   /// @return "URL", or
-  ///         "base64,{BASE64_ENCODE}", or
-  ///         "data:image/png;base64,{BASE64_ENCODE}", or
   ///         "{...}"
   @override
   String toString();
 
-  ///  toJson()
+  ///  Encode data and update inner map
   ///
-  /// @return String, or Map
-  Object toObject();
+  /// @return inner map
+  @override
+  Map toMap();
+
+  ///  if contains "URL" and "filename" only,
+  ///      toString();
+  ///  else,
+  ///      toMap();
+  @override
+  Object serialize();
 
   //
   //  Factory methods
   //
 
   /// Create from remote URL
-  static PortableNetworkFile createFromURL(Uri url, DecryptKey? password) {
+  static TransportableFile createFromURL(Uri url, DecryptKey? password) {
     return create(null, null, url, password);
   }
   /// Create from file data
-  static PortableNetworkFile createFromData(TransportableData data, String? filename) {
+  static TransportableFile createFromData(TransportableData data, String? filename) {
     return create(data, filename, null, null);
   }
 
-  static PortableNetworkFile create(TransportableData? data, String? filename,
-                                    Uri? url, DecryptKey? password) {
+  static TransportableFile create(TransportableData? data, String? filename,
+                                  Uri? url, DecryptKey? password) {
     var ext = FormatExtensions();
-    return ext.pnfHelper!.createPortableNetworkFile(data, filename, url, password);
+    return ext.pnfHelper!.createTransportableFile(data, filename, url, password);
   }
 
-  static PortableNetworkFile? parse(Object? pnf) {
+  static TransportableFile? parse(Object? pnf) {
     var ext = FormatExtensions();
-    return ext.pnfHelper!.parsePortableNetworkFile(pnf);
+    return ext.pnfHelper!.parseTransportableFile(pnf);
   }
 
-  static PortableNetworkFileFactory? getFactory() {
+  static TransportableFileFactory? getFactory() {
     var ext = FormatExtensions();
-    return ext.pnfHelper!.getPortableNetworkFileFactory();
+    return ext.pnfHelper!.getTransportableFileFactory();
   }
-  static void setFactory(PortableNetworkFileFactory factory) {
+  static void setFactory(TransportableFileFactory factory) {
     var ext = FormatExtensions();
-    ext.pnfHelper!.setPortableNetworkFileFactory(factory);
+    ext.pnfHelper!.setTransportableFileFactory(factory);
   }
 }
 
 
 ///  PNF Factory
 ///  ~~~~~~~~~~~
-abstract interface class PortableNetworkFileFactory {
+abstract interface class TransportableFileFactory {
 
   ///  Create PNF
   ///
@@ -136,12 +136,12 @@ abstract interface class PortableNetworkFileFactory {
   /// @param url      - download URL
   /// @param password - decrypt key for downloaded data
   /// @return PNF object
-  PortableNetworkFile createPortableNetworkFile(TransportableData? data, String? filename,
-                                                Uri? url, DecryptKey? password);
+  TransportableFile createTransportableFile(TransportableData? data, String? filename,
+                                            Uri? url, DecryptKey? password);
 
   ///  Parse map object to PNF
   ///
   /// @param pnf      - PNF info
   /// @return PNF object
-  PortableNetworkFile? parsePortableNetworkFile(Map pnf);
+  TransportableFile? parseTransportableFile(Map pnf);
 }
