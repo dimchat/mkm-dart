@@ -25,19 +25,6 @@
  */
 import 'crypto//helpers.dart';
 
-/// Format GeneralFactory
-/// ~~~~~~~~~~~~~~~~~~~~~
-abstract interface class GeneralFormatHelper /*
-    implements TransportableDataHelper, TransportableFileHelper */{
-
-  //
-  //  Algorithm
-  //
-
-  String? getFormatAlgorithm(Map ted, [String? defaultValue]);
-
-}
-
 /// Format FactoryManager
 /// ~~~~~~~~~~~~~~~~~~~~~
 class SharedFormatExtensions {
@@ -58,8 +45,5 @@ class SharedFormatExtensions {
 
   set pnfHelper(TransportableFileHelper? helper) =>
       FormatExtensions().pnfHelper = helper;
-
-  /// General Helper
-  GeneralFormatHelper? helper;
 
 }

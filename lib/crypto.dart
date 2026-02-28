@@ -9,3 +9,6 @@ export 'src/crypto/keys.dart';
 export 'src/crypto/private.dart';
 export 'src/crypto/public.dart';
 export 'src/crypto/symmetric.dart';
+
+// export 'src/crypto/ted.dart';      // -> 'protocol.dart'
+// export 'src/crypto/pnf.dart';      // -> 'protocol.dart'

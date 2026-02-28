@@ -29,6 +29,7 @@
  * ==============================================================================
  */
 import 'protocol/helpers.dart';
+import 'protocol/identifier.dart';
 
 ///  Account GeneralFactory
 ///  ~~~~~~~~~~~~~~~~~~~~~~
@@ -42,6 +43,8 @@ abstract interface class GeneralAccountHelper /*
   String? getMetaType(Map meta, [String? defaultValue]);
 
   String? getDocumentType(Map doc, [String? defaultValue]);
+
+  ID? getDocumentID(Map doc);
 
 }
 

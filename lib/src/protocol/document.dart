@@ -170,8 +170,8 @@ abstract interface class Document implements TAI, Mapper {
 ///  ~~~~~~~~~~~~~~~~
 abstract interface class DocumentFactory {
 
-  ///  Create document with data & signature loaded from local storage
-  ///  Create a new empty document with type
+  ///  1. Create document with data & signature loaded from local storage
+  ///  2. Create a new empty document
   ///
   /// @param data       - document data (JsON)
   /// @param signature  - document signature (Base64)

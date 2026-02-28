@@ -28,8 +28,6 @@
  * SOFTWARE.
  * ==============================================================================
  */
-import 'dart:typed_data';
-
 import '../crypto/keys.dart';
 import '../crypto/ted.dart';
 import '../type/mapper.dart';
@@ -74,7 +72,7 @@ abstract interface class Meta implements Mapper {
   ///
   ///      Build: fingerprint = sign(seed, privateKey)
   ///      Check: verify(seed, fingerprint, publicKey)
-  Uint8List? get fingerprint;
+  TransportableData? get fingerprint;
 
   //
   //  Validation

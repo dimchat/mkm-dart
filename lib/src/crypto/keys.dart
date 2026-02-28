@@ -27,6 +27,8 @@ import 'dart:typed_data';
 
 import '../type/mapper.dart';
 
+import 'ted.dart';
+
 ///  Cryptography Key
 ///  ~~~~~~~~~~~~~~~~
 ///  Cryptography key with designated algorithm
@@ -46,7 +48,7 @@ abstract interface class CryptographyKey implements Mapper {
   ///  Get key data
   ///
   /// @return key data
-  Uint8List get data;
+  TransportableData get data;
 }
 
 abstract interface class EncryptKey implements CryptographyKey {

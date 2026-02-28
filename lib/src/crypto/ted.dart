@@ -37,7 +37,7 @@ import 'helpers.dart';
 ///  2. "https://..."
 ///  3. mapping:
 ///
-/// ```
+/// ```json
 ///    {
 ///        "data"     : "...",        // base64_encode(fileContent)
 ///        "filename" : "avatar.png",
