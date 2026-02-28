@@ -34,14 +34,15 @@ import 'entity.dart';
 import 'helpers.dart';
 import 'meta.dart';
 
-///  Address for MKM ID
-///  ~~~~~~~~~~~~~~~~~~
-///  This class is used to build address for ID
+/// Interface for network addresses used to identify MKM ID entities.
+///
+/// Addresses serve as unique identifiers for entities (users/groups) on specific
+/// networks, and implement [Stringer] for consistent string representation.
 abstract interface class Address implements Stringer {
 
-  ///  Get address type
+  /// Network identifier (type) of this address.
   ///
-  /// @return network id
+  /// Returns: Integer representing the network ID (e.g., mainnet, testnet)
   int get network;
 
   ///  Address for broadcast
@@ -74,21 +75,26 @@ abstract interface class Address implements Stringer {
   }
 }
 
-///  Address Factory
-///  ~~~~~~~~~~~~~~~
+/// Factory interface for creating and parsing [Address] instances.
+///
+/// Provides methods to generate new addresses from metadata and parse existing
+/// addresses from their string representation.
 abstract interface class AddressFactory {
 
-  ///  Generate address with meta & type
+  /// Generates a new [Address] from metadata and network type.
   ///
-  /// @param meta - meta info
-  /// @param network - address type
-  /// @return Address
+  /// [meta]: Metadata used to derive the address
+  ///
+  /// [network]: Optional network identifier (type) for the address
+  ///
+  /// Returns: New [Address] instance
   Address generateAddress(Meta meta, int? network);
 
-  ///  Parse string object to address
+  /// Parses a string representation into an [Address] instance.
   ///
-  /// @param address - address string
-  /// @return Address
+  /// [address]: String representation of an address
+  ///
+  /// Returns: [Address] instance if parsing succeeds, null otherwise
   Address? parseAddress(String address);
 }
 

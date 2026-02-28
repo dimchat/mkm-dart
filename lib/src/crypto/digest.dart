@@ -25,11 +25,24 @@
  */
 import 'dart:typed_data';
 
-///  Message Digest
-///  ~~~~~~~~~~~~~~
-///  MD5, SHA1, SHA256, Keccak256, RipeMD160, ...
+/// Interface for computing cryptographic hashes (message digests) of binary data.
+///
+/// Supported hash algorithms include (but are not limited to):
+/// - MD5
+/// - SHA-1
+/// - SHA-256
+/// - Keccak-256
+/// - RipeMD-160
+///
+/// A message digest is a fixed-size string of bytes derived from arbitrary-sized
+/// input data, used for data integrity verification.
 abstract interface class MessageDigester {
 
+  /// Computes the cryptographic hash (digest) of the given binary data.
+  ///
+  /// [data]: The input binary data to hash (Uint8List)
+  ///
+  /// Returns: Fixed-size digest/hash value as Uint8List
   Uint8List digest(Uint8List data);
 }
 

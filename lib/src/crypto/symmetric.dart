@@ -26,15 +26,22 @@
 import 'helpers.dart';
 import 'keys.dart';
 
-///  Symmetric Cryptography Key
-///  ~~~~~~~~~~~~~~~~~~~~~~~~~~
-///  This class is used to encrypt or decrypt message data
+/// Interface for symmetric cryptographic keys (single key for encryption/decryption).
 ///
-///  key data format: {
-///      "algorithm" : "AES", // "DES", ...
-///      "data"      : "{BASE64_ENCODE}",
-///      ...
-///  }
+/// Symmetric keys use the same key material for both encryption and decryption,
+/// making them efficient for bulk data encryption (e.g., AES, DES).
+///
+/// Key data format (serialized as Map/JSON):
+/// ```json
+/// {
+///   "algorithm" : "AES",  // "DES", ...
+///   "data"      : "{BASE64_ENCODE}",
+///   // Additional algorithm-specific parameters
+///   // (e.g., "mode": "CBC", "padding": "PKCS7Padding")
+/// }
+/// ```
+///
+/// Implements both [EncryptKey] and [DecryptKey] since symmetric keys perform both operations.
 abstract interface class SymmetricKey implements EncryptKey, DecryptKey {
 
   // static const AES = 'AES';  //-- "AES/CBC/PKCS7Padding"
@@ -64,18 +71,20 @@ abstract interface class SymmetricKey implements EncryptKey, DecryptKey {
   }
 }
 
-///  Key Factory
-///  ~~~~~~~~~~~
+/// Factory interface for creating and parsing [SymmetricKey] instances.
+///
+/// Provides methods to generate new symmetric keys and reconstruct them from serialized data.
 abstract interface class SymmetricKeyFactory {
 
-  ///  Generate key
+  /// Generates a new random [SymmetricKey] using the default algorithm (typically AES).
   ///
-  /// @return SymmetricKey
+  /// Returns: New cryptographically secure [SymmetricKey] instance
   SymmetricKey generateSymmetricKey();
 
-  ///  Parse map object to key
+  /// Parses a serialized Map into a [SymmetricKey] instance.
   ///
-  /// @param key - key info
-  /// @return SymmetricKey
+  /// [key]: Serialized key data (matches the Map format defined in [SymmetricKey])
+  ///
+  /// Returns: [SymmetricKey] instance, or null if parsing/validation fails
   SymmetricKey? parseSymmetricKey(Map key);
 }

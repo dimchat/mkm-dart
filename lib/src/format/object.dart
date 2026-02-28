@@ -24,24 +24,31 @@
  * =============================================================================
  */
 
-///  Object Coder
-///  ~~~~~~~~~~~~
-///  JsON, XML, ...
+/// Generic interface for serializing/deserializing objects to/from string formats.
 ///
-///  1. encode object to string;
-///  2. decode string to object.
+/// Supported serialization formats include (but are not limited to):
+/// - JSON
+/// - XML
+///
+/// Core functionality:
+/// 1. Encode a structured object (typically [Map] or [List]) to a string
+/// 2. Decode a string back to the original structured object
+///
+/// [T]: Type of the object to encode/decode (usually [Map], [List] or custom model)
 abstract interface class ObjectCoder<T> {
 
-  ///  Encode Map/List object to String
+  /// Encodes a structured object to a serialized string.
   ///
-  /// @param object - Map or List
-  /// @return serialized string
+  /// [object]: The object to serialize (typically [Map] or [List])
+  ///
+  /// Returns: Serialized string in the specific format (JSON/XML etc.)
   String encode(T object);
 
-  ///  Decode String to Map/List object
+  /// Decodes a serialized string back to a structured object.
   ///
-  /// @param string - serialized string
-  /// @return Map or List
+  /// [string]: The serialized string to deserialize
+  ///
+  /// Returns: Deserialized object of type [T], or null if decoding fails
   T? decode(String string);
 }
 

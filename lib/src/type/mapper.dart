@@ -30,6 +30,16 @@ import 'stringer.dart';
 
 abstract interface class Mapper implements Map<String, dynamic> {
 
+  /// Gets a string value for the given key.
+  ///
+  /// Returns the string value associated with [key] or [defaultValue] if the key
+  /// is not found.
+  ///
+  /// @param key The key to look up.
+  ///
+  /// @param defaultValue The default value to return if the key is not found.
+  ///
+  /// @return The string value or default value.
   String? getString(String key, [String? defaultValue]);
   bool?     getBool(String key, [bool?   defaultValue]);
   int?       getInt(String key, [int?    defaultValue]);
@@ -41,15 +51,21 @@ abstract interface class Mapper implements Map<String, dynamic> {
   void setString(String key, Stringer? stringer);
   void setMap(String key, Mapper? mapper);
 
-  ///  Get inner map
+  /// Returns the internal map as a [Map].
   ///
-  /// @return Map
+  /// This method provides access to the underlying map data.
+  ///
+  /// @return A [Map] containing all key-value pairs.
   Map toMap();
 
-  ///  Copy inner map
+  /// Creates a copy of the internal map.
   ///
-  /// @param deepCopy - deep copy
-  /// @return Map
+  /// If [deepCopy] is true, a deep copy is performed.
+  /// Otherwise, a shallow copy is returned.
+  ///
+  /// @param deepCopy Whether to perform a deep copy. Defaults to false.
+  ///
+  /// @return A copy of the internal map.
   Map copyMap([bool deepCopy = false]);
 }
 

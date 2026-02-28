@@ -35,23 +35,29 @@ import 'entity.dart';
 import 'helpers.dart';
 import 'meta.dart';
 
-///  ID for entity (User/Group)
+
+/// Interface for unique identifiers (ID) of network entities (users/groups).
 ///
-///      data format: "name@address[/terminal]"
+/// The ID follows a standardized format for entity identification:
+/// ```
+///   "name@address[/terminal]"
+/// ```
 ///
-///      fields:
-///          name     - entity name, the seed of fingerprint (for building address)
-///          address  - a string to identify an entity
-///          terminal - location (device), RESERVED
+/// Format breakdown:
+/// - **name**     : Entity name (seed for fingerprint used to generate address)
+/// - **address**  : Core identifier for the entity (unique on the network)
+/// - **terminal** : Optional device/location (RESERVED for future use)
+///
+/// Implements [Stringer] for consistent string representation of the full ID.
 abstract interface class ID implements Stringer {
 
   String? get name;
   Address get address;
   String? get terminal;
 
-  ///  Get ID.type
+  /// Network type (ID type) derived from the address.
   ///
-  /// @return network id of address
+  /// Returns: Network ID integer from [address.network]
   int get type;
 
   /// ID types
@@ -119,30 +125,39 @@ abstract interface class ID implements Stringer {
   }
 }
 
-///  ID Factory
-///  ~~~~~~~~~~
+/// Factory interface for creating and parsing [ID] instances.
+///
+/// Provides comprehensive methods to generate, create, and parse entity IDs
+/// from different input sources (metadata, raw components, string representation).
 abstract interface class IDFactory {
 
-  ///  Generate ID
+  /// Generates a new [ID] from metadata and network type.
   ///
-  /// @param meta     - meta info
-  /// @param network  - ID.type
-  /// @param terminal - ID.terminal
-  /// @return ID
+  /// [meta]: Metadata used to derive the ID components
+  ///
+  /// [network]: Optional network type (ID.type)
+  ///
+  /// [terminal]: Optional terminal/location (RESERVED)
+  ///
+  /// Returns: New [ID] instance
   ID generateID(Meta meta, int? network, {String? terminal});
 
-  ///  Create ID
+  /// Creates an [ID] from explicit component values.
   ///
-  /// @param name     - ID.name
-  /// @param address  - ID.address
-  /// @param terminal - ID.terminal
-  /// @return ID
+  /// [name]: Entity name (optional)
+  ///
+  /// [address]: Required core address component (cannot be null)
+  ///
+  /// [terminal]: Optional terminal/location (RESERVED)
+  ///
+  /// Returns: New [ID] instance with the specified components
   ID createID({String? name, required Address address, String? terminal});
 
-  ///  Parse string object to ID
+  /// Parses a string representation into an [ID] instance.
   ///
-  /// @param identifier - ID string
-  /// @return ID
+  /// [identifier]: String in "name@address[/terminal]" format
+  ///
+  /// Returns: [ID] instance if parsing succeeds, null otherwise
   ID? parseID(String identifier);
 }
 

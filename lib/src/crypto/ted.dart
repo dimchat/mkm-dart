@@ -30,27 +30,32 @@ import '../type/stringer.dart';
 import 'helpers.dart';
 
 
-///  Serializable Data or File Content
+/// Interface for serializable data or file content that supports multiple transport formats.
 ///
-///  0. "{BASE64_ENCODE}"
-///  1. "data:image/png;base64,{BASE64_ENCODE}"
-///  2. "https://..."
-///  3. mapping:
+/// This interface defines standardized formats for transporting resources (files/data)
+/// across different systems, supporting both direct encoding and remote URL references.
+///
+/// Supported transport formats:
+/// 0. Pure Base64 string: `"{BASE64_ENCODE}"`
+/// 1. Data URI format: `"data:image/png;base64,{BASE64_ENCODE}"`
+/// 2. Remote URL: `"https://..."` (download from remote server/CDN)
+/// 3. Structured JSON object (supports encryption and metadata):
 ///
 /// ```json
-///    {
-///        "data"     : "...",        // base64_encode(fileContent)
-///        "filename" : "avatar.png",
-///
-///        "URL"      : "http://...", // download from CDN
-///        // before fileContent uploaded to a public CDN,
-///        // it can be encrypted by a symmetric key
-///        "key"      : {             // symmetric key to decrypt file data
-///            "algorithm" : "AES",   // "DES", ...
-///            "data"      : "{BASE64_ENCODE}"
-///        }
-///    }
+/// {
+///   "data"     : "...",         // Base64-encoded file content
+///   "filename" : "avatar.png",
+///   "URL"      : "http://...",  // CDN download URL (alternative to inline data)
+///   "key"      : {              // Symmetric encryption key (for encrypted content)
+///     "algorithm" : "AES",      // Encryption algorithm (e.g., "AES", "DES")
+///     "data"      : "{BASE64_ENCODE}"
+///   }
+/// }
 /// ```
+///
+/// Format classification:
+/// - TED (TransportableData): Formats 0 and 1 (encoded data only)
+/// - PNF (TransportableFile): Formats 2 and 3 (file with metadata/URL)
 abstract interface class TransportableResource {
 
   /*  Format
@@ -65,53 +70,52 @@ abstract interface class TransportableResource {
    *          3. {...}
    */
 
-  ///  Encode data
+  /// Serializes the resource into a transportable format.
   ///
-  /// @return String or Map
+  /// Returns:
+  /// - String: For formats 0, 1, 2 (Base64 string, Data URI, or URL)
+  /// - Map: For format 3 (structured JSON object as Map)
   Object serialize();
 
 }
 
 
-///  Transportable Data
+/// Transportable Encoded Data (TED) - encoded binary data for transport.
 ///
-///  TED - Transportable Encoded Data
+/// Represents binary data encoded as a string for easy transmission,
+/// implementing [TransportableResource] for serialization.
 ///
-///  0. "{BASE64_ENCODE}"
-///  1. "data:image/png;base64,{BASE64_ENCODE}"
+/// Supported formats:
+/// 0. Pure Base64 string: `"{BASE64_ENCODE}"`
+/// 1. Data URI format: `"data:image/png;base64,{BASE64_ENCODE}"`
 abstract interface class TransportableData implements Stringer, TransportableResource {
 
-  /// encode algorithm
+  /// encode algorithms
   // static const DEFAULT = 'base64';
   // static const BASE_64 = 'base64';
   // static const BASE_58 = 'base58';
   // static const HEX     = 'hex';
 
-  ///  Get data encode algorithm
-  ///
-  /// @return "base64"
+  /// Gets the encoding algorithm name (e.g., 'base64').
   String? get encoding;
 
-  ///  Get original data
-  ///
-  /// @return plaintext
+  /// Gets the original raw binary data (plaintext) before encoding.
   Uint8List? get bytes;
 
-  ///  Get data size
-  ///
-  /// @return the length of this view, in bytes.
+  /// Gets the size of the raw binary data in bytes.
   int get lengthInBytes;
 
-  ///  Get encoded string
+  /// Returns the encoded string representation of the data.
   ///
-  /// @return "{BASE64_ENCODE}}", or
-  ///         "data:image/png;base64,{BASE64_ENCODE}"
+  /// Returns either:
+  /// - Pure Base64 string: `"{BASE64_ENCODE}"`
+  /// - Data URI string: `"data:image/png;base64,{BASE64_ENCODE}"`
   @override
   String toString();
 
-  ///  toString()
+  /// Serializes this TED to a transportable string (same as [toString]).
   ///
-  /// @return String
+  /// Returns: Encoded string representation (format 0 or 1)
   @override
   Object serialize();
 
@@ -135,12 +139,13 @@ abstract interface class TransportableData implements Stringer, TransportableRes
 }
 
 
-///  TED Factory
+/// Factory interface for creating [TransportableData] (TED) instances.
 abstract interface class TransportableDataFactory {
 
-  ///  Parse map object to TED
+  /// Parses an encoded string into a [TransportableData] instance.
   ///
-  /// @param ted  - TED info
-  /// @return TED object
+  /// [ted]: Encoded string in TED format (0 or 1)
+  ///
+  /// Returns: [TransportableData] instance, or null if parsing fails
   TransportableData? parseTransportableData(String ted);
 }

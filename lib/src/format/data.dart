@@ -25,24 +25,30 @@
  */
 import 'dart:typed_data';
 
-///  Data Coder
-///  ~~~~~~~~~~
-///  Hex, Base58, Base64, ...
+/// Interface for encoding/decoding binary data to/from string representations.
 ///
-///  1. encode binary data to string;
-///  2. decode string to binary data.
+/// Supported encoding types include (but are not limited to):
+/// - Hex (hexadecimal)
+/// - Base58
+/// - Base64
+///
+/// Core functionality:
+/// 1. Encode binary data ([Uint8List]) to a string
+/// 2. Decode a string back to binary data ([Uint8List])
 abstract interface class DataCoder {
 
-  ///  Encode binary data to local string
+  /// Encodes binary data to a string representation.
   ///
-  /// @param data - binary data
-  /// @return local string
+  /// [data]: The raw binary data to encode (Uint8List)
+  ///
+  /// Returns: Encoded string in the specific format (Hex/Base58/Base64 etc.)
   String encode(Uint8List data);
 
-  ///  Decode local string to binary data
+  /// Decodes a string back to binary data.
   ///
-  /// @param string - local string
-  /// @return binary data
+  /// [string]: The encoded string to decode
+  ///
+  /// Returns: Decoded binary data (Uint8List), or null if decoding fails
   Uint8List? decode(String string);
 }
 

@@ -1,3 +1,7 @@
+## 2.3.0
+
+- TransportableResource.
+
 ## 2.2.2
 
 - Remove document ID & name.

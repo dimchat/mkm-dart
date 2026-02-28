@@ -35,19 +35,25 @@ import '../type/mapper.dart';
 import 'address.dart';
 import 'helpers.dart';
 
-///  User/Group Meta data
-///  ~~~~~~~~~~~~~~~~~~~~
-///  This class is used to generate entity meta
+/// Interface for immutable metadata of network entities (users/groups).
 ///
-///      data format: {
-///          "type"        : i2s(1),         // algorithm version
-///          "key"         : "{public key}", // PK = secp256k1(SK);
-///          "seed"        : "moKy",         // user/group name
-///          "fingerprint" : "..."           // CT = sign(seed, SK);
-///      }
+/// Meta data contains core, unchanging information used to validate entities
+/// and generate their addresses/IDs. It implements [Mapper] for serialization
+/// to/from structured formats (Map/JSON).
 ///
-///      algorithm:
-///          fingerprint = sign(seed, SK);
+/// Serialized format (Map/JSON):
+/// ```json
+/// {
+///   "type"        : "1",             // Algorithm version
+///   "key"         : "{public key}",  // Public key: PK = secp256k1(SK)
+///   "seed"        : "moKy",          // Entity name (seed for fingerprint)
+///   "fingerprint" : "..."            // Signature of seed: CT = sign(seed, SK)
+/// }
+/// ```
+///
+/// Core algorithm:
+/// - Fingerprint = sign(seed, private key)
+/// - Used to verify the authenticity of the entity's name and public key
 abstract interface class Meta implements Mapper {
 
   ///  Meta algorithm version
@@ -74,20 +80,24 @@ abstract interface class Meta implements Mapper {
   ///      Check: verify(seed, fingerprint, publicKey)
   TransportableData? get fingerprint;
 
-  //
-  //  Validation
-  //
+  // -----------------------------------
+  //  Validation & Address Generation
+  // -----------------------------------
 
-  ///  Check meta valid
-  ///  (must call this when received a new meta from network)
+  /// Validates the integrity of this metadata.
   ///
-  /// @return false on fingerprint not matched
+  /// **Important**: Must be called when receiving new metadata from the network
+  /// to verify the fingerprint matches the seed and public key.
+  ///
+  /// Returns: true if fingerprint is valid (signature matches seed and public key),
+  ///          false otherwise (invalid or tampered metadata)
   bool get isValid;
 
-  ///  Generate address
+  /// Generates an [Address] from this metadata for the specified network.
   ///
-  /// @param network - address type
-  /// @return Address
+  /// [network]: Target network identifier (type)
+  ///
+  /// Returns: New [Address] instance derived from this metadata
   Address generateAddress(int? network);
 
   //
@@ -121,28 +131,39 @@ abstract interface class Meta implements Mapper {
   }
 }
 
-///  Meta Factory
-///  ~~~~~~~~~~~~
+/// Factory interface for creating and parsing [Meta] instances.
+///
+/// Provides methods to create metadata from raw components, generate valid
+/// metadata (with proper fingerprint), and parse serialized metadata.
 abstract interface class MetaFactory {
 
-  ///  Create meta
+  /// Creates a [Meta] instance from explicit components.
   ///
-  /// @param key         - public key
-  /// @param seed        - ID.name
-  /// @param fingerprint - sKey.sign(seed)
-  /// @return Meta
+  /// [pKey]: Public key for the entity
+  ///
+  /// [seed]: Optional seed/entity name (used for fingerprint)
+  ///
+  /// [fingerprint]: Optional pre-generated fingerprint (signature of seed)
+  ///
+  /// Returns: New [Meta] instance (validation via [Meta.isValid] recommended)
   Meta createMeta(VerifyKey pKey, {String? seed, TransportableData? fingerprint});
 
-  ///  Generate meta
+  /// Generates a valid [Meta] instance with a proper fingerprint.
   ///
-  /// @param sKey    - private key
-  /// @param seed    - ID.name
-  /// @return Meta
+  /// Automatically creates a valid fingerprint by signing the seed with the
+  /// private key, ensuring [Meta.isValid] returns true.
+  ///
+  /// [sKey]: Private key to sign the seed (generates fingerprint)
+  ///
+  /// [seed]: Optional seed/entity name (default: random or algorithm-specific)
+  ///
+  /// Returns: Valid [Meta] instance with verified fingerprint
   Meta generateMeta(SignKey sKey, {String? seed});
 
-  ///  Parse map object to meta
+  /// Parses a serialized Map into a [Meta] instance.
   ///
-  /// @param meta - meta info
-  /// @return Meta
+  /// [meta]: Serialized metadata in the Map format defined in [Meta]
+  ///
+  /// Returns: [Meta] instance if parsing succeeds, null otherwise
   Meta? parseMeta(Map meta);
 }

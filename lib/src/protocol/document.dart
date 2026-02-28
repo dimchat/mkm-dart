@@ -36,82 +36,104 @@ import '../type/mapper.dart';
 
 import 'helpers.dart';
 
-///  The Additional Information
+
+/// Interface for The Additional Information (TAI) of network entities.
 ///
-///      'Meta' is the information for entity which never changed,
-///          which contains the key for verify signature;
-///      'TAI' is the variable part,
-///          which could contain a public key for asymmetric encryption.
+/// TAI contains variable, updatable information for entities (complementary to
+/// immutable [Meta] data). It supports digital signatures to ensure data integrity
+/// and authenticity.
+///
+/// Key differences from [Meta]:
+/// - [Meta]: Immutable core data (public key, fingerprint)
+/// - TAI: Mutable additional data (may include encryption keys, profile info)
 abstract interface class TAI {
 
-  ///  Check if signature matched
+  /// Validates the integrity of this TAI data.
   ///
-  /// @return false on signature not matched
+  /// Returns: true if the signature matches the data and entity's public key,
+  ///          false if signature is missing or invalid
   bool get isValid;
 
-  //-------- signature
+  // ------------------------------
+  //  Signature Operations
+  // ------------------------------
 
-  ///  Verify 'data' and 'signature' with public key
+  /// Verifies the TAI signature against the entity's public key.
   ///
-  /// @param metaKey - public key in meta.key
-  /// @return true on signature matched
+  /// [metaKey]: Public key from the entity's [Meta] data (meta.key)
+  ///
+  /// Returns: true if signature is valid (data hasn't been tampered with),
+  ///          false otherwise
   bool verify(VerifyKey metaKey);
 
-  ///  Encode properties to 'data' and sign it to 'signature'
+  /// Signs the TAI data with the entity's private key.
   ///
-  /// @param sKey - private key match meta.key
-  /// @return signature, null on error
+  /// Encodes all properties to a data string, signs it with the private key,
+  /// and stores the signature for later verification.
+  ///
+  /// [sKey]: Private key matching the entity's [Meta] public key
+  ///
+  /// Returns: Signature as Uint8List if successful, null on error
   Uint8List? sign(SignKey sKey);
 
-  //-------- properties
+  // ------------------------------
+  //  Property Management
+  // ------------------------------
 
-  ///  Get all properties
+  /// Gets all properties stored in this TAI.
   ///
-  /// @return properties, null on invalid
+  /// Returns: Map of property names to values if valid, null if TAI is invalid
   Map? get properties;
 
-  ///  Get property data with key
+  /// Retrieves a specific property value by name.
   ///
-  /// @param name - property name
-  /// @return property data
+  /// [name]: Name of the property to retrieve
+  ///
+  /// Returns: Value of the property (may be null if property doesn't exist)
   dynamic getProperty(String name);
 
-  ///  Update property with key and data
-  ///  (this will reset 'data' and 'signature')
+  /// Updates or adds a property (resets signature).
   ///
-  /// @param name - property name
-  /// @param value - property data
+  /// Modifying properties invalidates the existing signature (both [isValid]
+  /// and the stored signature will be reset). A new signature must be generated
+  /// with [sign()] after making changes.
+  ///
+  /// [name]: Name of the property to update/add
+  ///
+  /// [value]: New value for the property (may be null to remove)
   void setProperty(String name, Object? value);
 
 }
 
-///  User/Group Profile
-///  ~~~~~~~~~~~~~~~~~~
-///  This class is used to generate entity profile
+
+/// Interface for entity profile documents (extends [TAI] with structured data).
 ///
-///      data format: {
-///          "did"       : "{EntityID}",      // entity ID
-///          "type"      : "visa",            // "bulletin", ...
-///          "data"      : "{JSON}",          // data = json_encode(info)
-///          "signature" : "{BASE64_ENCODE}"  // signature = sign(data, SK);
-///      }
+/// Documents are specialized TAI implementations for standardized entity profiles
+/// (e.g., user visas, group bulletins) with consistent serialization format.
+/// Implements [TAI] for signature validation and [Mapper] for structured serialization.
+///
+/// Serialized format (Map/JSON):
+/// ```json
+/// {
+///   "did"       : "{EntityID}",      // Unique identifier of the entity (ID string)
+///   "type"      : "visa",            // "bulletin", ...
+///   "data"      : "{JSON}",          // data = json_encode(info)
+///   "signature" : "{BASE64_ENCODE}"  // signature = sign(data, SK);
+/// }
+/// ```
 abstract interface class Document implements TAI, Mapper {
 
-  // ///  Get entity ID
-  // ///
-  // /// @return entity ID
+  // /// Unique identifier of the entity this document belongs to.
   // ID get identifier;
 
   //---- properties getter/setter
 
-  ///  Get sign time
+  /// Timestamp when the document was signed.
   ///
-  /// @return date object or null
+  /// Returns: [DateTime] of the signature creation, null if not signed
   DateTime? get time;
 
-  // ///  Get entity name
-  // ///
-  // /// @return name string
+  // /// Display name of the entity (from properties).
   // String? get name;
   // set name(String? value);
 
@@ -166,21 +188,29 @@ abstract interface class Document implements TAI, Mapper {
   }
 }
 
-///  Document Factory
-///  ~~~~~~~~~~~~~~~~
+/// Factory interface for creating and parsing [Document] instances.
+///
+/// Provides methods to create new documents (empty or from existing data)
+/// and parse serialized documents from structured data.
 abstract interface class DocumentFactory {
 
-  ///  1. Create document with data & signature loaded from local storage
-  ///  2. Create a new empty document
+  /// Creates a [Document] instance from data and signature.
   ///
-  /// @param data       - document data (JsON)
-  /// @param signature  - document signature (Base64)
-  /// @return Document
+  /// Two common use cases:
+  /// 1. Load existing document: Provide [data] and [signature] from storage
+  /// 2. Create new empty document: Omit [data] and [signature]
+  ///
+  /// [data]: Optional encoded document data (JSON string)
+  ///
+  /// [signature]: Optional signature of the data (Base64-encoded as [TransportableData])
+  ///
+  /// Returns: New [Document] instance
   Document createDocument({String? data, TransportableData? signature});
 
-  ///  Parse map object to entity document
+  /// Parses a serialized Map into a [Document] instance.
   ///
-  /// @param doc - info
-  /// @return Document
+  /// [doc]: Serialized document in the Map format defined in [Document]
+  ///
+  /// Returns: [Document] instance if parsing succeeds, null otherwise
   Document? parseDocument(Map doc);
 }

@@ -30,63 +30,72 @@ import 'ted.dart';
 import 'helpers.dart';
 
 
-///  Transportable File
+/// Portable Network File (PNF) - transportable file with metadata and encryption support.
 ///
-///  PNF - Portable Network File
+/// Extends [TransportableResource] to represent files with additional metadata
+/// (filename, URL, encryption key) for network transmission.
 ///
-///  2. "data:image/png;base64,{BASE64_ENCODE}"
-///  3. mapping:
+/// Supported formats (extends [TransportableResource]):
+/// 2. Data URI format: `"data:image/png;base64,{BASE64_ENCODE}"`
+/// 3. Structured JSON object (with metadata and encryption):
 ///
 /// ```json
-///    {
-///        "data"     : "...",        // base64_encode(fileContent)
-///        "filename" : "avatar.png",
-///
-///        "URL"      : "http://...", // download from CDN
-///        // before fileContent uploaded to a public CDN,
-///        // it can be encrypted by a symmetric key
-///        "key"      : {             // symmetric key to decrypt file data
-///            "algorithm" : "AES",   // "DES", ...
-///            "data"      : "{BASE64_ENCODE}"
-///        }
-///    }
+/// {
+///   "data"     : "...",         // Base64-encoded file content
+///   "filename" : "avatar.png",
+///   "URL"      : "http://...",  // CDN download URL (alternative to inline data)
+///   "key"      : {              // Symmetric encryption key (for encrypted content)
+///     "algorithm" : "AES",      // Encryption algorithm (e.g., "AES", "DES")
+///     "data"      : "{BASE64_ENCODE}"
+///   }
+/// }
 /// ```
 abstract interface class TransportableFile implements Mapper, TransportableResource {
 
-  /// When file data is too big, don't set it in this dictionary,
-  /// but upload it to a CDN and set the download URL instead.
+  /// Binary file data (encoded as [TransportableData]).
+  ///
+  /// For large files, it's recommended to use [url] instead of inline [data]
+  /// to reduce payload size (upload to CDN first, then reference via URL).
   TransportableData? get data;
   set data(TransportableData? fileData);
 
+  /// Original filename of the file (e.g., "avatar.png").
   String? get filename;
   set filename(String? name);
 
-  /// Download URL
+  /// Remote URL to download the file (typically from CDN).
+  ///
+  /// Alternative to inline [data] for large files.
   Uri? get url;
   set url(Uri? location);
 
-  /// Password for decrypting the downloaded data from CDN,
-  /// default is a plain key, which just return the same data when decrypting.
+  /// Decryption key for encrypted file content from CDN.
+  ///
+  /// Defaults to a plain key (returns original data when decrypted) if not specified.
   DecryptKey? get password;
   set password(DecryptKey? key);
 
-  ///  Get encoded string
+  /// Returns string representation of the PNF.
   ///
-  /// @return "URL", or
-  ///         "{...}"
+  /// Returns:
+  /// - URL string (if only [url] and [filename] are present)
+  /// - JSON string of the structured object (for full metadata)
   @override
   String toString();
 
-  ///  Encode data and update inner map
+  /// Converts the PNF to a structured Map (format 3).
   ///
-  /// @return inner map
+  /// Updates internal state with encoded data before returning the Map.
+  ///
+  /// Returns: Map representation of the PNF (matches JSON structure)
   @override
   Map toMap();
 
-  ///  if contains "URL" and "filename" only,
-  ///      toString();
-  ///  else,
-  ///      toMap();
+  /// Serializes the PNF to a transportable format.
+  ///
+  /// Serialization logic:
+  /// - If only [url] and [filename] exist: returns URL string (toString())
+  /// - Otherwise: returns structured Map (toMap())
   @override
   Object serialize();
 
@@ -125,23 +134,27 @@ abstract interface class TransportableFile implements Mapper, TransportableResou
 }
 
 
-///  PNF Factory
-///  ~~~~~~~~~~~
+/// Factory interface for creating [TransportableFile] (PNF) instances.
 abstract interface class TransportableFileFactory {
 
-  ///  Create PNF
+  /// Creates a [TransportableFile] instance with the given parameters.
   ///
-  /// @param data     - file data (not encrypted)
-  /// @param filename - file name
-  /// @param url      - download URL
-  /// @param password - decrypt key for downloaded data
-  /// @return PNF object
+  /// [data]: Encoded file content (null if using [url] instead)
+  ///
+  /// [filename]: Original filename of the file
+  ///
+  /// [url]: CDN download URL (alternative to [data])
+  ///
+  /// [password]: Decryption key for encrypted content
+  ///
+  /// Returns: New [TransportableFile] instance
   TransportableFile createTransportableFile(TransportableData? data, String? filename,
                                             Uri? url, DecryptKey? password);
 
-  ///  Parse map object to PNF
+  /// Parses a structured Map into a [TransportableFile] instance.
   ///
-  /// @param pnf      - PNF info
-  /// @return PNF object
+  /// [pnf]: Map representation of PNF (matches format 3 JSON structure)
+  ///
+  /// Returns: [TransportableFile] instance, or null if parsing fails
   TransportableFile? parseTransportableFile(Map pnf);
 }

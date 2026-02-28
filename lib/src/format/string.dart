@@ -25,24 +25,31 @@
  */
 import 'dart:typed_data';
 
-///  String Coder
-///  ~~~~~~~~~~~~
-///  UTF-8, UTF-16, GBK, GB2312, ...
+/// Interface for encoding/decoding strings to/from binary data (byte arrays).
 ///
-///  1. encode string to binary data;
-///  2. decode binary data to string.
+/// Supported character encodings include (but are not limited to):
+/// - UTF-8 (default for most applications)
+/// - UTF-16
+/// - GBK
+/// - GB2312
+///
+/// Core functionality:
+/// 1. Encode a human-readable string to binary data ([Uint8List])
+/// 2. Decode binary data ([Uint8List]) back to a human-readable string
 abstract interface class StringCoder {
 
-  ///  Encode local string to binary data
+  /// Encodes a string to binary data using the specified character encoding.
   ///
-  /// @param string - local string
-  /// @return binary data
+  /// [string]: The string to encode
+  ///
+  /// Returns: Binary representation of the string as [Uint8List]
   Uint8List encode(String string);
 
-  ///  Decode binary data to local string
+  /// Decodes binary data back to a string using the specified character encoding.
   ///
-  /// @param data - binary data
-  /// @return local string
+  /// [data]: The binary data to decode (Uint8List)
+  ///
+  /// Returns: Decoded string, or null if decoding fails
   String? decode(Uint8List data);
 }
 
