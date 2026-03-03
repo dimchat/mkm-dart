@@ -85,8 +85,8 @@ class CryptoExtensions {
 
 abstract interface class TransportableDataHelper {
 
-  void setTransportableDataFactory(String algorithm, TransportableDataFactory factory);
-  TransportableDataFactory? getTransportableDataFactory(String algorithm);
+  void setTransportableDataFactory(TransportableDataFactory factory);
+  TransportableDataFactory? getTransportableDataFactory();
 
   TransportableData? parseTransportableData(Object? ted);
 

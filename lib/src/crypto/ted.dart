@@ -105,6 +105,14 @@ abstract interface class TransportableData implements Stringer, TransportableRes
   /// Gets the size of the raw binary data in bytes.
   int get lengthInBytes;
 
+  /// Whether this data is empty.
+  @override
+  bool get isEmpty;
+
+  /// Whether this data is not empty.
+  @override
+  bool get isNotEmpty;
+
   /// Returns the encoded string representation of the data.
   ///
   /// Returns either:
@@ -128,13 +136,13 @@ abstract interface class TransportableData implements Stringer, TransportableRes
     return ext.tedHelper!.parseTransportableData(ted);
   }
 
-  static TransportableDataFactory? getFactory(String algorithm) {
+  static TransportableDataFactory? getFactory() {
     var ext = FormatExtensions();
-    return ext.tedHelper!.getTransportableDataFactory(algorithm);
+    return ext.tedHelper!.getTransportableDataFactory();
   }
-  static void setFactory(String algorithm, TransportableDataFactory factory) {
+  static void setFactory(TransportableDataFactory factory) {
     var ext = FormatExtensions();
-    ext.tedHelper!.setTransportableDataFactory(algorithm, factory);
+    ext.tedHelper!.setTransportableDataFactory(factory);
   }
 }
 
