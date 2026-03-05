@@ -68,10 +68,11 @@ abstract interface class PrivateKeyHelper {
 /// CryptographyKey FactoryManager
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // protected
-class CryptoExtensions {
-  factory CryptoExtensions() => _instance;
-  static final CryptoExtensions _instance = CryptoExtensions._internal();
-  CryptoExtensions._internal();
+
+// ignore: non_constant_identifier_names
+final CryptoExtensions = _CryptoExtension();
+
+class _CryptoExtension {
 
   SymmetricKeyHelper? symmetricHelper;
 
@@ -108,10 +109,11 @@ abstract interface class TransportableFileHelper {
 /// Format FactoryManager
 /// ~~~~~~~~~~~~~~~~~~~~~
 // protected
-class FormatExtensions {
-  factory FormatExtensions() => _instance;
-  static final FormatExtensions _instance = FormatExtensions._internal();
-  FormatExtensions._internal();
+
+// ignore: non_constant_identifier_names
+final FormatExtensions = _FormatExtension();
+
+class _FormatExtension {
 
   TransportableDataHelper? tedHelper;
   TransportableFileHelper? pnfHelper;

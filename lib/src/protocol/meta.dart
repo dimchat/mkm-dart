@@ -106,28 +106,28 @@ abstract interface class Meta implements Mapper {
 
   /// Create from stored info
   static Meta create(String type, VerifyKey pKey, {String? seed, TransportableData? fingerprint}) {
-    var ext = AccountExtensions();
-    return ext.metaHelper!.createMeta(type, pKey, seed: seed, fingerprint: fingerprint);
+    var helper = AccountExtensions.metaHelper;
+    return helper!.createMeta(type, pKey, seed: seed, fingerprint: fingerprint);
   }
 
   /// Generate with private key
   static Meta generate(String type, SignKey sKey, {String? seed}) {
-    var ext = AccountExtensions();
-    return ext.metaHelper!.generateMeta(type, sKey, seed: seed);
+    var helper = AccountExtensions.metaHelper;
+    return helper!.generateMeta(type, sKey, seed: seed);
   }
 
   static Meta? parse(Object? meta) {
-    var ext = AccountExtensions();
-    return ext.metaHelper!.parseMeta(meta);
+    var helper = AccountExtensions.metaHelper;
+    return helper!.parseMeta(meta);
   }
 
   static MetaFactory? getFactory(String type) {
-    var ext = AccountExtensions();
-    return ext.metaHelper!.getMetaFactory(type);
+    var helper = AccountExtensions.metaHelper;
+    return helper!.getMetaFactory(type);
   }
   static void setFactory(String type, MetaFactory factory) {
-    var ext = AccountExtensions();
-    ext.metaHelper!.setMetaFactory(type, factory);
+    var helper = AccountExtensions.metaHelper;
+    helper!.setMetaFactory(type, factory);
   }
 }
 

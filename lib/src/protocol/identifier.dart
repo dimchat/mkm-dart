@@ -101,27 +101,27 @@ abstract interface class ID implements Stringer {
   //
 
   static ID? parse(Object? identifier) {
-    var ext = AccountExtensions();
-    return ext.idHelper!.parseID(identifier);
+    var helper = AccountExtensions.idHelper;
+    return helper!.parseID(identifier);
   }
 
   static ID create({String? name, required Address address, String? terminal}) {
-    var ext = AccountExtensions();
-    return ext.idHelper!.createID(name: name, address: address, terminal: terminal);
+    var helper = AccountExtensions.idHelper;
+    return helper!.createID(name: name, address: address, terminal: terminal);
   }
 
   static ID generate(Meta meta, int? network, {String? terminal}) {
-    var ext = AccountExtensions();
-    return ext.idHelper!.generateID(meta, network, terminal: terminal);
+    var helper = AccountExtensions.idHelper;
+    return helper!.generateID(meta, network, terminal: terminal);
   }
 
   static IDFactory? getFactory() {
-    var ext = AccountExtensions();
-    return ext.idHelper!.getIDFactory();
+    var helper = AccountExtensions.idHelper;
+    return helper!.getIDFactory();
   }
   static void setFactory(IDFactory factory) {
-    var ext = AccountExtensions();
-    ext.idHelper!.setIDFactory(factory);
+    var helper = AccountExtensions.idHelper;
+    helper!.setIDFactory(factory);
   }
 }
 

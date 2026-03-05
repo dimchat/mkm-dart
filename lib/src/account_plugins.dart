@@ -51,38 +51,39 @@ abstract interface class GeneralAccountHelper /*
 
 /// Account FactoryManager
 /// ~~~~~~~~~~~~~~~~~~~~~~
-class SharedAccountExtensions {
-  factory SharedAccountExtensions() => _instance;
-  static final SharedAccountExtensions _instance = SharedAccountExtensions._internal();
-  SharedAccountExtensions._internal();
+
+// ignore: non_constant_identifier_names
+final SharedAccountExtensions = _SharedAccountExtension();
+
+class _SharedAccountExtension {
 
   /// Address
   AddressHelper? get addressHelper =>
-      AccountExtensions().addressHelper;
+      AccountExtensions.addressHelper;
 
   set addressHelper(AddressHelper? helper) =>
-      AccountExtensions().addressHelper = helper;
+      AccountExtensions.addressHelper = helper;
 
   /// ID
   IDHelper? get idHelper =>
-      AccountExtensions().idHelper;
+      AccountExtensions.idHelper;
 
   set idHelper(IDHelper? helper) =>
-      AccountExtensions().idHelper = helper;
+      AccountExtensions.idHelper = helper;
 
   /// Meta
   MetaHelper? get metaHelper =>
-      AccountExtensions().metaHelper;
+      AccountExtensions.metaHelper;
 
   set metaHelper(MetaHelper? helper) =>
-      AccountExtensions().metaHelper = helper;
+      AccountExtensions.metaHelper = helper;
 
   /// Document
   DocumentHelper? get docHelper =>
-      AccountExtensions().docHelper;
+      AccountExtensions.docHelper;
 
   set docHelper(DocumentHelper? helper) =>
-      AccountExtensions().docHelper = helper;
+      AccountExtensions.docHelper = helper;
 
   /// General Helper
   GeneralAccountHelper? helper;

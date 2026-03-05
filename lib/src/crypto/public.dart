@@ -50,17 +50,17 @@ abstract interface class PublicKey implements VerifyKey {
   //
 
   static PublicKey? parse(Object? key) {
-    var ext = CryptoExtensions();
-    return ext.publicHelper!.parsePublicKey(key);
+    var helper = CryptoExtensions.publicHelper;
+    return helper!.parsePublicKey(key);
   }
 
   static PublicKeyFactory? getFactory(String algorithm) {
-    var ext = CryptoExtensions();
-    return ext.publicHelper!.getPublicKeyFactory(algorithm);
+    var helper = CryptoExtensions.publicHelper;
+    return helper!.getPublicKeyFactory(algorithm);
   }
   static void setFactory(String algorithm, PublicKeyFactory factory) {
-    var ext = CryptoExtensions();
-    ext.publicHelper!.setPublicKeyFactory(algorithm, factory);
+    var helper = CryptoExtensions.publicHelper;
+    helper!.setPublicKeyFactory(algorithm, factory);
   }
 }
 

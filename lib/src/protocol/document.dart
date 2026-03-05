@@ -169,22 +169,22 @@ abstract interface class Document implements TAI, Mapper {
   /// 1. Create from stored info
   /// 2. Create new empty document
   static Document create(String type, {String? data, TransportableData? signature}) {
-    var ext = AccountExtensions();
-    return ext.docHelper!.createDocument(type, data: data, signature: signature);
+    var helper = AccountExtensions.docHelper;
+    return helper!.createDocument(type, data: data, signature: signature);
   }
 
   static Document? parse(Object? doc) {
-    var ext = AccountExtensions();
-    return ext.docHelper!.parseDocument(doc);
+    var helper = AccountExtensions.docHelper;
+    return helper!.parseDocument(doc);
   }
 
   static DocumentFactory? getFactory(String type) {
-    var ext = AccountExtensions();
-    return ext.docHelper!.getDocumentFactory(type);
+    var helper = AccountExtensions.docHelper;
+    return helper!.getDocumentFactory(type);
   }
   static void setFactory(String type, DocumentFactory factory) {
-    var ext = AccountExtensions();
-    ext.docHelper!.setDocumentFactory(type, factory);
+    var helper = AccountExtensions.docHelper;
+    helper!.setDocumentFactory(type, factory);
   }
 }
 

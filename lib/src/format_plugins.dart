@@ -23,27 +23,28 @@
  * SOFTWARE.
  * =============================================================================
  */
-import 'crypto//helpers.dart';
+import 'crypto/helpers.dart';
 
 /// Format FactoryManager
 /// ~~~~~~~~~~~~~~~~~~~~~
-class SharedFormatExtensions {
-  factory SharedFormatExtensions() => _instance;
-  static final SharedFormatExtensions _instance = SharedFormatExtensions._internal();
-  SharedFormatExtensions._internal();
+
+// ignore: non_constant_identifier_names
+final SharedFormatExtensions = _SharedFormatExtension();
+
+class _SharedFormatExtension {
 
   /// TED
   TransportableDataHelper? get tedHelper =>
-      FormatExtensions().tedHelper;
+      FormatExtensions.tedHelper;
 
   set tedHelper(TransportableDataHelper? helper) =>
-      FormatExtensions().tedHelper = helper;
+      FormatExtensions.tedHelper = helper;
 
   /// PNF
   TransportableFileHelper? get pnfHelper =>
-      FormatExtensions().pnfHelper;
+      FormatExtensions.pnfHelper;
 
   set pnfHelper(TransportableFileHelper? helper) =>
-      FormatExtensions().pnfHelper = helper;
+      FormatExtensions.pnfHelper = helper;
 
 }

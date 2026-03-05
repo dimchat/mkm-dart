@@ -114,22 +114,22 @@ abstract interface class TransportableFile implements Mapper, TransportableResou
 
   static TransportableFile create(TransportableData? data, String? filename,
                                   Uri? url, DecryptKey? password) {
-    var ext = FormatExtensions();
-    return ext.pnfHelper!.createTransportableFile(data, filename, url, password);
+    var helper = FormatExtensions.pnfHelper;
+    return helper!.createTransportableFile(data, filename, url, password);
   }
 
   static TransportableFile? parse(Object? pnf) {
-    var ext = FormatExtensions();
-    return ext.pnfHelper!.parseTransportableFile(pnf);
+    var helper = FormatExtensions.pnfHelper;
+    return helper!.parseTransportableFile(pnf);
   }
 
   static TransportableFileFactory? getFactory() {
-    var ext = FormatExtensions();
-    return ext.pnfHelper!.getTransportableFileFactory();
+    var helper = FormatExtensions.pnfHelper;
+    return helper!.getTransportableFileFactory();
   }
   static void setFactory(TransportableFileFactory factory) {
-    var ext = FormatExtensions();
-    ext.pnfHelper!.setTransportableFileFactory(factory);
+    var helper = FormatExtensions.pnfHelper;
+    helper!.setTransportableFileFactory(factory);
   }
 }
 
