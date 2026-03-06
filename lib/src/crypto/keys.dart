@@ -25,9 +25,8 @@
  */
 import 'dart:typed_data';
 
+import '../format/ted.dart';
 import '../type/mapper.dart';
-
-import 'ted.dart';
 
 
 /// Base interface for cryptographic keys with algorithm identification.

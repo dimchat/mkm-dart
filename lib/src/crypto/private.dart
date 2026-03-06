@@ -59,21 +59,21 @@ abstract interface class PrivateKey implements SignKey {
   //
 
   static PrivateKey? generate(String algorithm) {
-    var helper = CryptoExtensions.privateHelper;
+    var helper = sharedCryptoExtensions.privateHelper;
     return helper!.generatePrivateKey(algorithm);
   }
 
   static PrivateKey? parse(Object? key) {
-    var helper = CryptoExtensions.privateHelper;
+    var helper = sharedCryptoExtensions.privateHelper;
     return helper!.parsePrivateKey(key);
   }
 
   static PrivateKeyFactory? getFactory(String algorithm) {
-    var helper = CryptoExtensions.privateHelper;
+    var helper = sharedCryptoExtensions.privateHelper;
     return helper!.getPrivateKeyFactory(algorithm);
   }
   static void setFactory(String algorithm, PrivateKeyFactory factory) {
-    var helper = CryptoExtensions.privateHelper;
+    var helper = sharedCryptoExtensions.privateHelper;
     helper!.setPrivateKeyFactory(algorithm, factory);
   }
 }

@@ -31,7 +31,7 @@
 import 'dart:typed_data';
 
 import '../crypto/keys.dart';
-import '../crypto/ted.dart';
+import '../format/ted.dart';
 import '../type/mapper.dart';
 
 import 'helpers.dart';
@@ -169,21 +169,21 @@ abstract interface class Document implements TAI, Mapper {
   /// 1. Create from stored info
   /// 2. Create new empty document
   static Document create(String type, {String? data, TransportableData? signature}) {
-    var helper = AccountExtensions.docHelper;
+    var helper = sharedAccountExtensions.docHelper;
     return helper!.createDocument(type, data: data, signature: signature);
   }
 
   static Document? parse(Object? doc) {
-    var helper = AccountExtensions.docHelper;
+    var helper = sharedAccountExtensions.docHelper;
     return helper!.parseDocument(doc);
   }
 
   static DocumentFactory? getFactory(String type) {
-    var helper = AccountExtensions.docHelper;
+    var helper = sharedAccountExtensions.docHelper;
     return helper!.getDocumentFactory(type);
   }
   static void setFactory(String type, DocumentFactory factory) {
-    var helper = AccountExtensions.docHelper;
+    var helper = sharedAccountExtensions.docHelper;
     helper!.setDocumentFactory(type, factory);
   }
 }

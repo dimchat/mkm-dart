@@ -52,21 +52,21 @@ abstract interface class SymmetricKey implements EncryptKey, DecryptKey {
   //
 
   static SymmetricKey? generate(String algorithm) {
-    var helper = CryptoExtensions.symmetricHelper;
+    var helper = sharedCryptoExtensions.symmetricHelper;
     return helper!.generateSymmetricKey(algorithm);
   }
 
   static SymmetricKey? parse(Object? key) {
-    var helper = CryptoExtensions.symmetricHelper;
+    var helper = sharedCryptoExtensions.symmetricHelper;
     return helper!.parseSymmetricKey(key);
   }
 
   static SymmetricKeyFactory? getFactory(String algorithm) {
-    var helper = CryptoExtensions.symmetricHelper;
+    var helper = sharedCryptoExtensions.symmetricHelper;
     return helper!.getSymmetricKeyFactory(algorithm);
   }
   static void setFactory(String algorithm, SymmetricKeyFactory factory) {
-    var helper = CryptoExtensions.symmetricHelper;
+    var helper = sharedCryptoExtensions.symmetricHelper;
     helper!.setSymmetricKeyFactory(algorithm, factory);
   }
 }

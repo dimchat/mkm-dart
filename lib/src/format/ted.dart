@@ -132,16 +132,16 @@ abstract interface class TransportableData implements Stringer, TransportableRes
   //
 
   static TransportableData? parse(Object? ted) {
-    var helper = FormatExtensions.tedHelper;
+    var helper = sharedFormatExtensions.tedHelper;
     return helper!.parseTransportableData(ted);
   }
 
   static TransportableDataFactory? getFactory() {
-    var helper = FormatExtensions.tedHelper;
+    var helper = sharedFormatExtensions.tedHelper;
     return helper!.getTransportableDataFactory();
   }
   static void setFactory(TransportableDataFactory factory) {
-    var helper = FormatExtensions.tedHelper;
+    var helper = sharedFormatExtensions.tedHelper;
     helper!.setTransportableDataFactory(factory);
   }
 }

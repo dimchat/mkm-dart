@@ -55,22 +55,22 @@ abstract interface class Address implements Stringer {
   //
 
   static Address? parse(Object? address) {
-    var helper = AccountExtensions.addressHelper;
+    var helper = sharedAccountExtensions.addressHelper;
     return helper!.parseAddress(address);
   }
 
   static Address generate(Meta meta, [int? network]) {
-    var helper = AccountExtensions.addressHelper;
+    var helper = sharedAccountExtensions.addressHelper;
     return helper!.generateAddress(meta, network);
   }
 
   static AddressFactory? getFactory() {
-    var helper = AccountExtensions.addressHelper;
+    var helper = sharedAccountExtensions.addressHelper;
     return helper!.getAddressFactory();
   }
 
   static void setFactory(AddressFactory factory) {
-    var helper = AccountExtensions.addressHelper;
+    var helper = sharedAccountExtensions.addressHelper;
     helper!.setAddressFactory(factory);
   }
 }

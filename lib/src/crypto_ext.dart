@@ -29,8 +29,14 @@ import 'crypto/helpers.dart';
 import 'crypto/keys.dart';
 import 'type/comparator.dart';
 
-/// CryptographyKey GeneralFactory
-/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// -----------------------------------------------------------------------------
+//  General Cryptographic Helpers
+// -----------------------------------------------------------------------------
+
+/// General cryptographic helper interface for key validation and algorithm handling.
+///
+/// Combines common crypto utilities (key matching, algorithm detection) and provides
+/// static methods for verifying key pairs (symmetric/asymmetric).
 abstract interface class GeneralCryptoHelper /*
     implements SymmetricKeyHelper, PrivateKeyHelper, PublicKeyHelper */{
 
@@ -40,14 +46,32 @@ abstract interface class GeneralCryptoHelper /*
       'Moky loves May Lee forever!'.codeUnits
   );
 
-  /// Compare asymmetric keys
+  /// Verifies that an asymmetric key pair (sign/verify) are a matching pair.
+  ///
+  /// Tests if the private (signing) key can sign the [PROMISE] data, and the public
+  /// (verification) key can successfully verify that signature.
+  ///
+  /// @param sKey - Private/signing key to test
+  ///
+  /// @param pKey - Public/verification key to test
+  ///
+  /// @return True if keys are a valid matching pair, false otherwise
   static bool matchAsymmetricKeys(SignKey sKey, VerifyKey pKey) {
     // verify with signature
     Uint8List signature = sKey.sign(PROMISE);
     return pKey.verify(PROMISE, signature);
   }
 
-  /// Compare symmetric keys
+  /// Verifies that symmetric keys (encrypt/decrypt) are a matching pair.
+  ///
+  /// Tests if the encryption key can encrypt the [PROMISE] data, and the decryption
+  /// key can successfully decrypt it back to the original data.
+  ///
+  /// @param encKey - Encryption key to test
+  ///
+  /// @param decKey - Decryption key to test
+  ///
+  /// @return True if keys are a valid matching pair, false otherwise
   static bool matchSymmetricKeys(EncryptKey encKey, DecryptKey decKey) {
     // check by encryption
     Map params = {};
@@ -60,40 +84,28 @@ abstract interface class GeneralCryptoHelper /*
   //  Algorithm
   //
 
+  /// Extracts the algorithm name from a key's metadata map.
+  ///
+  /// Retrieves the algorithm identifier (e.g., "AES", "RSA") from a key's raw map
+  /// representation, with a fallback default value if not found.
+  ///
+  /// @param key - Raw key map containing algorithm metadata
+  ///
+  /// @param defaultValue - Fallback value if algorithm is not found
+  ///
+  /// @return Extracted algorithm name (or defaultValue if not present)
   String? getKeyAlgorithm(Map key, [String? defaultValue]);
 
 }
 
-/// CryptographyKey FactoryManager
-/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/// General Extensions
+/// ~~~~~~~~~~~~~~~~~~
 
-// ignore: non_constant_identifier_names
-final SharedCryptoExtensions = _SharedCryptoExtension();
+GeneralCryptoHelper? _cryptoHelper;
 
-class _SharedCryptoExtension {
+extension GeneralCryptoExtension on CryptoExtensions {
 
-  /// Symmetric Key
-  SymmetricKeyHelper? get symmetricHelper =>
-      CryptoExtensions.symmetricHelper;
-
-  set symmetricHelper(SymmetricKeyHelper? helper) =>
-      CryptoExtensions.symmetricHelper = helper;
-
-  /// Private Key
-  PrivateKeyHelper? get privateHelper =>
-      CryptoExtensions.privateHelper;
-
-  set privateHelper(PrivateKeyHelper? helper) =>
-      CryptoExtensions.privateHelper = helper;
-
-  /// Public Key
-  PublicKeyHelper? get publicHelper =>
-      CryptoExtensions.publicHelper;
-
-  set publicHelper(PublicKeyHelper? helper) =>
-      CryptoExtensions.publicHelper = helper;
-
-  /// General Helper
-  GeneralCryptoHelper? helper;
+  GeneralCryptoHelper? get helper => _cryptoHelper;
+  set helper(GeneralCryptoHelper? ext) => _cryptoHelper = ext;
 
 }

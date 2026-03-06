@@ -29,7 +29,7 @@
  * ==============================================================================
  */
 import '../crypto/keys.dart';
-import '../crypto/ted.dart';
+import '../format/ted.dart';
 import '../type/mapper.dart';
 
 import 'address.dart';
@@ -106,27 +106,27 @@ abstract interface class Meta implements Mapper {
 
   /// Create from stored info
   static Meta create(String type, VerifyKey pKey, {String? seed, TransportableData? fingerprint}) {
-    var helper = AccountExtensions.metaHelper;
+    var helper = sharedAccountExtensions.metaHelper;
     return helper!.createMeta(type, pKey, seed: seed, fingerprint: fingerprint);
   }
 
   /// Generate with private key
   static Meta generate(String type, SignKey sKey, {String? seed}) {
-    var helper = AccountExtensions.metaHelper;
+    var helper = sharedAccountExtensions.metaHelper;
     return helper!.generateMeta(type, sKey, seed: seed);
   }
 
   static Meta? parse(Object? meta) {
-    var helper = AccountExtensions.metaHelper;
+    var helper = sharedAccountExtensions.metaHelper;
     return helper!.parseMeta(meta);
   }
 
   static MetaFactory? getFactory(String type) {
-    var helper = AccountExtensions.metaHelper;
+    var helper = sharedAccountExtensions.metaHelper;
     return helper!.getMetaFactory(type);
   }
   static void setFactory(String type, MetaFactory factory) {
-    var helper = AccountExtensions.metaHelper;
+    var helper = sharedAccountExtensions.metaHelper;
     helper!.setMetaFactory(type, factory);
   }
 }
