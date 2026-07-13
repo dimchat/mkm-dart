@@ -25,9 +25,10 @@
  */
 import 'mapper.dart';
 
-/// Data Copy Interface
+/// Data Copy Utilities
 /// ~~~~~~~~~~~~~~~~~~~
-abstract class Copier {
+final class Copier {
+  Copier._();
 
   static dynamic copy(Object? object) =>
       copier.copy(object);

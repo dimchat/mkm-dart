@@ -46,7 +46,9 @@ abstract interface class MessageDigester {
   Uint8List digest(Uint8List data);
 }
 
-class SHA256 {
+
+final class SHA256 {
+  SHA256._();
 
   static Uint8List digest(Uint8List data) {
     return digester!.digest(data);
@@ -55,7 +57,9 @@ class SHA256 {
   static MessageDigester? digester;
 }
 
-class KECCAK256 {
+
+final class KECCAK256 {
+  KECCAK256._();
 
   static Uint8List digest(Uint8List data) {
     return digester!.digest(data);
@@ -64,7 +68,9 @@ class KECCAK256 {
   static MessageDigester? digester;
 }
 
-class RIPEMD160 {
+
+final class RIPEMD160 {
+  RIPEMD160._();
 
   static Uint8List digest(Uint8List data) {
     return digester!.digest(data);

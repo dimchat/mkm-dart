@@ -24,9 +24,10 @@
  * =============================================================================
  */
 
-/// Data Convert Interface
+/// Data Convert Utilities
 /// ~~~~~~~~~~~~~~~~~~~~~~
-abstract class Converter {
+final class Converter {
+  Converter._();
   // ignore_for_file: non_constant_identifier_names
 
   static final Map<String, bool> BOOLEAN_STATES = {

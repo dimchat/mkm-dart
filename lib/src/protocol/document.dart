@@ -123,19 +123,10 @@ abstract interface class TAI {
 /// ```
 abstract interface class Document implements TAI, Mapper {
 
-  // /// Unique identifier of the entity this document belongs to.
-  // ID get identifier;
-
-  //---- properties getter/setter
-
-  /// Timestamp when the document was signed.
+  /// Signature time from properties (data)
   ///
   /// Returns: [DateTime] of the signature creation, null if not signed
   DateTime? get time;
-
-  // /// Display name of the entity (from properties).
-  // String? get name;
-  // set name(String? value);
 
   //
   //  Conveniences

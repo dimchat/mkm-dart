@@ -52,7 +52,9 @@ abstract interface class DataCoder {
   Uint8List? decode(String string);
 }
 
-class Hex {
+
+final class Hex {
+  Hex._();
 
   static String encode(Uint8List data) {
     return coder!.encode(data);
@@ -65,7 +67,9 @@ class Hex {
   static DataCoder? coder;
 }
 
-class Base58 {
+
+final class Base58 {
+  Base58._();
 
   static String encode(Uint8List data) {
     return coder!.encode(data);
@@ -78,7 +82,9 @@ class Base58 {
   static DataCoder? coder;
 }
 
-class Base64 {
+
+final class Base64 {
+  Base64._();
 
   static String encode(Uint8List data) {
     return coder!.encode(data);

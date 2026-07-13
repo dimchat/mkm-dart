@@ -52,7 +52,9 @@ abstract interface class ObjectCoder<T> {
   T? decode(String string);
 }
 
-class JSON {
+
+final class JSON {
+  JSON._();
 
   static String encode(Object container) {
     return coder!.encode(container);
@@ -79,7 +81,9 @@ class MapCoder implements ObjectCoder<Map> {
   }
 }
 
-class JSONMap {
+
+final class JSONMap {
+  JSONMap._();
 
   static String encode(Map container) {
     return coder.encode(container);

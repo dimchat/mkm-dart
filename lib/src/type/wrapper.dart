@@ -26,9 +26,10 @@
 import 'mapper.dart';
 import 'stringer.dart';
 
-/// Data Wrap Interface
+/// Data Wrap Utilities
 /// ~~~~~~~~~~~~~~~~~~~
-abstract class Wrapper {
+final class Wrapper {
+  Wrapper._();
 
   ///  Get inner String
   ///  ~~~~~~~~~~~~~~~~

@@ -53,7 +53,9 @@ abstract interface class StringCoder {
   String? decode(Uint8List data);
 }
 
-class UTF8 {
+
+final class UTF8 {
+  UTF8._();
 
   static Uint8List encode(String string) {
     return coder!.encode(string);

@@ -25,9 +25,10 @@
  */
 import 'dart:typed_data';
 
-/// Data Compare Interface
+/// Data Compare Utilities
 /// ~~~~~~~~~~~~~~~~~~~~~~
-abstract class Comparator {
+final class Comparator {
+  Comparator._();
 
   static bool different(dynamic a, dynamic b) =>
       comparator.different(a, b);

@@ -65,6 +65,19 @@ abstract interface class ID implements Stringer {
   bool get isUser;
   bool get isGroup;
 
+  //
+  //  Comparison
+  //
+
+  /// Check Naked ID
+  bool isSameAs(Object? other);
+
+  /// Naked ID: name@address
+  ID withoutTerminal();
+
+  /// Dressed ID: name@address/terminal
+  ID withTerminal(String newTerminal);
+
   /// ID for Broadcast
   static final ID ANYONE = Identifier.create(name: 'anyone', address: Address.ANYWHERE);
   static final ID EVERYONE = Identifier.create(name: 'everyone', address: Address.EVERYWHERE);
@@ -181,7 +194,7 @@ class Identifier extends ConstantString implements ID {
   String? get terminal => _terminal;
 
   @override
-  int get type => _address.network;
+  int get type => address.network;
 
   @override
   bool get isBroadcast => EntityType.isBroadcast(type);
@@ -191,6 +204,63 @@ class Identifier extends ConstantString implements ID {
 
   @override
   bool get isGroup => EntityType.isGroup(type);
+
+  @override
+  bool isSameAs(Object? other) {
+    ID? did  = ID.parse(other);
+    if (did == null) {
+      // should not happen
+      return false;
+    } else if (identical(did, this)) {
+      // same object
+      return true;
+    }
+    //
+    //  1. check address
+    //
+    if (address != did.address) {
+      // addresses not equal,
+      // sure not the same entity
+      return false;
+    }
+    //
+    //  2. check name
+    //
+    String thisName = name ?? '';
+    String thatName = did.name ?? '';
+    return thisName == thatName;
+  }
+
+  @override
+  ID withoutTerminal() {
+    // check old terminal (device)
+    String? device = terminal;
+    if (device == null/* || device.isEmpty*/) {
+      // nothing changed
+      return this;
+    }
+    // create new ID without terminal
+    return ID.create(name: name, address: address);
+  }
+
+  @override
+  ID withTerminal(String newTerminal) {
+    // check old terminal (device)
+    String oldTerminal = terminal ?? '';
+    if (newTerminal.isEmpty) {
+      // should not happen
+      return oldTerminal.isEmpty ? this : ID.create(name: name, address: address);
+    }
+    // new terminal not empty (normally),
+    // try to add/replace terminal
+    if (newTerminal == oldTerminal) {
+      // old terminal equals to the new terminal,
+      // nothing changed
+      return this;
+    }
+    // create new ID with terminal
+    return ID.create(name: name, address: address, terminal: newTerminal);
+  }
 
   //
   //  Factory
