@@ -23,6 +23,8 @@
  * SOFTWARE.
  * =============================================================================
  */
+import '../type/mapping.dart';
+
 
 /// Generic interface for serializing/deserializing objects to/from string formats.
 ///
@@ -68,15 +70,15 @@ final class JSON {
 }
 
 /// coder for json <=> map
-class MapCoder implements ObjectCoder<Map> {
+class MapCoder implements ObjectCoder<Mapping> {
 
   @override
-  String encode(Map object) {
+  String encode(Mapping object) {
     return JSON.coder!.encode(object);
   }
 
   @override
-  Map? decode(String string) {
+  Mapping? decode(String string) {
     return JSON.coder!.decode(string);
   }
 }
@@ -85,13 +87,18 @@ class MapCoder implements ObjectCoder<Map> {
 final class JSONMap {
   JSONMap._();
 
-  static String encode(Map container) {
+  static String encode(Mapping container) {
     return coder.encode(container);
   }
 
   static Map? decode(String json) {
-    return coder.decode(json);
+    var info = coder.decode(json);
+    if (info is Map) {
+      return info as Map;
+    }
+    assert(false, 'json error: "$json"');
+    return null;
   }
 
-  static ObjectCoder<Map> coder = MapCoder();
+  static ObjectCoder<Mapping> coder = MapCoder();
 }

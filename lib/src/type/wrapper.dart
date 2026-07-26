@@ -24,7 +24,9 @@
  * =============================================================================
  */
 import 'mapper.dart';
+import 'mapping.dart';
 import 'stringer.dart';
+
 
 /// Data Wrap Utilities
 /// ~~~~~~~~~~~~~~~~~~~
@@ -40,7 +42,7 @@ final class Wrapper {
   ///  Get inner Map
   ///  ~~~~~~~~~~~~~
   ///  Remove first wrapper
-  static Map? getMap(Object? dict) =>
+  static MutableMapping? getMap(Object? dict) =>
       wrapper.getMap(dict);
 
   ///  Unwrap recursively
@@ -50,7 +52,7 @@ final class Wrapper {
       wrapper.unwrap(object);
 
   /// Unwrap values for keys in map
-  static Map unwrapMap(Map dict) =>
+  static Map unwrapMap(Mapping dict) =>
       wrapper.unwrapMap(dict);
 
   /// Unwrap values in the array
@@ -65,11 +67,11 @@ abstract interface class DataWrapper {
 
   String? getString(Object? str);
 
-  Map? getMap(Object? dict);
+  MutableMapping? getMap(Object? dict);
 
   dynamic unwrap(Object? object);
 
-  Map unwrapMap(Map dict);
+  Map unwrapMap(Mapping dict);
 
   List unwrapList(List array);
 
@@ -92,13 +94,13 @@ class BaseWrapper implements DataWrapper {
   }
 
   @override
-  Map? getMap(Object? dict) {
+  MutableMapping? getMap(Object? dict) {
     if (dict == null) {
       return null;
     } else if (dict is Mapper) {
       return dict.toMap();
     } else if (dict is Map) {
-      return dict;
+      return dict.asMutableMapping();
     } else {
       assert(false, 'map error: $dict');
       return null;
@@ -112,7 +114,7 @@ class BaseWrapper implements DataWrapper {
     } else if (object is Mapper) {
       return unwrapMap(object.toMap());
     } else if (object is Map) {
-      return unwrapMap(object);
+      return unwrapMap(object.asMapping());
     } else if (object is List) {
       return unwrapList(object);
     } else if (object is Stringer) {
@@ -123,7 +125,7 @@ class BaseWrapper implements DataWrapper {
   }
 
   @override
-  Map unwrapMap(Map dict) {
+  Map unwrapMap(Mapping dict) {
     if (dict is Mapper) {
       dict = dict.toMap();
     }

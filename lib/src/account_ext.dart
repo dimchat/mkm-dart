@@ -28,8 +28,10 @@
  * SOFTWARE.
  * ==============================================================================
  */
+import 'type/mapping.dart';
 import 'protocol/helpers.dart';
 import 'protocol/identifier.dart';
+
 
 // -----------------------------------------------------------------------------
 //  General Account Helpers
@@ -56,7 +58,7 @@ abstract interface class GeneralAccountHelper /*
   /// @param defaultValue - Fallback value if type is not found
   ///
   /// @return Extracted Meta type (or defaultValue if not present)
-  String? getMetaType(Map meta, [String? defaultValue]);
+  String? getMetaType(Mapping meta, [String? defaultValue]);
 
   /// Extracts the document type from a raw Document map.
   ///
@@ -68,7 +70,7 @@ abstract interface class GeneralAccountHelper /*
   /// @param defaultValue - Fallback value if type is not found
   ///
   /// @return Extracted Document type (or defaultValue if not present)
-  String? getDocumentType(Map doc, [String? defaultValue]);
+  String? getDocumentType(Mapping doc, [String? defaultValue]);
 
   /// Resolves the entity ID associated with a raw Document map.
   ///
@@ -78,7 +80,7 @@ abstract interface class GeneralAccountHelper /*
   /// @param doc - Raw Document map containing entity ID metadata
   ///
   /// @return Resolved entity ID (null if ID cannot be extracted)
-  ID? getDocumentID(Map doc);
+  ID? getDocumentID(Mapping doc);
 
 }
 

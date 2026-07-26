@@ -31,9 +31,11 @@
 import '../crypto/keys.dart';
 import '../format/ted.dart';
 import '../type/mapper.dart';
+import '../type/mapping.dart';
 
 import 'address.dart';
 import 'helpers.dart';
+
 
 /// Interface for immutable metadata of network entities (users/groups).
 ///
@@ -165,5 +167,5 @@ abstract interface class MetaFactory {
   /// [meta]: Serialized metadata in the Map format defined in [Meta]
   ///
   /// Returns: [Meta] instance if parsing succeeds, null otherwise
-  Meta? parseMeta(Map meta);
+  Meta? parseMeta(Mapping meta);
 }

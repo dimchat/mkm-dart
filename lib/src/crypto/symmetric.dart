@@ -23,8 +23,11 @@
  * SOFTWARE.
  * =============================================================================
  */
+import '../type/mapping.dart';
+
 import 'helpers.dart';
 import 'keys.dart';
+
 
 /// Interface for symmetric cryptographic keys (single key for encryption/decryption).
 ///
@@ -86,5 +89,5 @@ abstract interface class SymmetricKeyFactory {
   /// [key]: Serialized key data (matches the Map format defined in [SymmetricKey])
   ///
   /// Returns: [SymmetricKey] instance, or null if parsing/validation fails
-  SymmetricKey? parseSymmetricKey(Map key);
+  SymmetricKey? parseSymmetricKey(Mapping key);
 }

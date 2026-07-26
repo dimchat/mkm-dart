@@ -26,9 +26,11 @@
 import 'comparator.dart';
 import 'converter.dart';
 import 'copier.dart';
+import 'mapping.dart';
 import 'stringer.dart';
 
-abstract interface class Mapper implements Map<String, dynamic> {
+
+abstract interface class Mapper implements MutableMapping<String, dynamic> {
 
   /// Gets a string value for the given key.
   ///
@@ -56,7 +58,7 @@ abstract interface class Mapper implements Map<String, dynamic> {
   /// This method provides access to the underlying map data.
   ///
   /// @return A [Map] containing all key-value pairs.
-  Map toMap();
+  MutableMapping toMap();
 
   /// Creates a copy of the internal map.
   ///
@@ -71,12 +73,12 @@ abstract interface class Mapper implements Map<String, dynamic> {
 
 class Dictionary implements Mapper {
 
-  final Map _map;
+  final MutableMapping _map;
 
-  Dictionary([Map? dict])
-      : _map = dict == null ? {}
+  Dictionary([Mapping? dict])
+      : _map = dict == null ? {}.asMutableMapping()
       : dict is Mapper ? dict.toMap()
-      : dict;
+      : (dict as Map).asMutableMapping();
 
   @override
   String? getString(String key, [String? defaultValue]) =>
@@ -126,7 +128,7 @@ class Dictionary implements Mapper {
   }
 
   @override
-  Map toMap() => _map;
+  MutableMapping toMap() => _map;
 
   @override
   Map copyMap([bool deepCopy = false]) {
@@ -150,7 +152,7 @@ class Dictionary implements Mapper {
       // compare with inner map
       other = other.toMap();
     }
-    return other is Map && Comparator.mapEquals(other, _map);
+    return other is Map && Comparator.mapEquals(other, _map as Map);
   }
 
   @override
@@ -160,8 +162,8 @@ class Dictionary implements Mapper {
   ///   Map<String, dynamic>
   ///
 
-  @override
-  Map<RK, RV> cast<RK, RV>() => _map.cast();
+  // @override
+  // Map<RK, RV> cast<RK, RV>() => _map.cast();
 
   @override
   bool containsValue(dynamic value) => _map.containsValue(value);
@@ -178,31 +180,31 @@ class Dictionary implements Mapper {
   @override
   Iterable<MapEntry<String, dynamic>> get entries => _map.entries.cast();
 
-  @override
-  Map<K2, V2> map<K2, V2>
-      (MapEntry<K2, V2> Function(String key, dynamic value) convert) =>
-      _map.map((key, value) => convert(key, value));
+  // @override
+  // Map<K2, V2> map<K2, V2>
+  //     (MapEntry<K2, V2> Function(String key, dynamic value) convert) =>
+  //     _map.map((key, value) => convert(key, value));
 
   @override
   void addEntries(Iterable<MapEntry<String, dynamic>> newEntries) =>
       _map.addEntries(newEntries);
 
-  @override
-  dynamic update(String key, Function(dynamic value) update,
-      {Function()? ifAbsent}) =>
-      _map.update(key, update, ifAbsent: ifAbsent);
-
-  @override
-  void updateAll(Function(String key, dynamic value) update) =>
-      _map.updateAll((key, value) => update(key, value));
+  // @override
+  // dynamic update(String key, Function(dynamic value) update,
+  //     {Function()? ifAbsent}) =>
+  //     _map.update(key, update, ifAbsent: ifAbsent);
+  //
+  // @override
+  // void updateAll(Function(String key, dynamic value) update) =>
+  //     _map.updateAll((key, value) => update(key, value));
 
   @override
   void removeWhere(bool Function(String key, dynamic value) test) =>
       _map.removeWhere((key, value) => test(key, value));
 
-  @override
-  dynamic putIfAbsent(String key, Function() ifAbsent) =>
-      _map.putIfAbsent(key, ifAbsent);
+  // @override
+  // dynamic putIfAbsent(String key, Function() ifAbsent) =>
+  //     _map.putIfAbsent(key, ifAbsent);
 
   @override
   void addAll(Map other) => _map.addAll(other);

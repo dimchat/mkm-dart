@@ -33,6 +33,7 @@ import 'dart:typed_data';
 import '../crypto/keys.dart';
 import '../format/ted.dart';
 import '../type/mapper.dart';
+import '../type/mapping.dart';
 
 import 'helpers.dart';
 
@@ -145,8 +146,8 @@ abstract interface class Document implements TAI, Mapper {
     return documents;
   }
 
-  static List<Map> revert(Iterable<Document> documents) {
-    List<Map> array = [];
+  static List<MutableMapping> revert(Iterable<Document> documents) {
+    List<MutableMapping> array = [];
     for (Document doc in documents) {
       array.add(doc.toMap());
     }
@@ -203,5 +204,5 @@ abstract interface class DocumentFactory {
   /// [doc]: Serialized document in the Map format defined in [Document]
   ///
   /// Returns: [Document] instance if parsing succeeds, null otherwise
-  Document? parseDocument(Map doc);
+  Document? parseDocument(Mapping doc);
 }

@@ -27,6 +27,7 @@ import 'dart:typed_data';
 
 import '../format/ted.dart';
 import '../type/mapper.dart';
+import '../type/mapping.dart';
 
 
 /// Base interface for cryptographic keys with algorithm identification.
@@ -74,7 +75,7 @@ abstract interface class EncryptKey implements CryptographyKey {
   /// [extra]: Optional algorithm-specific parameters (e.g., "IV" for AES)
   ///
   /// Returns: Encrypted ciphertext as Uint8List
-  Uint8List encrypt(Uint8List plaintext, [Map? extra]);
+  Uint8List encrypt(Uint8List plaintext, [MutableMapping? extra]);
 }
 
 /// Interface for decryption keys (symmetric or asymmetric private keys).
@@ -96,7 +97,7 @@ abstract interface class DecryptKey implements CryptographyKey {
   /// [params]: Optional algorithm-specific parameters (e.g., "IV" for AES)
   ///
   /// Returns: Decrypted plaintext as Uint8List, or null if decryption fails
-  Uint8List? decrypt(Uint8List ciphertext, [Map? params]);
+  Uint8List? decrypt(Uint8List ciphertext, [Mapping? params]);
 
   //  OK = decrypt(encrypt(data, PK), SK) == data
 

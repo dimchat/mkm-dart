@@ -24,6 +24,8 @@
  * =============================================================================
  */
 import 'mapper.dart';
+import 'mapping.dart';
+
 
 /// Data Copy Utilities
 /// ~~~~~~~~~~~~~~~~~~~
@@ -36,10 +38,10 @@ final class Copier {
   static dynamic deepCopy(Object? object) =>
       copier.deepCopy(object);
 
-  static Map copyMap(Map dict) =>
+  static Map copyMap(Mapping dict) =>
       copier.copyMap(dict);
 
-  static Map deepCopyMap(Map dict) =>
+  static Map deepCopyMap(Mapping dict) =>
       copier.deepCopyMap(dict);
 
   static List copyList(List array) =>
@@ -56,11 +58,11 @@ abstract interface class DataCopier {
 
   dynamic copy(Object? object);
   List copyList(List array);
-  Map copyMap(Map dict);
+  Map copyMap(Mapping dict);
 
   dynamic deepCopy(Object? object);
   List deepCopyList(List array);
-  Map deepCopyMap(Map dict);
+  Map deepCopyMap(Mapping dict);
 
 }
 
@@ -73,7 +75,7 @@ class BaseCopier implements DataCopier {
     } else if (object is Mapper) {
       return copyMap(object.toMap());
     } else if (object is Map) {
-      return copyMap(object);
+      return copyMap(object.asMapping());
     } else if (object is List) {
       return copyList(object);
     } else {
@@ -91,7 +93,7 @@ class BaseCopier implements DataCopier {
   }
 
   @override
-  Map copyMap(Map dict) {
+  Map copyMap(Mapping dict) {
     Map clone = {};
     dict.forEach((key, value) {
       clone[key] = value;
@@ -106,7 +108,7 @@ class BaseCopier implements DataCopier {
     } else if (object is Mapper) {
       return deepCopyMap(object.toMap());
     } else if (object is Map) {
-      return deepCopyMap(object);
+      return deepCopyMap(object.asMapping());
     } else if (object is List) {
       return deepCopyList(object);
     } else {
@@ -124,7 +126,7 @@ class BaseCopier implements DataCopier {
   }
 
   @override
-  Map deepCopyMap(Map dict) {
+  Map deepCopyMap(Mapping dict) {
     Map clone = {};
     dict.forEach((key, value) {
       clone[key] = deepCopy(value);

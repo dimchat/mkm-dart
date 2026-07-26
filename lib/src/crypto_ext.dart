@@ -28,6 +28,8 @@ import 'dart:typed_data';
 import 'crypto/helpers.dart';
 import 'crypto/keys.dart';
 import 'type/comparator.dart';
+import 'type/mapping.dart';
+
 
 // -----------------------------------------------------------------------------
 //  General Cryptographic Helpers
@@ -74,7 +76,7 @@ abstract interface class GeneralCryptoHelper /*
   /// @return True if keys are a valid matching pair, false otherwise
   static bool matchSymmetricKeys(EncryptKey encKey, DecryptKey decKey) {
     // check by encryption
-    Map params = {};
+    MutableMapping params = {}.asMutableMapping();
     Uint8List ciphertext = encKey.encrypt(PROMISE, params);
     Uint8List? plaintext = decKey.decrypt(ciphertext, params);
     return plaintext != null && Arrays.equals(plaintext, PROMISE);
@@ -94,7 +96,7 @@ abstract interface class GeneralCryptoHelper /*
   /// @param defaultValue - Fallback value if algorithm is not found
   ///
   /// @return Extracted algorithm name (or defaultValue if not present)
-  String? getKeyAlgorithm(Map key, [String? defaultValue]);
+  String? getKeyAlgorithm(Mapping key, [String? defaultValue]);
 
 }
 

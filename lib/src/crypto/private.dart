@@ -23,9 +23,12 @@
  * SOFTWARE.
  * =============================================================================
  */
+import '../type/mapping.dart';
+
 import 'helpers.dart';
 import 'keys.dart';
 import 'public.dart';
+
 
 /// Interface for asymmetric private keys (part of a key pair).
 ///
@@ -97,5 +100,5 @@ abstract interface class PrivateKeyFactory {
   /// [key]: Serialized private key data (matches the Map format defined in [PrivateKey])
   ///
   /// Returns: [PrivateKey] instance, or null if parsing/validation fails
-  PrivateKey? parsePrivateKey(Map key);
+  PrivateKey? parsePrivateKey(Mapping key);
 }
