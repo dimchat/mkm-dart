@@ -85,9 +85,13 @@ class BaseComparator implements DataComparator {
       // different size
       return false;
     }
-    for (K key in a.keys) {
+    for (final entry in a.entries) {
+      K key = entry.key;
+      if (!b.containsKey(key)) {
+        return false;
+      }
       // check values
-      if (different(a[key], b[key])) {
+      if (different(b[key], entry.value)) {
         return false;
       }
     }
@@ -145,7 +149,9 @@ class BaseComparator implements DataComparator {
 
 }
 
-abstract interface class Arrays {
+
+final class Arrays {
+  Arrays._();
 
   static bool equals<T>(List<T> a, List<T> b) {
     if (identical(a, b)) {

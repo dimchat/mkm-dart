@@ -132,7 +132,7 @@ final sharedCryptoExtensions = CryptoExtensions();
 ///
 /// Centralizes access to crypto helpers (symmetric/private/public key helpers)
 /// using Dart extensions for clean, modular access.
-class CryptoExtensions {
+final class CryptoExtensions {
   factory CryptoExtensions() => _instance;
   static final CryptoExtensions _instance = CryptoExtensions._internal();
   CryptoExtensions._internal();

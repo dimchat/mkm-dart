@@ -67,7 +67,7 @@ final sharedFormatExtensions = FormatExtensions();
 ///
 /// Centralizes access to format helpers (like [TransportableDataHelper])
 /// using Dart extensions for clean, modular access.
-class FormatExtensions {
+final class FormatExtensions {
   factory FormatExtensions() => _instance;
   static final FormatExtensions _instance = FormatExtensions._internal();
   FormatExtensions._internal();

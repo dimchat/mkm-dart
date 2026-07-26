@@ -99,7 +99,7 @@ abstract interface class AddressFactory {
 }
 
 
-class _BroadcastAddress extends ConstantString implements Address {
+final class _BroadcastAddress extends ConstantString implements Address {
   _BroadcastAddress(super.string, this.type);
 
   // private

@@ -245,7 +245,7 @@ final sharedAccountExtensions = AccountExtensions();
 ///
 /// Provides a unified entry point for accessing all account-related helpers,
 /// ensuring consistent management of account components (Address/ID/Meta/Document).
-class AccountExtensions {
+final class AccountExtensions {
   factory AccountExtensions() => _instance;
   static final AccountExtensions _instance = AccountExtensions._internal();
   AccountExtensions._internal();

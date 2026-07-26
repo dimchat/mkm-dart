@@ -60,7 +60,8 @@
 ///      1000 0000 - broadcast flag
 ///
 ///      (All above are just some advices to help choosing numbers :P)
-abstract interface class EntityType {
+final class EntityType {
+  EntityType._();
   // ignore_for_file: constant_identifier_names
 
   ///  Main: 0, 1

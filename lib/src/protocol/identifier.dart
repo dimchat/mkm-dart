@@ -175,7 +175,7 @@ abstract interface class IDFactory {
 }
 
 
-class Identifier extends ConstantString implements ID {
+final class Identifier extends ConstantString implements ID {
   Identifier(super.string, {
     String? name, required Address address, String? terminal
   }) : _name = name, _address = address, _terminal = terminal;
