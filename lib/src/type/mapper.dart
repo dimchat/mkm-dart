@@ -76,9 +76,9 @@ class Dictionary implements Mapper {
   final MutableMapping _map;
 
   Dictionary([Mapping? dict])
-      : _map = dict == null ? {}.asMutableMapping()
+      : _map = dict == null ? {}
       : dict is Mapper ? dict.toMap()
-      : (dict as Map).asMutableMapping();
+      : dict;
 
   @override
   String? getString(String key, [String? defaultValue]) =>
@@ -152,7 +152,7 @@ class Dictionary implements Mapper {
       // compare with inner map
       other = other.toMap();
     }
-    return other is Map && Comparator.mapEquals(other, _map as Map);
+    return other is Map && Comparator.mapEquals(other, _map);
   }
 
   @override
@@ -162,8 +162,8 @@ class Dictionary implements Mapper {
   ///   Map<String, dynamic>
   ///
 
-  // @override
-  // Map<RK, RV> cast<RK, RV>() => _map.cast();
+  @override
+  Map<RK, RV> cast<RK, RV>() => _map.cast();
 
   @override
   bool containsValue(dynamic value) => _map.containsValue(value);
@@ -180,31 +180,31 @@ class Dictionary implements Mapper {
   @override
   Iterable<MapEntry<String, dynamic>> get entries => _map.entries.cast();
 
-  // @override
-  // Map<K2, V2> map<K2, V2>
-  //     (MapEntry<K2, V2> Function(String key, dynamic value) convert) =>
-  //     _map.map((key, value) => convert(key, value));
+  @override
+  Map<K2, V2> map<K2, V2>
+      (MapEntry<K2, V2> Function(String key, dynamic value) convert) =>
+      _map.map((key, value) => convert(key, value));
 
   @override
   void addEntries(Iterable<MapEntry<String, dynamic>> newEntries) =>
       _map.addEntries(newEntries);
 
-  // @override
-  // dynamic update(String key, Function(dynamic value) update,
-  //     {Function()? ifAbsent}) =>
-  //     _map.update(key, update, ifAbsent: ifAbsent);
-  //
-  // @override
-  // void updateAll(Function(String key, dynamic value) update) =>
-  //     _map.updateAll((key, value) => update(key, value));
+  @override
+  dynamic update(String key, Function(dynamic value) update,
+      {Function()? ifAbsent}) =>
+      _map.update(key, update, ifAbsent: ifAbsent);
+
+  @override
+  void updateAll(Function(String key, dynamic value) update) =>
+      _map.updateAll((key, value) => update(key, value));
 
   @override
   void removeWhere(bool Function(String key, dynamic value) test) =>
       _map.removeWhere((key, value) => test(key, value));
 
-  // @override
-  // dynamic putIfAbsent(String key, Function() ifAbsent) =>
-  //     _map.putIfAbsent(key, ifAbsent);
+  @override
+  dynamic putIfAbsent(String key, Function() ifAbsent) =>
+      _map.putIfAbsent(key, ifAbsent);
 
   @override
   void addAll(Map other) => _map.addAll(other);
