@@ -38,16 +38,16 @@ final class Copier {
   static dynamic deepCopy(Object? object) =>
       copier.deepCopy(object);
 
-  static Map copyMap(Mapping dict) =>
+  static Map<K, V> copyMap<K, V>(Mapping<K, V> dict) =>
       copier.copyMap(dict);
 
-  static Map deepCopyMap(Mapping dict) =>
+  static Map<K, V> deepCopyMap<K, V>(Mapping<K, V> dict) =>
       copier.deepCopyMap(dict);
 
-  static List copyList(List array) =>
+  static List<T> copyList<T>(List<T> array) =>
       copier.copyList(array);
 
-  static List deepCopyList(List array) =>
+  static List<T> deepCopyList<T>(List<T> array) =>
       copier.deepCopyList(array);
 
   static DataCopier copier = BaseCopier();
@@ -57,19 +57,19 @@ final class Copier {
 abstract interface class DataCopier {
 
   dynamic copy(Object? object);
-  List copyList(List array);
-  Map copyMap(Mapping dict);
+  List<T> copyList<T>(List<T> array);
+  Map<K, V> copyMap<K, V>(Mapping<K, V> dict);
 
   dynamic deepCopy(Object? object);
-  List deepCopyList(List array);
-  Map deepCopyMap(Mapping dict);
+  List<T> deepCopyList<T>(List<T> array);
+  Map<K, V> deepCopyMap<K, V>(Mapping<K, V> dict);
 
 }
 
 class BaseCopier implements DataCopier {
 
   @override
-  copy(Object? object) {
+  dynamic copy(Object? object) {
     if (object == null) {
       return null;
     } else if (object is Mapper) {
@@ -84,8 +84,8 @@ class BaseCopier implements DataCopier {
   }
 
   @override
-  List copyList(List array) {
-    List clone = [];
+  List<T> copyList<T>(List<T> array) {
+    List<T> clone = [];
     for (var item in array) {
       clone.add(item);
     }
@@ -93,8 +93,8 @@ class BaseCopier implements DataCopier {
   }
 
   @override
-  Map copyMap(Mapping dict) {
-    Map clone = {};
+  Map<K, V> copyMap<K, V>(Mapping<K, V> dict) {
+    Map<K, V> clone = {};
     dict.forEach((key, value) {
       clone[key] = value;
     });
@@ -102,7 +102,7 @@ class BaseCopier implements DataCopier {
   }
 
   @override
-  deepCopy(Object? object) {
+  dynamic deepCopy(Object? object) {
     if (object == null) {
       return null;
     } else if (object is Mapper) {
@@ -117,8 +117,8 @@ class BaseCopier implements DataCopier {
   }
 
   @override
-  List deepCopyList(List array) {
-    List clone = [];
+  List<T> deepCopyList<T>(List<T> array) {
+    List<T> clone = [];
     for (var item in array) {
       clone.add(deepCopy(item));
     }
@@ -126,8 +126,8 @@ class BaseCopier implements DataCopier {
   }
 
   @override
-  Map deepCopyMap(Mapping dict) {
-    Map clone = {};
+  Map<K, V> deepCopyMap<K, V>(Mapping<K, V> dict) {
+    Map<K, V> clone = {};
     dict.forEach((key, value) {
       clone[key] = deepCopy(value);
     });

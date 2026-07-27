@@ -52,11 +52,11 @@ final class Wrapper {
       wrapper.unwrap(object);
 
   /// Unwrap values for keys in map
-  static Map unwrapMap(Mapping dict) =>
+  static Map<K, V> unwrapMap<K, V>(Mapping<K, V> dict) =>
       wrapper.unwrapMap(dict);
 
   /// Unwrap values in the array
-  static List unwrapList(List array) =>
+  static List<T> unwrapList<T>(List<T> array) =>
       wrapper.unwrapList(array);
 
   static DataWrapper wrapper = BaseWrapper();
@@ -71,9 +71,9 @@ abstract interface class DataWrapper {
 
   dynamic unwrap(Object? object);
 
-  Map unwrapMap(Mapping dict);
+  Map<K, V> unwrapMap<K, V>(Mapping<K, V> dict);
 
-  List unwrapList(List array);
+  List<T> unwrapList<T>(List<T> array);
 
 }
 
@@ -125,11 +125,11 @@ class BaseWrapper implements DataWrapper {
   }
 
   @override
-  Map unwrapMap(Mapping dict) {
+  Map<K, V> unwrapMap<K, V>(Mapping dict) {
     if (dict is Mapper) {
       dict = dict.toMap();
     }
-    Map result = {};
+    Map<K, V> result = {};
     dict.forEach((key, value) {
       result[key] = unwrap(value);
     });
@@ -137,8 +137,8 @@ class BaseWrapper implements DataWrapper {
   }
 
   @override
-  List unwrapList(List array) {
-    List result = [];
+  List<T> unwrapList<T>(List<T> array) {
+    List<T> result = [];
     for (var item in array) {
       result.add(unwrap(item));
     }

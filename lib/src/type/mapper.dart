@@ -30,7 +30,7 @@ import 'mapping.dart';
 import 'stringer.dart';
 
 
-abstract interface class Mapper implements MutableMapping<String, dynamic> {
+abstract interface class Mapper<K, V> implements MutableMapping<K, V> {
 
   /// Gets a string value for the given key.
   ///
@@ -42,23 +42,23 @@ abstract interface class Mapper implements MutableMapping<String, dynamic> {
   /// @param defaultValue The default value to return if the key is not found.
   ///
   /// @return The string value or default value.
-  String? getString(String key, [String? defaultValue]);
-  bool?     getBool(String key, [bool?   defaultValue]);
-  int?       getInt(String key, [int?    defaultValue]);
-  double? getDouble(String key, [double? defaultValue]);
+  String?     getString(K key, [String? defaultValue]);
+  bool?         getBool(K key, [bool?   defaultValue]);
+  int?           getInt(K key, [int?    defaultValue]);
+  double?     getDouble(K key, [double? defaultValue]);
 
-  DateTime? getDateTime(String key, [DateTime? defaultValue]);
-  void setDateTime(String key, DateTime? time);
+  DateTime? getDateTime(K key, [DateTime? defaultValue]);
+  void      setDateTime(K key, DateTime? time);
 
-  void setString(String key, Stringer? stringer);
-  void setMap(String key, Mapper? mapper);
+  void        setString(K key, Stringer? stringer);
+  void           setMap(K key, Mapper? mapper);
 
   /// Returns the internal map as a [Map].
   ///
   /// This method provides access to the underlying map data.
   ///
   /// @return A [Map] containing all key-value pairs.
-  MutableMapping toMap();
+  MutableMapping<K, V> toMap();
 
   /// Creates a copy of the internal map.
   ///
@@ -68,16 +68,18 @@ abstract interface class Mapper implements MutableMapping<String, dynamic> {
   /// @param deepCopy Whether to perform a deep copy. Defaults to false.
   ///
   /// @return A copy of the internal map.
-  Map copyMap([bool deepCopy = false]);
+  Map<K, V> copyMap([bool deepCopy = false]);
+
 }
 
-class Dictionary implements Mapper {
 
-  final MutableMapping _map;
+class Dictionary implements Mapper<String, dynamic> {
 
-  Dictionary([Mapping? dict])
-      : _map = dict == null ? {}.asMutableMapping()
-      : dict is Mapper ? dict.toMap()
+  final MutableMapping<String, dynamic> _map;
+
+  Dictionary([Mapping<String, dynamic>? dict])
+      : _map = dict == null ? <String, dynamic>{}.asMutableMapping()
+      : dict is Mapper ? (dict as Mapper<String, dynamic>).toMap()
       : dict.asMap().asMutableMapping();
 
   @override
@@ -128,10 +130,10 @@ class Dictionary implements Mapper {
   }
 
   @override
-  MutableMapping toMap() => _map;
+  MutableMapping<String, dynamic> toMap() => _map;
 
   @override
-  Map copyMap([bool deepCopy = false]) {
+  Map<String, dynamic> copyMap([bool deepCopy = false]) {
     if (deepCopy) {
       return Copier.deepCopyMap(_map);
     } else {
@@ -166,7 +168,7 @@ class Dictionary implements Mapper {
   Map<RK, RV> cast<RK, RV>() => _map.cast();
 
   @override
-  bool containsValue(dynamic value) => _map.containsValue(value);
+  bool containsValue(Object? value) => _map.containsValue(value);
 
   @override
   bool containsKey(Object? key) => _map.containsKey(key);
@@ -190,12 +192,12 @@ class Dictionary implements Mapper {
       _map.addEntries(newEntries);
 
   @override
-  dynamic update(String key, Function(dynamic value) update,
-      {Function()? ifAbsent}) =>
-      _map.update(key, update, ifAbsent: ifAbsent);
+  dynamic update(String key, dynamic Function(dynamic value) update, {
+    dynamic Function()? ifAbsent
+  }) => _map.update(key, update, ifAbsent: ifAbsent);
 
   @override
-  void updateAll(Function(String key, dynamic value) update) =>
+  void updateAll(dynamic Function(String key, dynamic value) update) =>
       _map.updateAll((key, value) => update(key, value));
 
   @override
@@ -203,11 +205,11 @@ class Dictionary implements Mapper {
       _map.removeWhere((key, value) => test(key, value));
 
   @override
-  dynamic putIfAbsent(String key, Function() ifAbsent) =>
+  dynamic putIfAbsent(String key, dynamic Function() ifAbsent) =>
       _map.putIfAbsent(key, ifAbsent);
 
   @override
-  void addAll(Map other) => _map.addAll(other);
+  void addAll(Map<String, dynamic> other) => _map.addAll(other);
 
   @override
   dynamic remove(Object? key) => _map.remove(key);
@@ -223,7 +225,7 @@ class Dictionary implements Mapper {
   Iterable<String> get keys => _map.keys.cast();
 
   @override
-  Iterable get values => _map.values;
+  Iterable<dynamic> get values => _map.values;
 
   @override
   int get length => _map.length;
