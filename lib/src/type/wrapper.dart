@@ -100,7 +100,7 @@ class BaseWrapper implements DataWrapper {
     } else if (dict is Mapper) {
       return dict.toMap();
     } else if (dict is Map) {
-      return dict;
+      return dict.asMutableMapping();
     } else {
       assert(false, 'map error: $dict');
       return null;
@@ -114,7 +114,7 @@ class BaseWrapper implements DataWrapper {
     } else if (object is Mapper) {
       return unwrapMap(object.toMap());
     } else if (object is Map) {
-      return unwrapMap(object);
+      return unwrapMap(object.asMapping());
     } else if (object is List) {
       return unwrapList(object);
     } else if (object is Stringer) {

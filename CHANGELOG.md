@@ -1,3 +1,7 @@
+## 2.3.7
+
+- Map cast.
+
 ## 2.3.6
 
 - Type alias.

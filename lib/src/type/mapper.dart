@@ -76,9 +76,9 @@ class Dictionary implements Mapper {
   final MutableMapping _map;
 
   Dictionary([Mapping? dict])
-      : _map = dict == null ? {}
+      : _map = dict == null ? {}.asMutableMapping()
       : dict is Mapper ? dict.toMap()
-      : dict;
+      : dict.asMap().asMutableMapping();
 
   @override
   String? getString(String key, [String? defaultValue]) =>
@@ -152,7 +152,7 @@ class Dictionary implements Mapper {
       // compare with inner map
       other = other.toMap();
     }
-    return other is Map && Comparator.mapEquals(other, _map);
+    return other is Map && Comparator.mapEquals(other, _map.asMap());
   }
 
   @override

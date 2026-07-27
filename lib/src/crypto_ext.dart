@@ -76,7 +76,7 @@ abstract interface class GeneralCryptoHelper /*
   /// @return True if keys are a valid matching pair, false otherwise
   static bool matchSymmetricKeys(EncryptKey encKey, DecryptKey decKey) {
     // check by encryption
-    MutableMapping params = {};
+    MutableMapping params = {}.asMutableMapping();
     Uint8List ciphertext = encKey.encrypt(PROMISE, params);
     Uint8List? plaintext = decKey.decrypt(ciphertext, params);
     return plaintext != null && Arrays.equals(plaintext, PROMISE);

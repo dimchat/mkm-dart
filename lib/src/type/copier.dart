@@ -75,7 +75,7 @@ class BaseCopier implements DataCopier {
     } else if (object is Mapper) {
       return copyMap(object.toMap());
     } else if (object is Map) {
-      return copyMap(object);
+      return copyMap(object.asMapping());
     } else if (object is List) {
       return copyList(object);
     } else {
@@ -108,7 +108,7 @@ class BaseCopier implements DataCopier {
     } else if (object is Mapper) {
       return deepCopyMap(object.toMap());
     } else if (object is Map) {
-      return deepCopyMap(object);
+      return deepCopyMap(object.asMapping());
     } else if (object is List) {
       return deepCopyList(object);
     } else {

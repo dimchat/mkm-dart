@@ -94,7 +94,7 @@ final class JSONMap {
   static Map? decode(String json) {
     var info = coder.decode(json);
     assert(info is Map, 'json error: "$json"');
-    return info;
+    return info?.asMap();
   }
 
   static ObjectCoder<Mapping> coder = MapCoder();
