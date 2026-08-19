@@ -76,11 +76,11 @@
 //
 //   Map<K, V> asMap() => this as Map<K, V>;
 //
+//   MutableMapping<K, V> asMutableMapping() => this as MutableMapping<K, V>;
+//
 // }
 //
 // extension MapTypeCastExtension<K, V> on Map<K, V> {
-//
-//   Map<K, V> asMap() => this;
 //
 //   Mapping<K, V> asMapping() => this as Mapping<K, V>;
 //   // Mapping<K, V> asMapping() => Map.unmodifiable(this) as Mapping<K, V>;

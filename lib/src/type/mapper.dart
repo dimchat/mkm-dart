@@ -77,10 +77,10 @@ class Dictionary implements Mapper<String, dynamic> {
 
   final MutableMapping<String, dynamic> _map;
 
-  Dictionary([Mapping<String, dynamic>? dict])
+  Dictionary([Mapping? dict])
       : _map = dict == null ? <String, dynamic>{}.asMutableMapping()
       : dict is Mapper ? (dict as Mapper<String, dynamic>).toMap()
-      : dict.asMap().asMutableMapping();
+      : (dict as Mapping<String, dynamic>).asMutableMapping();
 
   @override
   String? getString(String key, [String? defaultValue]) =>
@@ -177,7 +177,15 @@ class Dictionary implements Mapper<String, dynamic> {
   dynamic operator [](Object? key) => _map[key];
 
   @override
-  void operator []=(String key, dynamic value) => _map[key] = value;
+  void operator []=(dynamic key, dynamic value) {
+    if (key is String) {
+      _map[key] = value;
+    } else {
+      // _map['$key'] = value;
+      throw ArgumentError('Dictionary only accepts String key, got $key');
+    }
+  }
+  // void operator []=(String key, dynamic value) => _map[key] = value;
 
   @override
   Iterable<MapEntry<String, dynamic>> get entries => _map.entries.cast();
@@ -209,7 +217,27 @@ class Dictionary implements Mapper<String, dynamic> {
       _map.putIfAbsent(key, ifAbsent);
 
   @override
-  void addAll(Map<String, dynamic> other) => _map.addAll(other);
+  void addAll(Map<dynamic, dynamic> other) {
+    final table = <String, dynamic>{};
+    for (final entry in other.entries) {
+      final key = entry.key;
+      if (key is String) {
+        table[key] = entry.value;
+      } else {
+        throw ArgumentError('non‑String key not allowed: $key');
+      }
+    }
+    _map.addAll(table);
+    // other.forEach((key, value) {
+    //   if (key is String) {
+    //     _map[key] = value;
+    //   } else {
+    //     // _map['$key'] = value;
+    //     throw ArgumentError('non‑String key not allowed: $key');
+    //   }
+    // });
+  }
+  // void addAll(Map<String, dynamic> other) => _map.addAll(other);
 
   @override
   dynamic remove(Object? key) => _map.remove(key);
