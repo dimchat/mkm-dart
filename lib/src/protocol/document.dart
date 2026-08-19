@@ -122,7 +122,7 @@ abstract interface class TAI {
 ///   "signature" : "{BASE64_ENCODE}"  // signature = sign(data, SK);
 /// }
 /// ```
-abstract interface class Document implements TAI, Mapper {
+abstract interface class Document implements TAI, Mapper<String, dynamic> {
 
   /// Signature time from properties (data)
   ///

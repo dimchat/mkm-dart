@@ -43,7 +43,7 @@ import '../type/mapping.dart';
 ///   // ...
 /// }
 /// ```
-abstract interface class CryptographyKey implements Mapper {
+abstract interface class CryptographyKey implements Mapper<String, dynamic> {
 
   /// Name of the cryptographic algorithm associated with this key.
   ///

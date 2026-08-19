@@ -56,7 +56,7 @@ import 'helpers.dart';
 /// Core algorithm:
 /// - Fingerprint = sign(seed, private key)
 /// - Used to verify the authenticity of the entity's name and public key
-abstract interface class Meta implements Mapper {
+abstract interface class Meta implements Mapper<String, dynamic> {
 
   ///  Meta algorithm version
   ///
