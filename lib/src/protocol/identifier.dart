@@ -123,9 +123,9 @@ abstract interface class ID implements Stringer {
     return helper!.createID(name: name, address: address, terminal: terminal);
   }
 
-  static ID generate(Meta meta, int? network, {String? terminal}) {
+  static ID generate(Meta meta, int? network) {
     var helper = sharedAccountExtensions.idHelper;
-    return helper!.generateID(meta, network, terminal: terminal);
+    return helper!.generateID(meta, network);
   }
 
   static IDFactory? getFactory() {
@@ -150,10 +150,8 @@ abstract interface class IDFactory {
   ///
   /// [network]: Optional network type (ID.type)
   ///
-  /// [terminal]: Optional terminal/location (RESERVED)
-  ///
   /// Returns: New [ID] instance
-  ID generateID(Meta meta, int? network, {String? terminal});
+  ID generateID(Meta meta, int? network);
 
   /// Creates an [ID] from explicit component values.
   ///

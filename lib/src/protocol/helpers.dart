@@ -125,10 +125,8 @@ abstract interface class IDHelper {
   ///
   /// @param network - Optional network identifier (null for default network)
   ///
-  /// @param terminal - Optional terminal identifier (for device-specific IDs)
-  ///
   /// @return Generated unique ID instance
-  ID generateID(Meta meta, int? network, {String? terminal});
+  ID generateID(Meta meta, int? network);
 
 }
 
