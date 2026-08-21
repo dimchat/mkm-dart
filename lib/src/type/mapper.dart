@@ -58,7 +58,7 @@ abstract interface class Mapper<K, V> implements MutableMapping<K, V> {
   /// This method provides access to the underlying map data.
   ///
   /// @return A [Map] containing all key-value pairs.
-  MutableMapping<K, V> toMap();
+  MutableMapping toMap();
 
   /// Creates a copy of the internal map.
   ///
@@ -75,13 +75,13 @@ abstract interface class Mapper<K, V> implements MutableMapping<K, V> {
 
 class Dictionary implements Mapper<String, dynamic> {
 
-  final MutableMapping<String, dynamic> _map;
+  final MutableMapping _map;
 
   /// Type Erasure
   Dictionary([Mapping? dict])
       : _map = dict == null ? <String, dynamic>{}.asMutableMapping()
-      : dict is Mapper ? (dict as Mapper<String, dynamic>).toMap()
-      : (dict as Mapping<String, dynamic>).asMutableMapping();
+      : dict is Mapper ? dict.toMap()
+      : dict.asMutableMapping();
 
   @override
   String? getString(String key, [String? defaultValue]) =>
@@ -131,7 +131,7 @@ class Dictionary implements Mapper<String, dynamic> {
   }
 
   @override
-  MutableMapping<String, dynamic> toMap() => _map;
+  MutableMapping toMap() => _map;
 
   @override
   Map<String, dynamic> copyMap([bool deepCopy = false]) {

@@ -38,16 +38,16 @@ final class Copier {
   static dynamic deepCopy(Object? object) =>
       copier.deepCopy(object);
 
-  static Map<K, V> copyMap<K, V>(Mapping<K, V> dict) =>
+  static Map<K, V> copyMap<K, V>(Mapping dict) =>
       copier.copyMap(dict);
 
-  static Map<K, V> deepCopyMap<K, V>(Mapping<K, V> dict) =>
+  static Map<K, V> deepCopyMap<K, V>(Mapping dict) =>
       copier.deepCopyMap(dict);
 
-  static List<T> copyList<T>(List<T> array) =>
+  static List<T> copyList<T>(List array) =>
       copier.copyList(array);
 
-  static List<T> deepCopyList<T>(List<T> array) =>
+  static List<T> deepCopyList<T>(List array) =>
       copier.deepCopyList(array);
 
   static DataCopier copier = BaseCopier();
@@ -57,12 +57,12 @@ final class Copier {
 abstract interface class DataCopier {
 
   dynamic copy(Object? object);
-  List<T> copyList<T>(List<T> array);
-  Map<K, V> copyMap<K, V>(Mapping<K, V> dict);
+  List<T> copyList<T>(List array);
+  Map<K, V> copyMap<K, V>(Mapping dict);
 
   dynamic deepCopy(Object? object);
-  List<T> deepCopyList<T>(List<T> array);
-  Map<K, V> deepCopyMap<K, V>(Mapping<K, V> dict);
+  List<T> deepCopyList<T>(List array);
+  Map<K, V> deepCopyMap<K, V>(Mapping dict);
 
 }
 
@@ -84,16 +84,16 @@ class BaseCopier implements DataCopier {
   }
 
   @override
-  List<T> copyList<T>(List<T> array) {
+  List<T> copyList<T>(List array) {
     List<T> clone = [];
-    for (var item in array) {
+    for (final item in array) {
       clone.add(item);
     }
     return clone;
   }
 
   @override
-  Map<K, V> copyMap<K, V>(Mapping<K, V> dict) {
+  Map<K, V> copyMap<K, V>(Mapping dict) {
     Map<K, V> clone = {};
     dict.forEach((key, value) {
       clone[key] = value;
@@ -117,16 +117,16 @@ class BaseCopier implements DataCopier {
   }
 
   @override
-  List<T> deepCopyList<T>(List<T> array) {
+  List<T> deepCopyList<T>(List array) {
     List<T> clone = [];
-    for (var item in array) {
+    for (final item in array) {
       clone.add(deepCopy(item));
     }
     return clone;
   }
 
   @override
-  Map<K, V> deepCopyMap<K, V>(Mapping<K, V> dict) {
+  Map<K, V> deepCopyMap<K, V>(Mapping dict) {
     Map<K, V> clone = {};
     dict.forEach((key, value) {
       clone[key] = deepCopy(value);

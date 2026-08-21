@@ -42,7 +42,7 @@ final class Wrapper {
   ///  Get inner Map
   ///  ~~~~~~~~~~~~~
   ///  Remove first wrapper
-  static MutableMapping? getMap(Object? dict) =>
+  static Map? getMap(Object? dict) =>
       wrapper.getMap(dict);
 
   ///  Unwrap recursively
@@ -52,11 +52,11 @@ final class Wrapper {
       wrapper.unwrap(object);
 
   /// Unwrap values for keys in map
-  static Map<K, V> unwrapMap<K, V>(Mapping<K, V> dict) =>
+  static Map<K, V> unwrapMap<K, V>(Mapping dict) =>
       wrapper.unwrapMap(dict);
 
   /// Unwrap values in the array
-  static List<T> unwrapList<T>(List<T> array) =>
+  static List<T> unwrapList<T>(List array) =>
       wrapper.unwrapList(array);
 
   static DataWrapper wrapper = BaseWrapper();
@@ -67,13 +67,13 @@ abstract interface class DataWrapper {
 
   String? getString(Object? str);
 
-  MutableMapping? getMap(Object? dict);
+  Map? getMap(Object? dict);
 
   dynamic unwrap(Object? object);
 
-  Map<K, V> unwrapMap<K, V>(Mapping<K, V> dict);
+  Map<K, V> unwrapMap<K, V>(Mapping dict);
 
-  List<T> unwrapList<T>(List<T> array);
+  List<T> unwrapList<T>(List array);
 
 }
 
@@ -94,13 +94,13 @@ class BaseWrapper implements DataWrapper {
   }
 
   @override
-  MutableMapping? getMap(Object? dict) {
+  Map? getMap(Object? dict) {
     if (dict == null) {
       return null;
     } else if (dict is Mapper) {
-      return dict.toMap();
+      return dict.toMap().asMap();
     } else if (dict is Map) {
-      return dict.asMutableMapping();
+      return dict;
     } else {
       assert(false, 'map error: $dict');
       return null;
@@ -126,9 +126,9 @@ class BaseWrapper implements DataWrapper {
 
   @override
   Map<K, V> unwrapMap<K, V>(Mapping dict) {
-    if (dict is Mapper) {
-      dict = dict.toMap();
-    }
+    // if (dict is Mapper) {
+    //   dict = dict.toMap();
+    // }
     Map<K, V> result = {};
     dict.forEach((key, value) {
       result[key] = unwrap(value);
@@ -137,9 +137,9 @@ class BaseWrapper implements DataWrapper {
   }
 
   @override
-  List<T> unwrapList<T>(List<T> array) {
+  List<T> unwrapList<T>(List array) {
     List<T> result = [];
-    for (var item in array) {
+    for (final item in array) {
       result.add(unwrap(item));
     }
     return result;

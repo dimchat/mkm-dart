@@ -1,3 +1,7 @@
+## 2.4.3
+
+- Mapping parameters.
+
 ## 2.4.2
 
 - Mapper<String, dynamic>.
