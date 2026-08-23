@@ -73,6 +73,11 @@ abstract interface class Mapper<K, V> implements MutableMapping<K, V> {
 }
 
 
+/// Wraps a mutable map, invariant: **all keys must be real [String] instances**.
+///
+/// Debug‑mode: assert checks every key on construction.
+/// Release: no runtime checking, caller must guarantee pre‑condition.
+/// Warning: do NOT mutate the map returned by [toMap], it aliases internal storage.
 class Dictionary implements Mapper<String, dynamic> {
 
   final MutableMapping _map;
@@ -81,7 +86,31 @@ class Dictionary implements Mapper<String, dynamic> {
   Dictionary([Mapping? dict])
       : _map = dict == null ? <String, dynamic>{}.asMutableMapping()
       : dict is Mapper ? dict.toMap()
-      : dict.asMutableMapping();
+      : dict.asMutableMapping() {
+    // Ensure that all keys are of type String.
+    assert(() {
+      try {
+        // check type
+        final _ = _map as MutableMapping<String, dynamic>;
+      } catch (_) {
+        // type error
+        return false;
+      }
+      if (dict != null) {
+        // check all keys
+        for (final key in dict.keys) {
+          if (key is! String) {
+            // key error
+            return false;
+          }
+        }
+      }
+      // OK
+      return true;
+    }(), '⚠️ Debug hint: underlying map debug type‑argument is NOT Map<String,dynamic>. '
+        'It may be Map<dynamic,dynamic>.\n'
+        'Ensure all keys are String. map=$dict');
+  }
 
   @override
   String? getString(String key, [String? defaultValue]) =>
