@@ -44,6 +44,11 @@ import 'helpers.dart';
 /// immutable [Meta] data). It supports digital signatures to ensure data integrity
 /// and authenticity.
 ///
+/// 'Meta' is the information for entity which never changed,
+///     which contains the key for verify signature;
+/// 'TAI' is the variable part (signed by meta.key's private key),
+///     which could contain a public key for asymmetric encryption.
+///
 /// Key differences from [Meta]:
 /// - [Meta]: Immutable core data (public key, fingerprint)
 /// - TAI: Mutable additional data (may include encryption keys, profile info)
@@ -51,8 +56,8 @@ abstract interface class TAI {
 
   /// Validates the integrity of this TAI data.
   ///
-  /// Returns: true if the signature matches the data and entity's public key,
-  ///          false if signature is missing or invalid
+  /// Returns true if the signature matches the data and entity's public key,
+  /// false if signature is missing or invalid.
   bool get isValid;
 
   // ------------------------------
@@ -61,10 +66,10 @@ abstract interface class TAI {
 
   /// Verifies the TAI signature against the entity's public key.
   ///
-  /// [metaKey]: Public key from the entity's [Meta] data (meta.key)
+  /// [metaKey] is the public key from the entity's [Meta] data (meta.key).
   ///
-  /// Returns: true if signature is valid (data hasn't been tampered with),
-  ///          false otherwise
+  /// Returns true if signature is valid (data hasn't been tampered with),
+  /// false otherwise.
   bool verify(VerifyKey metaKey);
 
   /// Signs the TAI data with the entity's private key.
@@ -72,9 +77,9 @@ abstract interface class TAI {
   /// Encodes all properties to a data string, signs it with the private key,
   /// and stores the signature for later verification.
   ///
-  /// [sKey]: Private key matching the entity's [Meta] public key
+  /// [sKey] is the private key matching the entity's [Meta] public key.
   ///
-  /// Returns: Signature as Uint8List if successful, null on error
+  /// Returns the signature as [Uint8List] if successful, null on error.
   Uint8List? sign(SignKey sKey);
 
   // ------------------------------
@@ -83,14 +88,14 @@ abstract interface class TAI {
 
   /// Gets all properties stored in this TAI.
   ///
-  /// Returns: Map of property names to values if valid, null if TAI is invalid
+  /// Returns a map of property names to values if valid, null if TAI is invalid.
   Map? get properties;
 
   /// Retrieves a specific property value by name.
   ///
-  /// [name]: Name of the property to retrieve
+  /// [name] is the name of the property to retrieve.
   ///
-  /// Returns: Value of the property (may be null if property doesn't exist)
+  /// Returns the value of the property (may be null if property doesn't exist).
   dynamic getProperty(String name);
 
   /// Updates or adds a property (resets signature).
@@ -99,9 +104,8 @@ abstract interface class TAI {
   /// and the stored signature will be reset). A new signature must be generated
   /// with [sign()] after making changes.
   ///
-  /// [name]: Name of the property to update/add
-  ///
-  /// [value]: New value for the property (may be null to remove)
+  /// [name] is the name of the property to update/add.
+  /// [value] is the new value for the property (may be null to remove).
   void setProperty(String name, Object? value);
 
 }
@@ -126,7 +130,7 @@ abstract interface class Document implements TAI, Mapper<String, dynamic> {
 
   /// Signature time from properties (data)
   ///
-  /// Returns: [DateTime] of the signature creation, null if not signed
+  /// Returns the [DateTime] of the signature creation, null if not signed.
   DateTime? get time;
 
   //
@@ -136,7 +140,7 @@ abstract interface class Document implements TAI, Mapper<String, dynamic> {
   static List<Document> convert(Iterable array) {
     List<Document> documents = [];
     Document? doc;
-    for (var item in array) {
+    for (final item in array) {
       doc = parse(item);
       if (doc == null) {
         continue;
@@ -161,21 +165,21 @@ abstract interface class Document implements TAI, Mapper<String, dynamic> {
   /// 1. Create from stored info
   /// 2. Create new empty document
   static Document create(String type, {String? data, TransportableData? signature}) {
-    var helper = sharedAccountExtensions.docHelper;
+    final helper = sharedAccountExtensions.docHelper;
     return helper!.createDocument(type, data: data, signature: signature);
   }
 
   static Document? parse(Object? doc) {
-    var helper = sharedAccountExtensions.docHelper;
+    final helper = sharedAccountExtensions.docHelper;
     return helper!.parseDocument(doc);
   }
 
   static DocumentFactory? getFactory(String type) {
-    var helper = sharedAccountExtensions.docHelper;
+    final helper = sharedAccountExtensions.docHelper;
     return helper!.getDocumentFactory(type);
   }
   static void setFactory(String type, DocumentFactory factory) {
-    var helper = sharedAccountExtensions.docHelper;
+    final helper = sharedAccountExtensions.docHelper;
     helper!.setDocumentFactory(type, factory);
   }
 }
@@ -192,17 +196,16 @@ abstract interface class DocumentFactory {
   /// 1. Load existing document: Provide [data] and [signature] from storage
   /// 2. Create new empty document: Omit [data] and [signature]
   ///
-  /// [data]: Optional encoded document data (JSON string)
+  /// [data] is the optional encoded document data (JSON string).
+  /// [signature] is the optional signature of the data (Base64-encoded as [TransportableData]).
   ///
-  /// [signature]: Optional signature of the data (Base64-encoded as [TransportableData])
-  ///
-  /// Returns: New [Document] instance
+  /// Returns a new [Document] instance.
   Document createDocument({String? data, TransportableData? signature});
 
   /// Parses a serialized Map into a [Document] instance.
   ///
-  /// [doc]: Serialized document in the Map format defined in [Document]
+  /// [doc] is the serialized document in the Map format defined in [Document].
   ///
-  /// Returns: [Document] instance if parsing succeeds, null otherwise
+  /// Returns a [Document] instance if parsing succeeds, null otherwise.
   Document? parseDocument(Mapping doc);
 }

@@ -39,60 +39,103 @@ abstract interface class DataCoder {
 
   /// Encodes binary data to a string representation.
   ///
-  /// [data]: The raw binary data to encode (Uint8List)
+  /// [data] is the raw binary data to encode.
   ///
-  /// Returns: Encoded string in the specific format (Hex/Base58/Base64 etc.)
+  /// Returns the encoded string in the specific format (Hex/Base58/Base64 etc.).
   String encode(Uint8List data);
 
   /// Decodes a string back to binary data.
   ///
-  /// [string]: The encoded string to decode
+  /// [string] is the encoded string to decode.
   ///
-  /// Returns: Decoded binary data (Uint8List), or null if decoding fails
+  /// Returns the decoded binary data, or null if decoding fails.
   Uint8List? decode(String string);
 }
 
 
+/// Hex encoding utility (facade for [DataCoder]).
+///
+/// Converts binary data to/from hexadecimal string representation.
 final class Hex {
   Hex._();
 
+  /// Encodes binary data to a hexadecimal string.
+  ///
+  /// [data] is the raw binary data to encode.
+  ///
+  /// Returns the hex-encoded string.
   static String encode(Uint8List data) {
     return coder!.encode(data);
   }
 
+  /// Decodes a hexadecimal string back to binary data.
+  ///
+  /// [string] is the hex-encoded string to decode.
+  ///
+  /// Returns the decoded binary data, or null if decoding fails.
   static Uint8List? decode(String string) {
     return coder!.decode(string);
   }
 
+  /// The [DataCoder] implementation (null before set).
   static DataCoder? coder;
 }
 
 
+/// Base58 encoding utility (facade for [DataCoder]).
+///
+/// Converts binary data to/from Base58 string representation
+/// (Bitcoin-style alphabet without '0', 'O', 'I', 'l').
 final class Base58 {
   Base58._();
 
+  /// Encodes binary data to a Base58 string.
+  ///
+  /// [data] is the raw binary data to encode.
+  ///
+  /// Returns the Base58-encoded string.
   static String encode(Uint8List data) {
     return coder!.encode(data);
   }
 
+  /// Decodes a Base58 string back to binary data.
+  ///
+  /// [string] is the Base58-encoded string to decode.
+  ///
+  /// Returns the decoded binary data, or null if decoding fails.
   static Uint8List? decode(String string) {
     return coder!.decode(string);
   }
 
+  /// The [DataCoder] implementation (null before set).
   static DataCoder? coder;
 }
 
 
+/// Base64 encoding utility (facade for [DataCoder]).
+///
+/// Converts binary data to/from Base64 string representation.
 final class Base64 {
   Base64._();
 
+  /// Encodes binary data to a Base64 string.
+  ///
+  /// [data] is the raw binary data to encode.
+  ///
+  /// Returns the Base64-encoded string.
   static String encode(Uint8List data) {
     return coder!.encode(data);
   }
 
+  /// Decodes a Base64 string back to binary data.
+  ///
+  /// [string] is the Base64-encoded string to decode.
+  ///
+  /// Returns the decoded binary data, or null if decoding fails.
   static Uint8List? decode(String string) {
     return coder!.decode(string);
   }
 
+  /// The [DataCoder] implementation (null before set).
   static DataCoder? coder;
 }

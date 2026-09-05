@@ -25,6 +25,10 @@
  */
 import 'chars.dart';
 
+/// Constant String Wrapper
+///
+/// A container with an inner string, implementing [Comparable], [Pattern]
+/// and [CharSequence] interfaces.
 abstract interface class Stringer implements Comparable<String>, Pattern, CharSequence {
 
   /*
@@ -104,6 +108,9 @@ abstract interface class Stringer implements Comparable<String>, Pattern, CharSe
   bool equalsIgnoreCase(Object? other);
 }
 
+/// Constant String
+///
+/// A [Stringer] with an immutable inner string.
 class ConstantString implements Stringer {
 
   final String _str;

@@ -1,3 +1,7 @@
+## 2.5.0
+
+- Generate ID by meta.
+
 ## 2.4.4
 
 - Portable Network File.

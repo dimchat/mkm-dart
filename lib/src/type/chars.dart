@@ -24,6 +24,9 @@
  * =============================================================================
  */
 
+/// Character Sequence
+///
+/// A sequence of characters accessible by index (like Java's CharSequence).
 abstract interface class CharSequence {
 
   /// The character (as a single-code-unit [String]) at the given [index].

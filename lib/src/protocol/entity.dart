@@ -29,37 +29,40 @@
  * ==============================================================================
  */
 
-///  @enum MKMEntityType
+/// A network ID to indicate what kind the entity is.
 ///
-///  @abstract A network ID to indicate what kind the entity is.
+/// An address can identify a person, a group of people, a team, even a thing.
 ///
-///  @discussion An address can identify a person, a group of people,
-///      a team, even a thing.
+/// [USER] indicates this entity is a person's account.
+/// An account should have a public key, which proved by meta data.
 ///
-///      MKMEntityType_User indicates this entity is a person's account.
-///      An account should have a public key, which proved by meta data.
+/// [GROUP] indicates this entity is a group of people,
+/// which should have a founder (also the owner), and some members.
 ///
-///      MKMEntityType_Group indicates this entity is a group of people,
-///      which should have a founder (also the owner), and some members.
+/// [STATION] indicates this entity is a DIM network station.
 ///
-///      MKMEntityType_Station indicates this entity is a DIM network station.
+/// [ISP] indicates this entity is a group for stations.
 ///
-///      MKMEntityType_ISP indicates this entity is a group for stations.
+/// [BOT] indicates this entity is a bot user.
 ///
-///      MKMEntityType_Bot indicates this entity is a bot user.
+/// [ICP] indicates a company for stations and/or bots.
 ///
-///      MKMEntityType_Company indicates a company for stations and/or bots.
+/// [ANY] indicates this entity is anyone (anonymous), representing
+/// all users in the network (anyone@anywhere).
 ///
-///  Bits:
-///      0000 0001 - group flag
-///      0000 0010 - node flag
-///      0000 0100 - bot flag
-///      0000 1000 - CA flag
-///      ...         (reserved)
-///      0100 0000 - customized flag
-///      1000 0000 - broadcast flag
+/// [EVERY] indicates this entity is everyone, representing all users
+/// and all groups in the network (everyone@everywhere).
 ///
-///      (All above are just some advices to help choosing numbers :P)
+/// Bits:
+///     0000 0001 - group flag
+///     0000 0010 - node flag
+///     0000 0100 - bot flag
+///     0000 1000 - CA flag
+///     ...         (reserved)
+///     0100 0000 - customized flag
+///     1000 0000 - broadcast flag
+///
+/// (All above are just some advices to help choosing numbers :P)
 final class EntityType {
   EntityType._();
   // ignore_for_file: constant_identifier_names
@@ -92,14 +95,17 @@ final class EntityType {
   static const EVERY            = (0x81); // 1000 0001 (everyone@everywhere)
 
 
+  /// Check whether the network is a user.
   static bool isUser(int network) {
     return network & GROUP == USER;
   }
 
+  /// Check whether the network is a group.
   static bool isGroup(int network) {
     return network & GROUP == GROUP;
   }
 
+  /// Check whether the network is a broadcast (anywhere/everywhere).
   static bool isBroadcast(int network) {
     return network & ANY == ANY;
   }

@@ -27,18 +27,13 @@ import 'mapping.dart';
 import 'stringer.dart';
 
 
+/// Mutable Map Wrapper
+///
+/// A map wrapper with typed getters (getString/getBool/getInt/...) and
+/// [MutableMapping] support.
 abstract interface class Mapper<K, V> implements MutableMapping<K, V> {
 
-  /// Gets a string value for the given key.
-  ///
-  /// Returns the string value associated with [key] or [defaultValue] if the key
-  /// is not found.
-  ///
-  /// @param key The key to look up.
-  ///
-  /// @param defaultValue The default value to return if the key is not found.
-  ///
-  /// @return The string value or default value.
+  /// Get string value for key, if value is None, return the default value.
   String?     getString(K key, [String? defaultValue]);
   bool?         getBool(K key, [bool?   defaultValue]);
   int?           getInt(K key, [int?    defaultValue]);
@@ -50,21 +45,10 @@ abstract interface class Mapper<K, V> implements MutableMapping<K, V> {
   void        setString(K key, Stringer? stringer);
   void           setMap(K key, Mapper? mapper);
 
-  /// Returns the internal map as a [Map].
-  ///
-  /// This method provides access to the underlying map data.
-  ///
-  /// @return A [Map] containing all key-value pairs.
+  /// Get inner map.
   MutableMapping toMap();
 
-  /// Creates a copy of the internal map.
-  ///
-  /// If [deepCopy] is true, a deep copy is performed.
-  /// Otherwise, a shallow copy is returned.
-  ///
-  /// @param deepCopy Whether to perform a deep copy. Defaults to false.
-  ///
-  /// @return A copy of the internal map.
+  /// Copy inner map.
   Map<K, V> copyMap([bool deepCopy = false]);
 
 }

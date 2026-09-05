@@ -1,5 +1,5 @@
 /// Ming-Ke-Ming
-/// ~~~~~~~~~~~~
+///
 /// Decentralized User Identity Authentication
 library mkm;
 

@@ -54,22 +54,37 @@ abstract interface class SymmetricKey implements EncryptKey, DecryptKey {
   //  Factory methods
   //
 
+  /// Generate a new symmetric key for the specified algorithm.
+  ///
+  /// Creates a cryptographically secure random symmetric key.
+  ///
+  /// Returns null if the algorithm is unsupported.
   static SymmetricKey? generate(String algorithm) {
-    var helper = sharedCryptoExtensions.symmetricHelper;
+    final helper = sharedCryptoExtensions.symmetricHelper;
     return helper!.generateSymmetricKey(algorithm);
   }
 
+  /// Parse a symmetric key from raw data.
+  ///
+  /// [key] is the raw key data (map or string).
+  ///
+  /// Returns null if parsing fails.
   static SymmetricKey? parse(Object? key) {
-    var helper = sharedCryptoExtensions.symmetricHelper;
+    final helper = sharedCryptoExtensions.symmetricHelper;
     return helper!.parseSymmetricKey(key);
   }
 
+  /// Get the symmetric key factory for the specified algorithm.
+  ///
+  /// Returns null if no factory registered for [algorithm].
   static SymmetricKeyFactory? getFactory(String algorithm) {
-    var helper = sharedCryptoExtensions.symmetricHelper;
+    final helper = sharedCryptoExtensions.symmetricHelper;
     return helper!.getSymmetricKeyFactory(algorithm);
   }
+
+  /// Set the symmetric key factory for the specified algorithm.
   static void setFactory(String algorithm, SymmetricKeyFactory factory) {
-    var helper = sharedCryptoExtensions.symmetricHelper;
+    final helper = sharedCryptoExtensions.symmetricHelper;
     helper!.setSymmetricKeyFactory(algorithm, factory);
   }
 }
@@ -81,13 +96,13 @@ abstract interface class SymmetricKeyFactory {
 
   /// Generates a new random [SymmetricKey] using the default algorithm (typically AES).
   ///
-  /// Returns: New cryptographically secure [SymmetricKey] instance
+  /// Returns a new cryptographically secure [SymmetricKey] instance.
   SymmetricKey generateSymmetricKey();
 
   /// Parses a serialized Map into a [SymmetricKey] instance.
   ///
-  /// [key]: Serialized key data (matches the Map format defined in [SymmetricKey])
+  /// [key] is the serialized key data (matches the Map format defined in [SymmetricKey]).
   ///
-  /// Returns: [SymmetricKey] instance, or null if parsing/validation fails
+  /// Returns a [SymmetricKey] instance, or null if parsing/validation fails.
   SymmetricKey? parseSymmetricKey(Mapping key);
 }

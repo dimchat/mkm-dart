@@ -26,7 +26,7 @@
 
 /**
  *  Map Types Casting
- *  ~~~~~~~~~~~~~~~~~
+ *
  *  Mutable, Immutable Maps
  */
 

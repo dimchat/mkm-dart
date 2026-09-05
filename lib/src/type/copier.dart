@@ -28,25 +28,30 @@ import 'mapping.dart';
 
 
 /// Data Copy Utilities
-/// ~~~~~~~~~~~~~~~~~~~
 final class Copier {
   Copier._();
 
+  /// Shallow copy any object.
   static dynamic copy(Object? object) =>
       copier.copy(object);
 
+  /// Deep copy any object.
   static dynamic deepCopy(Object? object) =>
       copier.deepCopy(object);
 
+  /// Shallow copy the map.
   static Map<K, V> copyMap<K, V>(Mapping dict) =>
       copier.copyMap(dict);
 
+  /// Deep copy the map.
   static Map<K, V> deepCopyMap<K, V>(Mapping dict) =>
       copier.deepCopyMap(dict);
 
+  /// Shallow copy the list.
   static List<T> copyList<T>(List array) =>
       copier.copyList(array);
 
+  /// Deep copy the list.
   static List<T> deepCopyList<T>(List array) =>
       copier.deepCopyList(array);
 
@@ -66,6 +71,7 @@ abstract interface class DataCopier {
 
 }
 
+/// Default implementation of [DataCopier].
 class BaseCopier implements DataCopier {
 
   @override

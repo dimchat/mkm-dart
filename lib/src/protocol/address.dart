@@ -41,7 +41,7 @@ abstract interface class Address implements Stringer {
 
   /// Network identifier (type) of this address.
   ///
-  /// Returns: Integer representing the network ID (e.g., mainnet, testnet)
+  /// Returns the network ID as an integer (e.g., mainnet, testnet).
   int get network;
 
   ///  Address for broadcast
@@ -53,16 +53,19 @@ abstract interface class Address implements Stringer {
   //  Factory methods
   //
 
+  /// Parse an [Address] instance from raw data.
   static Address? parse(Object? address) {
     final helper = sharedAccountExtensions.addressHelper;
     return helper!.parseAddress(address);
   }
 
+  /// Get the Address factory.
   static AddressFactory? getFactory() {
     final helper = sharedAccountExtensions.addressHelper;
     return helper!.getAddressFactory();
   }
 
+  /// Set the Address factory.
   static void setFactory(AddressFactory factory) {
     final helper = sharedAccountExtensions.addressHelper;
     helper!.setAddressFactory(factory);
@@ -76,13 +79,14 @@ abstract interface class AddressFactory {
 
   /// Parses a string representation into an [Address] instance.
   ///
-  /// [address]: String representation of an address
+  /// [address] is the string representation of an address.
   ///
-  /// Returns: [Address] instance if parsing succeeds, null otherwise
+  /// Returns an [Address] instance if parsing succeeds, null otherwise.
   Address? parseAddress(String address);
 }
 
 
+/// Address for broadcast (ANYWHERE / EVERYWHERE).
 final class _BroadcastAddress extends ConstantString implements Address {
   _BroadcastAddress(super.string, this.type);
 

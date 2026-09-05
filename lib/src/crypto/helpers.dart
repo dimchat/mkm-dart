@@ -39,26 +39,25 @@ import 'symmetric.dart';
 /// Symmetric keys are used for encrypting/decrypting message content (AES, DES, etc.).
 abstract interface class SymmetricKeyHelper {
 
+  /// Set symmetric key factory for the specified algorithm.
   void setSymmetricKeyFactory(String algorithm, SymmetricKeyFactory factory);
+
+  /// Get symmetric key factory for the specified algorithm.
   SymmetricKeyFactory? getSymmetricKeyFactory(String algorithm);
 
-  /// Generates a new symmetric key for the specified algorithm.
+  /// Generate a new symmetric key for the specified algorithm.
   ///
   /// Creates a cryptographically secure random key for the given algorithm.
   ///
-  /// @param algorithm - Name of the symmetric algorithm (e.g., "AES")
-  ///
-  /// @return New symmetric key (null if algorithm is unsupported)
+  /// Returns null if the algorithm is unsupported.
   SymmetricKey? generateSymmetricKey(String algorithm);
 
-  /// Parses raw key data into a [SymmetricKey] instance.
+  /// Parse raw key data into a [SymmetricKey] instance.
   ///
   /// Converts raw key representations (map) into a strongly-typed
   /// symmetric key object for encryption/decryption operations.
   ///
-  /// @param key - Raw key data to parse
-  ///
-  /// @return Parsed symmetric key (null if parsing fails)
+  /// Returns null if parsing fails.
   SymmetricKey? parseSymmetricKey(Object? key);
 
 }
@@ -71,17 +70,18 @@ abstract interface class SymmetricKeyHelper {
 /// Public keys are used for verifying signatures or encrypting data for a specific recipient.
 abstract interface class PublicKeyHelper {
 
+  /// Set public key factory for the specified algorithm.
   void setPublicKeyFactory(String algorithm, PublicKeyFactory factory);
+
+  /// Get public key factory for the specified algorithm.
   PublicKeyFactory? getPublicKeyFactory(String algorithm);
 
-  /// Parses raw public key data into a [PublicKey] instance.
+  /// Parse raw public key data into a [PublicKey] instance.
   ///
   /// Converts raw public key representations (map) into a strongly-typed
   /// public key object for verification/encryption operations.
   ///
-  /// @param key - Raw public key data to parse
-  ///
-  /// @return Parsed public key (null if parsing fails)
+  /// Returns null if parsing fails.
   PublicKey? parsePublicKey(Object? key);
 
 }
@@ -94,26 +94,25 @@ abstract interface class PublicKeyHelper {
 /// Private keys are used for signing data or decrypting data encrypted with the public key.
 abstract interface class PrivateKeyHelper {
 
+  /// Set private key factory for the specified algorithm.
   void setPrivateKeyFactory(String algorithm, PrivateKeyFactory factory);
+
+  /// Get private key factory for the specified algorithm.
   PrivateKeyFactory? getPrivateKeyFactory(String algorithm);
 
-  /// Generates a new private key for the specified algorithm.
+  /// Generate a new private key for the specified algorithm.
   ///
   /// Creates a cryptographically secure random private key for the given algorithm.
   ///
-  /// @param algorithm - Name of the asymmetric algorithm (e.g., "RSA", "ECC")
-  ///
-  /// @return New private key (null if algorithm is unsupported)
+  /// Returns null if the algorithm is unsupported.
   PrivateKey? generatePrivateKey(String algorithm);
 
-  /// Parses raw private key data into a [PrivateKey] instance.
+  /// Parse raw private key data into a [PrivateKey] instance.
   ///
   /// Converts raw private key representations (map) into a strongly-typed
   /// private key object for signing/decryption operations.
   ///
-  /// @param key - Raw private key data to parse
-  ///
-  /// @return Parsed private key (null if parsing fails)
+  /// Returns null if parsing fails.
   PrivateKey? parsePrivateKey(Object? key);
 
 }
@@ -145,7 +144,10 @@ SymmetricKeyHelper? _symmetricHelper;
 
 extension SymmetricKeyExtension on CryptoExtensions {
 
+  /// Get the symmetric key helper (null before set).
   SymmetricKeyHelper? get symmetricHelper => _symmetricHelper;
+
+  /// Set the symmetric key helper.
   set symmetricHelper(SymmetricKeyHelper? ext) => _symmetricHelper = ext;
 
 }
@@ -155,7 +157,10 @@ PrivateKeyHelper? _privateHelper;
 
 extension PrivateKeyExtension on CryptoExtensions {
 
+  /// Get the private key helper (null before set).
   PrivateKeyHelper? get privateHelper => _privateHelper;
+
+  /// Set the private key helper.
   set privateHelper(PrivateKeyHelper? ext) => _privateHelper = ext;
 
 }
@@ -165,7 +170,10 @@ PublicKeyHelper? _publicHelper;
 
 extension PublicKeyExtension on CryptoExtensions {
 
+  /// Get the public key helper (null before set).
   PublicKeyHelper? get publicHelper => _publicHelper;
+
+  /// Set the public key helper.
   set publicHelper(PublicKeyHelper? ext) => _publicHelper = ext;
 
 }

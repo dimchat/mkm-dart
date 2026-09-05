@@ -53,11 +53,10 @@ abstract interface class AccountHandler /*
   /// Retrieves the type identifier (e.g., "btc", "eth") from a raw Meta map
   /// with a fallback default value if the type field is missing.
   ///
-  /// @param meta - Raw Meta map containing type metadata
+  /// [meta] is the raw Meta map containing type value.
+  /// [defaultValue] is the fallback value if type is not found.
   ///
-  /// @param defaultValue - Fallback value if type is not found
-  ///
-  /// @return Extracted Meta type (or defaultValue if not present)
+  /// Returns the extracted Meta type (or [defaultValue] if not present).
   String? getMetaType(Mapping meta, [String? defaultValue]);
 
   /// Extracts the document type from a raw Document map.
@@ -65,11 +64,10 @@ abstract interface class AccountHandler /*
   /// Retrieves the type identifier (e.g., "visa", "bulletin") from a raw Document map
   /// with a fallback default value if the type field is missing.
   ///
-  /// @param doc - Raw Document map containing type metadata
+  /// [doc] is the raw Document map containing type value.
+  /// [defaultValue] is the fallback value if type is not found.
   ///
-  /// @param defaultValue - Fallback value if type is not found
-  ///
-  /// @return Extracted Document type (or defaultValue if not present)
+  /// Returns the extracted Document type (or [defaultValue] if not present).
   String? getDocumentType(Mapping doc, [String? defaultValue]);
 
   /// Resolves the entity ID associated with a raw Document map.
@@ -77,17 +75,15 @@ abstract interface class AccountHandler /*
   /// Extracts the ID of the entity that owns the document from the raw Document data,
   /// enabling association of documents with their respective accounts.
   ///
-  /// @param doc - Raw Document map containing entity ID metadata
+  /// [doc] is the raw Document map containing entity ID value.
   ///
-  /// @return Resolved entity ID (null if ID cannot be extracted)
+  /// Returns the resolved entity ID (null if ID cannot be extracted).
   ID? getDocumentID(Mapping doc);
 
 }
 
 
 /// General Extensions
-/// ~~~~~~~~~~~~~~~~~~
-
 AccountHandler? _accountHandler;
 
 extension GeneralAccountExtension on AccountExtensions {

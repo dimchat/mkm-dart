@@ -42,30 +42,25 @@ import 'ted.dart';
 /// in message payloads.
 abstract interface class TransportableDataHelper {
 
+  /// Set the TransportableData factory.
   void setTransportableDataFactory(TransportableDataFactory factory);
+
+  /// Get the TransportableData factory.
   TransportableDataFactory? getTransportableDataFactory();
 
-  /// Parses a raw object into a [TransportableData] instance.
+  /// Parse a raw object into a [TransportableData] instance.
   ///
   /// Converts arbitrary raw data (e.g., string, map) into a standardized
   /// TransportableData object for consistent handling in message payloads.
-  ///
-  /// @param ted - Raw data object to parse
-  ///
-  /// @return Parsed TransportableData instance (null if parsing fails)
+  /// Returns null if parsing fails.
   TransportableData? parseTransportableData(Object? ted);
 
-  /// Creates a [TransportableData] instance from raw data.
+  /// Create a [TransportableData] instance from raw data.
   ///
-  /// @param data - Raw binary data (Uint8List)
-  ///
-  /// @param encoding - Encoding algorithm name ("base64", "base58", "hex", ...)
-  ///
-  /// @param mimeType - Optional content-type ("image/jpeg", ...)
-  ///
-  /// @param parameters - Optional extra info (charset, filename, ...)
-  ///
-  /// @return New TransportableData instance
+  /// [data] is the raw binary data.
+  /// [encoding] is the encoding algorithm name ("base64", "base58", "hex", ...).
+  /// [mimeType] is the optional content-type ("image/jpeg", ...).
+  /// [parameters] carries the optional extra info (charset, filename, ...).
   TransportableData createTransportableData(Uint8List data, {
     String? encoding,
     String? mimeType,
@@ -101,7 +96,10 @@ TransportableDataHelper? _tedHelper;
 
 extension TransportableDataExtension on FormatExtensions {
 
+  /// Get the TED helper (null before set).
   TransportableDataHelper? get tedHelper => _tedHelper;
+
+  /// Set the TED helper.
   set tedHelper(TransportableDataHelper? ext) => _tedHelper = ext;
 
 }

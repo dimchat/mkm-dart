@@ -91,15 +91,15 @@ abstract interface class Meta implements Mapper<String, dynamic> {
   /// **Important**: Must be called when receiving new metadata from the network
   /// to verify the fingerprint matches the seed and public key.
   ///
-  /// Returns: true if fingerprint is valid (signature matches seed and public key),
-  ///          false otherwise (invalid or tampered metadata)
+  /// Returns true if fingerprint is valid (signature matches seed and public key),
+  /// false otherwise (invalid or tampered metadata).
   bool get isValid;
 
   /// Generate ID with this metadata for the specified network.
   ///
-  /// [network]: Target network identifier (type)
+  /// [network] is the target network identifier (type).
   ///
-  /// Returns: New [ID] instance (without terminal) derived from this metadata
+  /// Returns a new [ID] instance (without terminal) derived from this metadata.
   ID generateID(int network);
 
   //
@@ -118,15 +118,19 @@ abstract interface class Meta implements Mapper<String, dynamic> {
     return helper!.generateMeta(type, sKey, seed: seed);
   }
 
+  /// Parse a [Meta] instance from raw data.
   static Meta? parse(Object? meta) {
     final helper = sharedAccountExtensions.metaHelper;
     return helper!.parseMeta(meta);
   }
 
+  /// Get the Meta factory for the specified type.
   static MetaFactory? getFactory(String type) {
     final helper = sharedAccountExtensions.metaHelper;
     return helper!.getMetaFactory(type);
   }
+
+  /// Set the Meta factory for the specified type.
   static void setFactory(String type, MetaFactory factory) {
     final helper = sharedAccountExtensions.metaHelper;
     helper!.setMetaFactory(type, factory);
@@ -141,13 +145,11 @@ abstract interface class MetaFactory {
 
   /// Creates a [Meta] instance from explicit components.
   ///
-  /// [pKey]: Public key for the entity
+  /// [pKey] is the public key for the entity.
+  /// [seed] is the optional seed/entity name (used for fingerprint).
+  /// [fingerprint] is the optional pre-generated fingerprint (signature of seed).
   ///
-  /// [seed]: Optional seed/entity name (used for fingerprint)
-  ///
-  /// [fingerprint]: Optional pre-generated fingerprint (signature of seed)
-  ///
-  /// Returns: New [Meta] instance (validation via [Meta.isValid] recommended)
+  /// Returns a new [Meta] instance (validation via [Meta.isValid] recommended).
   Meta createMeta(VerifyKey pKey, {String? seed, TransportableData? fingerprint});
 
   /// Generates a valid [Meta] instance with a proper fingerprint.
@@ -155,17 +157,16 @@ abstract interface class MetaFactory {
   /// Automatically creates a valid fingerprint by signing the seed with the
   /// private key, ensuring [Meta.isValid] returns true.
   ///
-  /// [sKey]: Private key to sign the seed (generates fingerprint)
+  /// [sKey] is the private key to sign the seed (generates fingerprint).
+  /// [seed] is the optional seed/entity name (default: random or algorithm-specific).
   ///
-  /// [seed]: Optional seed/entity name (default: random or algorithm-specific)
-  ///
-  /// Returns: Valid [Meta] instance with verified fingerprint
+  /// Returns a valid [Meta] instance with verified fingerprint.
   Meta generateMeta(SignKey sKey, {String? seed});
 
   /// Parses a serialized Map into a [Meta] instance.
   ///
-  /// [meta]: Serialized metadata in the Map format defined in [Meta]
+  /// [meta] is the serialized metadata in the Map format defined in [Meta].
   ///
-  /// Returns: [Meta] instance if parsing succeeds, null otherwise
+  /// Returns a [Meta] instance if parsing succeeds, null otherwise.
   Meta? parseMeta(Mapping meta);
 }

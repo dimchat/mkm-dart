@@ -40,30 +40,44 @@ abstract interface class StringCoder {
 
   /// Encodes a string to binary data using the specified character encoding.
   ///
-  /// [string]: The string to encode
+  /// [string] is the string to encode.
   ///
-  /// Returns: Binary representation of the string as [Uint8List]
+  /// Returns the binary representation of the string as [Uint8List].
   Uint8List encode(String string);
 
   /// Decodes binary data back to a string using the specified character encoding.
   ///
-  /// [data]: The binary data to decode (Uint8List)
+  /// [data] is the binary data to decode.
   ///
-  /// Returns: Decoded string, or null if decoding fails
+  /// Returns the decoded string, or null if decoding fails.
   String? decode(Uint8List data);
 }
 
 
+/// UTF-8 encoding utility (facade for [StringCoder]).
+///
+/// Converts strings to/from UTF-8 encoded binary data.
 final class UTF8 {
   UTF8._();
 
+  /// Encodes a string to UTF-8 binary data.
+  ///
+  /// [string] is the string to encode.
+  ///
+  /// Returns the UTF-8 encoded bytes.
   static Uint8List encode(String string) {
     return coder!.encode(string);
   }
 
+  /// Decodes UTF-8 binary data back to a string.
+  ///
+  /// [utf8] is the UTF-8 encoded binary data to decode.
+  ///
+  /// Returns the decoded string, or null if decoding fails.
   static String? decode(Uint8List utf8) {
     return coder!.decode(utf8);
   }
 
+  /// The [StringCoder] implementation (null before set).
   static StringCoder? coder;
 }

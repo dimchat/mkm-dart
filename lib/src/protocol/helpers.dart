@@ -49,17 +49,20 @@ import 'meta.dart';
 /// Addresses are unique identifiers for entities(user/group) in the network.
 abstract interface class AddressHelper {
 
+  /// Set the Address factory.
   void setAddressFactory(AddressFactory factory);
+
+  /// Get the Address factory.
   AddressFactory? getAddressFactory();
 
-  /// Parses a raw object into a strongly-typed [Address] instance.
+  /// Parse a raw object into a strongly-typed [Address] instance.
   ///
   /// Converts arbitrary raw address data (string) into a valid
   /// Address object for consistent account identification.
   ///
-  /// @param address - Raw address data to parse
+  /// [address] is the raw address data to parse.
   ///
-  /// @return Parsed Address instance (null if parsing fails)
+  /// Returns an [Address] instance if parsing succeeds, null otherwise.
   Address? parseAddress(Object? address);
 
 }
@@ -74,31 +77,32 @@ abstract interface class AddressHelper {
 /// identify users/devices in the network.
 abstract interface class IDHelper {
 
+  /// Set the ID factory.
   void setIDFactory(IDFactory factory);
+
+  /// Get the ID factory.
   IDFactory? getIDFactory();
 
-  /// Parses a raw object into a strongly-typed [ID] instance.
+  /// Parse a raw object into a strongly-typed [ID] instance.
   ///
   /// Converts arbitrary raw ID data (string) into a valid
   /// ID object for consistent account identification.
   ///
-  /// @param identifier - Raw ID data to parse
+  /// [identifier] is the raw ID data to parse.
   ///
-  /// @return Parsed ID instance (null if parsing fails)
+  /// Returns an [ID] instance if parsing succeeds, null otherwise.
   ID? parseID(Object? identifier);
 
-  /// Creates a custom [ID] with specified parameters.
+  /// Create a custom [ID] with specified parameters.
   ///
   /// Builds an ID from explicit components (name, address, terminal) rather than
   /// generating it from metadata.
   ///
-  /// @param name - Optional display name for the ID
+  /// [name] is the entity name (optional).
+  /// [address] is the address component of the entity (required).
+  /// [terminal] is the terminal identifier for device-specific IDs (optional).
   ///
-  /// @param address - Mandatory address component (core unique identifier)
-  ///
-  /// @param terminal - Optional terminal identifier (for device-specific IDs)
-  ///
-  /// @return Custom ID instance
+  /// Returns a new [ID] instance with the specified components.
   ID createID({
     String? name,
     required Address address, String? terminal
@@ -115,50 +119,48 @@ abstract interface class IDHelper {
 /// Meta contains the core cryptographic identity of an entity (public key, type, etc.).
 abstract interface class MetaHelper {
 
+  /// Set the Meta factory for the specified type.
   void setMetaFactory(String type, MetaFactory factory);
+
+  /// Get the Meta factory for the specified type.
   MetaFactory? getMetaFactory(String type);
 
-  /// Creates custom entity metadata with specified parameters.
+  /// Create custom entity metadata with specified parameters.
   ///
   /// Builds Meta from explicit components (type, public key, seed, fingerprint)
   /// rather than generating it from a private key.
   ///
-  /// @param type - Metadata type (e.g., "user", "group")
+  /// [type] is the metadata type (e.g., "user", "group").
+  /// [pKey] is the public verification key (core cryptographic identity).
+  /// [seed] is the optional seed value used to generate the fingerprint.
+  /// [fingerprint] is the optional cryptographic fingerprint of the metadata.
   ///
-  /// @param pKey - Public verification key (core cryptographic identity)
-  ///
-  /// @param seed - Optional seed value used to generate the fingerprint
-  ///
-  /// @param fingerprint - Optional cryptographic fingerprint of the metadata
-  ///
-  /// @return Custom Meta instance
+  /// Returns a new [Meta] instance (validation via [Meta.isValid] recommended).
   Meta createMeta(String type, VerifyKey pKey, {
     String? seed,
     TransportableData? fingerprint
   });
 
-  /// Generates entity metadata from a private signing key.
+  /// Generate entity metadata from a private signing key.
   ///
   /// Creates cryptographically valid Meta by deriving the public key from the
   /// private signing key, with optional seed for reproducibility.
   ///
-  /// @param type - Metadata type (e.g., "user", "group")
+  /// [type] is the metadata type (e.g., "user", "group").
+  /// [sKey] is the private signing key to derive the public key from.
+  /// [seed] is the optional seed value for generating the fingerprint.
   ///
-  /// @param sKey - Private signing key to derive the public key from
-  ///
-  /// @param seed - Optional seed value for generating the fingerprint
-  ///
-  /// @return Generated Meta instance
+  /// Returns a new [Meta] instance with a verified fingerprint.
   Meta generateMeta(String type, SignKey sKey, {String? seed});
 
-  /// Parses raw metadata data into a strongly-typed [Meta] instance.
+  /// Parse raw metadata data into a strongly-typed [Meta] instance.
   ///
   /// Converts arbitrary raw metadata data (map) into a valid
   /// Meta object for consistent entity identity management.
   ///
-  /// @param meta - Raw metadata data to parse
+  /// [meta] is the raw metadata data to parse.
   ///
-  /// @return Parsed Meta instance (null if parsing fails)
+  /// Returns a [Meta] instance if parsing succeeds, null otherwise.
   Meta? parseMeta(Object? meta);
 
 }
@@ -173,34 +175,35 @@ abstract interface class MetaHelper {
 /// beyond core metadata (profile, group info, etc.).
 abstract interface class DocumentHelper {
 
+  /// Set the Document factory for the specified type.
   void setDocumentFactory(String docType, DocumentFactory factory);
+
+  /// Get the Document factory for the specified type.
   DocumentFactory? getDocumentFactory(String docType);
 
-  /// Creates a custom entity document with specified parameters.
+  /// Create a custom entity document with specified parameters.
   ///
   /// Builds a Document from explicit components (type, data, signature) for
   /// extended entity information.
   ///
-  /// @param docType - Document type (e.g., "visa", "bulletin")
+  /// [docType] is the document type (e.g., "visa", "bulletin").
+  /// [data] is the optional raw data content of the document.
+  /// [signature] is the optional cryptographic signature for document verification.
   ///
-  /// @param data - Optional raw data content of the document
-  ///
-  /// @param signature - Optional cryptographic signature for document verification
-  ///
-  /// @return Custom Document instance
+  /// Returns a new [Document] instance.
   Document createDocument(String docType, {
     String? data,
     TransportableData? signature
   });
 
-  /// Parses raw document data into a strongly-typed [Document] instance.
+  /// Parse raw document data into a strongly-typed [Document] instance.
   ///
   /// Converts arbitrary raw document data (map) into a valid
   /// Document object for consistent extended entity information management.
   ///
-  /// @param doc - Raw document data to parse
+  /// [doc] is the raw document data to parse.
   ///
-  /// @return Parsed Document instance (null if parsing fails)
+  /// Returns a [Document] instance if parsing succeeds, null otherwise.
   Document? parseDocument(Object? doc);
 
 }
@@ -232,7 +235,10 @@ AddressHelper? _addressHelper;
 
 extension AddressExtension on AccountExtensions {
 
+  /// Get the address helper (null before set).
   AddressHelper? get addressHelper => _addressHelper;
+
+  /// Set the address helper.
   set addressHelper(AddressHelper? ext) => _addressHelper = ext;
 
 }
@@ -242,7 +248,10 @@ IDHelper? _idHelper;
 
 extension IDExtension on AccountExtensions {
 
+  /// Get the ID helper (null before set).
   IDHelper? get idHelper => _idHelper;
+
+  /// Set the ID helper.
   set idHelper(IDHelper? ext) => _idHelper = ext;
 
 }
@@ -252,7 +261,10 @@ MetaHelper? _metaHelper;
 
 extension MetaExtension on AccountExtensions {
 
+  /// Get the Meta helper (null before set).
   MetaHelper? get metaHelper => _metaHelper;
+
+  /// Set the Meta helper.
   set metaHelper(MetaHelper? ext) => _metaHelper = ext;
 
 }
@@ -262,7 +274,10 @@ DocumentHelper? _docHelper;
 
 extension DocumentExtension on AccountExtensions {
 
+  /// Get the document helper (null before set).
   DocumentHelper? get docHelper => _docHelper;
+
+  /// Set the document helper.
   set docHelper(DocumentHelper? ext) => _docHelper = ext;
 
 }

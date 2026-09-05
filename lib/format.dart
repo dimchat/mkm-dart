@@ -1,5 +1,5 @@
 /// Data Format
-/// ~~~~~~~~~~~
+///
 /// UTF-8, JsON, Hex, Base58, Base64, ...
 /// TED, PNF
 library mkm;

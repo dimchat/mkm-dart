@@ -36,36 +36,50 @@ import '../type/mapping.dart';
 /// 1. Encode a structured object (typically [Map] or [List]) to a string
 /// 2. Decode a string back to the original structured object
 ///
-/// [T]: Type of the object to encode/decode (usually [Map], [List] or custom model)
+/// [T] is the type of the object to encode/decode (usually [Map], [List] or custom model).
 abstract interface class ObjectCoder<T> {
 
   /// Encodes a structured object to a serialized string.
   ///
-  /// [object]: The object to serialize (typically [Map] or [List])
+  /// [object] is the object to serialize (typically [Map] or [List]).
   ///
-  /// Returns: Serialized string in the specific format (JSON/XML etc.)
+  /// Returns the serialized string in the specific format (JSON/XML etc.).
   String encode(T object);
 
   /// Decodes a serialized string back to a structured object.
   ///
-  /// [string]: The serialized string to deserialize
+  /// [string] is the serialized string to deserialize.
   ///
-  /// Returns: Deserialized object of type [T], or null if decoding fails
+  /// Returns the deserialized object of type [T], or null if decoding fails.
   T? decode(String string);
 }
 
 
+/// JSON encoding utility (facade for [ObjectCoder]).
+///
+/// Converts structured objects (Map/List) to/from JSON strings.
 final class JSON {
   JSON._();
 
+  /// Encodes a structured object to a JSON string.
+  ///
+  /// [container] is the object to serialize (typically [Map] or [List]).
+  ///
+  /// Returns the JSON-encoded string.
   static String encode(Object container) {
     return coder!.encode(container);
   }
 
+  /// Decodes a JSON string back to a structured object.
+  ///
+  /// [json] is the JSON string to deserialize.
+  ///
+  /// Returns the decoded object (typically [Map] or [List]).
   static dynamic decode(String json) {
     return coder!.decode(json);
   }
 
+  /// The [ObjectCoder] implementation (null before set).
   static ObjectCoder<dynamic>? coder;
 }
 
@@ -84,18 +98,32 @@ class MapCoder implements ObjectCoder<Mapping> {
 }
 
 
+/// JSON Map encoding utility (facade for [MapCoder]).
+///
+/// Converts [Mapping] objects to/from JSON strings.
 final class JSONMap {
   JSONMap._();
 
+  /// Encodes a map to a JSON string.
+  ///
+  /// [container] is the map to serialize.
+  ///
+  /// Returns the JSON-encoded string.
   static String encode(Mapping container) {
     return coder.encode(container);
   }
 
+  /// Decodes a JSON string back to a map.
+  ///
+  /// [json] is the JSON string to deserialize.
+  ///
+  /// Returns the decoded map, or null if decoding fails.
   static Map? decode(String json) {
-    var info = coder.decode(json);
+    final info = coder.decode(json);
     assert(info is Map, 'json error: "$json"');
     return info?.asMap();
   }
 
+  /// The [ObjectCoder] implementation for map encoding (default: [MapCoder]).
   static ObjectCoder<Mapping> coder = MapCoder();
 }

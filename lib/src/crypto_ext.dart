@@ -53,11 +53,10 @@ abstract interface class CryptoKeyHandler /*
   /// Tests if the private (signing) key can sign the [PROMISE] data, and the public
   /// (verification) key can successfully verify that signature.
   ///
-  /// @param sKey - Private/signing key to test
+  /// [sKey] is the private/signing key to test.
+  /// [pKey] is the public/verification key to test.
   ///
-  /// @param pKey - Public/verification key to test
-  ///
-  /// @return True if keys are a valid matching pair, false otherwise
+  /// Returns true if keys are a valid matching pair, false otherwise.
   static bool matchAsymmetricKeys(SignKey sKey, VerifyKey pKey) {
     // verify with signature
     Uint8List signature = sKey.sign(PROMISE);
@@ -69,11 +68,10 @@ abstract interface class CryptoKeyHandler /*
   /// Tests if the encryption key can encrypt the [PROMISE] data, and the decryption
   /// key can successfully decrypt it back to the original data.
   ///
-  /// @param encKey - Encryption key to test
+  /// [encKey] is the encryption key to test.
+  /// [decKey] is the decryption key to test.
   ///
-  /// @param decKey - Decryption key to test
-  ///
-  /// @return True if keys are a valid matching pair, false otherwise
+  /// Returns true if keys are a valid matching pair, false otherwise.
   static bool matchSymmetricKeys(EncryptKey encKey, DecryptKey decKey) {
     // check by encryption
     final params = <String, dynamic>{}.asMutableMapping();
@@ -91,18 +89,15 @@ abstract interface class CryptoKeyHandler /*
   /// Retrieves the algorithm identifier (e.g., "AES", "RSA") from a key's raw map
   /// representation, with a fallback default value if not found.
   ///
-  /// @param key - Raw key map containing algorithm metadata
+  /// [key] is the raw key map containing algorithm value.
+  /// [defaultValue] is the fallback value if algorithm is not found.
   ///
-  /// @param defaultValue - Fallback value if algorithm is not found
-  ///
-  /// @return Extracted algorithm name (or defaultValue if not present)
+  /// Returns the extracted algorithm name (or [defaultValue] if not present).
   String? getKeyAlgorithm(Mapping key, [String? defaultValue]);
 
 }
 
 /// General Extensions
-/// ~~~~~~~~~~~~~~~~~~
-
 CryptoKeyHandler? _cryptoHandler;
 
 extension GeneralCryptoExtension on CryptoExtensions {

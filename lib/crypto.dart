@@ -1,5 +1,5 @@
 /// Cryptography
-/// ~~~~~~~~~~~~
+///
 /// Crypto Keys: SymmetricKey, PrivateKey, PublicKey
 library mkm;
 

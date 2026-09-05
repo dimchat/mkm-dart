@@ -70,11 +70,10 @@ abstract interface class EncryptKey implements CryptographyKey {
 
   /// Encrypts plaintext data using this key.
   ///
-  /// [plaintext]: Raw binary data to encrypt
+  /// [plaintext] is the raw binary data to encrypt.
+  /// [extra] provides optional algorithm-specific parameters (e.g., "IV" for AES).
   ///
-  /// [extra]: Optional algorithm-specific parameters (e.g., "IV" for AES)
-  ///
-  /// Returns: Encrypted ciphertext as Uint8List
+  /// Returns the encrypted ciphertext as [Uint8List].
   Uint8List encrypt(Uint8List plaintext, [MutableMapping? extra]);
 }
 
@@ -92,11 +91,10 @@ abstract interface class DecryptKey implements CryptographyKey {
 
   /// Decrypts ciphertext data using this key.
   ///
-  /// [ciphertext]: Encrypted binary data to decrypt
+  /// [ciphertext] is the encrypted binary data to decrypt.
+  /// [params] provides optional algorithm-specific parameters (e.g., "IV" for AES).
   ///
-  /// [params]: Optional algorithm-specific parameters (e.g., "IV" for AES)
-  ///
-  /// Returns: Decrypted plaintext as Uint8List, or null if decryption fails
+  /// Returns the decrypted plaintext as [Uint8List], or null if decryption fails.
   Uint8List? decrypt(Uint8List ciphertext, [Mapping? params]);
 
   //  OK = decrypt(encrypt(data, PK), SK) == data
@@ -105,9 +103,9 @@ abstract interface class DecryptKey implements CryptographyKey {
   ///
   /// Validation logic: decrypt(encrypt(data, PK), SK) == original data
   ///
-  /// [pKey]: Encryption key (public/symmetric) to verify against
+  /// [pKey] is the encryption key (public/symmetric) to verify against.
   ///
-  /// Returns: true if keys form a valid pair (encryption/decryption works)
+  /// Returns true if keys form a valid pair (encryption/decryption works).
   bool matchEncryptKey(EncryptKey pKey);
 }
 
@@ -134,9 +132,9 @@ abstract interface class SignKey implements AsymmetricKey {
 
   /// Generates a digital signature for the given data.
   ///
-  /// [data]: Binary data to sign
+  /// [data] is the binary data to sign.
   ///
-  /// Returns: Digital signature as Uint8List
+  /// Returns the digital signature as [Uint8List].
   Uint8List sign(Uint8List data);
 }
 
@@ -149,19 +147,18 @@ abstract interface class VerifyKey implements AsymmetricKey {
 
   /// Verifies if a signature is valid for the given data.
   ///
-  /// [data]: Original data that was signed
+  /// [data] is the original data that was signed.
+  /// [signature] is the digital signature to verify.
   ///
-  /// [signature]: Digital signature to verify
-  ///
-  /// Returns: true if signature is valid (matches data and key)
+  /// Returns true if signature is valid (matches data and key).
   bool verify(Uint8List data, Uint8List signature);
 
   /// Verifies if this verification key matches the given signing key.
   ///
   /// Validation logic: verify(data, sign(data, SK), PK) == true
   ///
-  /// [sKey]: Signing key (private) to verify against
+  /// [sKey] is the signing key (private) to verify against.
   ///
-  /// Returns: true if keys form a valid signing/verification pair
+  /// Returns true if keys form a valid signing/verification pair.
   bool matchSignKey(SignKey sKey);
 }

@@ -32,19 +32,22 @@ import 'dart:typed_data';
 bool _isIdentical(Object? a, Object? b) => identical(a, b);
 
 /// Data Compare Utilities
-/// ~~~~~~~~~~~~~~~~~~~~~~
 final class Comparator {
   Comparator._();
 
+  /// Check whether the two objects are the same instance (null-aware).
   static bool identical(dynamic a, dynamic b) =>
       comparator.identical(a, b);
 
+  /// Check whether the two objects are different (deep compare).
   static bool different(dynamic a, dynamic b) =>
       comparator.different(a, b);
 
+  /// Check whether the two maps are equal (element-wise).
   static bool mapEquals<K, V>(Map<K, V>? a, Map<K, V>? b) =>
       comparator.mapEquals(a, b);
 
+  /// Check whether the two lists are equal (element-wise).
   static bool listEquals<T>(List<T>? a, List<T>? b) =>
       comparator.listEquals(a, b);
 
@@ -64,6 +67,7 @@ abstract interface class DataComparator {
 
 }
 
+/// Default implementation of [DataComparator].
 class BaseComparator implements DataComparator {
 
   @override
@@ -181,9 +185,14 @@ class BaseComparator implements DataComparator {
 }
 
 
+/// Array utilities for comparing lists element-wise.
 final class Arrays {
   Arrays._();
 
+  /// Check whether the two arrays/lists are equal (element-wise).
+  ///
+  /// Returns true if [a] and [b] have the same length and every element
+  /// at the same index is equal (same object or `==`).
   static bool equals<T>(List<T> a, List<T> b) {
     if (identical(a, b)) {
       // same object

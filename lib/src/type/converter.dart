@@ -25,7 +25,6 @@
  */
 
 /// Data Convert Utilities
-/// ~~~~~~~~~~~~~~~~~~~~~~
 final class Converter {
   Converter._();
   // ignore_for_file: non_constant_identifier_names
@@ -39,21 +38,28 @@ final class Converter {
   };
   static/* final*/ int MAX_BOOLEAN_LEN = 'undefined'.length;
 
+  /// Convert the value to a string, if value is None, return the default value.
   static String? getString(Object? value, [String? defaultValue]) =>
       converter.getString(value, defaultValue);
 
-  /// assume value can be a config string:
+  /// Convert the value to a boolean, if value is None, return the default value.
+  ///
+  /// Assume value can be a config string:
   ///     'true', 'false', 'yes', 'no', 'on', 'off', '1', '0', ...
   static bool? getBool(Object? value, [bool? defaultValue]) =>
       converter.getBool(value, defaultValue);
 
+  /// Convert the value to an integer, if value is None, return the default value.
   static int? getInt(Object? value, [int? defaultValue]) =>
       converter.getInt(value, defaultValue);
 
+  /// Convert the value to a float number, if value is None, return the default value.
   static double? getDouble(Object? value, [double? defaultValue]) =>
       converter.getDouble(value, defaultValue);
 
-  /// assume value can be a timestamp (seconds from 1970-01-01 00:00:00)
+  /// Convert the value to a DateTime, if value is None, return the default value.
+  ///
+  /// Assume value can be a timestamp (seconds from 1970-01-01 00:00:00).
   static DateTime? getDateTime(Object? value, [DateTime? defaultValue]) =>
       converter.getDateTime(value, defaultValue);
 
@@ -75,6 +81,7 @@ abstract interface class DataConverter {
 
 }
 
+/// Default implementation of [DataConverter].
 class BaseConverter implements DataConverter {
 
   @override

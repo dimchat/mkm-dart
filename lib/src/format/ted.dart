@@ -60,7 +60,6 @@ import 'helpers.dart';
 abstract interface class TransportableResource {
 
   /*  Format
-   *  ~~~~~~
    *
    *      TED - TransportableData
    *          0. "{BASE64_ENCODE}"
@@ -73,9 +72,8 @@ abstract interface class TransportableResource {
 
   /// Serializes the resource into a transportable format.
   ///
-  /// Returns:
-  /// - String: For formats 0, 1, 2 (Base64 string, Data URI, or URL)
-  /// - Map: For format 3 (structured JSON object as Map)
+  /// Returns a [String] for formats 0, 1, 2 (Base64 string, Data URI, or URL),
+  /// or a [Map] for format 3 (structured JSON object).
   Object serialize();
 
 }
@@ -124,7 +122,7 @@ abstract interface class TransportableData implements Stringer, TransportableRes
 
   /// Serializes this TED to a transportable string (same as [toString]).
   ///
-  /// Returns: Encoded string representation (format 0 or 1)
+  /// Returns the encoded string representation (format 0 or 1).
   @override
   Object serialize();
 
@@ -132,7 +130,7 @@ abstract interface class TransportableData implements Stringer, TransportableRes
   //  Factory methods
   //
 
-  /// Create default (base64) encoded data
+  /// Create default (base64) encoded data.
   static TransportableData create(Uint8List data, {
     String? encoding,
     String? mimeType,
@@ -143,15 +141,19 @@ abstract interface class TransportableData implements Stringer, TransportableRes
         encoding: encoding, mimeType: mimeType, parameters: parameters);
   }
 
+  /// Parse a [TransportableData] instance from raw data.
   static TransportableData? parse(Object? ted) {
     final helper = sharedFormatExtensions.tedHelper;
     return helper!.parseTransportableData(ted);
   }
 
+  /// Get the TransportableData factory.
   static TransportableDataFactory? getFactory() {
     final helper = sharedFormatExtensions.tedHelper;
     return helper!.getTransportableDataFactory();
   }
+
+  /// Set the TransportableData factory.
   static void setFactory(TransportableDataFactory factory) {
     final helper = sharedFormatExtensions.tedHelper;
     helper!.setTransportableDataFactory(factory);
@@ -164,15 +166,12 @@ abstract interface class TransportableDataFactory {
 
   /// Creates a [TransportableData] instance from raw data.
   ///
-  /// [data]: Raw binary data (Uint8List)
+  /// [data] is the raw binary data.
+  /// [encoding] is the encoding algorithm name ("base64", "base58", "hex", ...).
+  /// [mimeType] is the optional content-type ("image/jpeg", ...).
+  /// [parameters] carries the optional extra info (charset, filename, ...).
   ///
-  /// [encoding]: Encoding algorithm name ("base64", "base58", "hex", ...)
-  ///
-  /// [mimeType]: Optional content-type ("image/jpeg", ...)
-  ///
-  /// [parameters]: Optional extra info (charset, filename, ...)
-  ///
-  /// Returns: New [TransportableData] instance
+  /// Returns a new [TransportableData] instance.
   TransportableData createTransportableData(Uint8List data, {
     String? encoding,
     String? mimeType,
@@ -181,8 +180,8 @@ abstract interface class TransportableDataFactory {
 
   /// Parses an encoded string into a [TransportableData] instance.
   ///
-  /// [ted]: Encoded string in TED format (0 or 1)
+  /// [ted] is the encoded string in TED format (0 or 1).
   ///
-  /// Returns: [TransportableData] instance, or null if parsing fails
+  /// Returns a [TransportableData] instance, or null if parsing fails.
   TransportableData? parseTransportableData(String ted);
 }

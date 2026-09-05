@@ -29,33 +29,26 @@ import 'stringer.dart';
 
 
 /// Data Wrap Utilities
-/// ~~~~~~~~~~~~~~~~~~~
 final class Wrapper {
   Wrapper._();
 
-  ///  Get inner String
-  ///  ~~~~~~~~~~~~~~~~
-  ///  Remove first wrapper
+  /// Shallow unwrap string value.
   static String? getString(Object? str) =>
       wrapper.getString(str);
 
-  ///  Get inner Map
-  ///  ~~~~~~~~~~~~~
-  ///  Remove first wrapper
+  /// Shallow unwrap dict value.
   static Map? getMap(Object? dict) =>
       wrapper.getMap(dict);
 
-  ///  Unwrap recursively
-  ///  ~~~~~~~~~~~~~~~~~~
-  ///  Remove all wrappers
+  /// Deep unwrap value.
   static dynamic unwrap(Object? object) =>
       wrapper.unwrap(object);
 
-  /// Unwrap values for keys in map
+  /// Deep unwrap dict value.
   static Map<K, V> unwrapMap<K, V>(Mapping dict) =>
       wrapper.unwrapMap(dict);
 
-  /// Unwrap values in the array
+  /// Deep unwrap List value.
   static List<T> unwrapList<T>(List array) =>
       wrapper.unwrapList(array);
 
@@ -77,6 +70,7 @@ abstract interface class DataWrapper {
 
 }
 
+/// Default implementation of [DataWrapper].
 class BaseWrapper implements DataWrapper {
 
   @override

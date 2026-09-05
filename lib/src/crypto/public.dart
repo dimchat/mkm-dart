@@ -52,17 +52,27 @@ abstract interface class PublicKey implements VerifyKey {
   //  Factory methods
   //
 
+  /// Parse a public key from raw data.
+  ///
+  /// [key] is the raw key data (map or string).
+  ///
+  /// Returns null if parsing fails.
   static PublicKey? parse(Object? key) {
-    var helper = sharedCryptoExtensions.publicHelper;
+    final helper = sharedCryptoExtensions.publicHelper;
     return helper!.parsePublicKey(key);
   }
 
+  /// Get the public key factory for the specified algorithm.
+  ///
+  /// Returns null if no factory registered for [algorithm].
   static PublicKeyFactory? getFactory(String algorithm) {
-    var helper = sharedCryptoExtensions.publicHelper;
+    final helper = sharedCryptoExtensions.publicHelper;
     return helper!.getPublicKeyFactory(algorithm);
   }
+
+  /// Set the public key factory for the specified algorithm.
   static void setFactory(String algorithm, PublicKeyFactory factory) {
-    var helper = sharedCryptoExtensions.publicHelper;
+    final helper = sharedCryptoExtensions.publicHelper;
     helper!.setPublicKeyFactory(algorithm, factory);
   }
 }
@@ -74,8 +84,8 @@ abstract interface class PublicKeyFactory {
 
   /// Parses a serialized Map into a [PublicKey] instance.
   ///
-  /// [key]: Serialized public key data (matches the Map format defined in [PublicKey])
+  /// [key] is the serialized public key data (matches the Map format defined in [PublicKey]).
   ///
-  /// Returns: [PublicKey] instance, or null if parsing/validation fails
+  /// Returns a [PublicKey] instance, or null if parsing/validation fails.
   PublicKey? parsePublicKey(Mapping key);
 }
