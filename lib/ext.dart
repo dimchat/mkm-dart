@@ -5,7 +5,6 @@ library mkm;
 
 export 'src/crypto/helpers.dart';
 export 'src/format/helpers.dart';
-export 'src/file/helpers.dart';
 export 'src/protocol/helpers.dart';
 
 export 'src/crypto_ext.dart';

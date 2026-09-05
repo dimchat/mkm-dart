@@ -25,6 +25,7 @@
  */
 import 'dart:typed_data';
 
+import '../type/mapping.dart';
 import '../type/stringer.dart';
 
 import 'helpers.dart';
@@ -131,17 +132,28 @@ abstract interface class TransportableData implements Stringer, TransportableRes
   //  Factory methods
   //
 
+  /// Create default (base64) encoded data
+  static TransportableData create(Uint8List data, {
+    String? encoding,
+    String? mimeType,
+    Mapping<String, String>? parameters
+  }) {
+    final helper = sharedFormatExtensions.tedHelper;
+    return helper!.createTransportableData(data,
+        encoding: encoding, mimeType: mimeType, parameters: parameters);
+  }
+
   static TransportableData? parse(Object? ted) {
-    var helper = sharedFormatExtensions.tedHelper;
+    final helper = sharedFormatExtensions.tedHelper;
     return helper!.parseTransportableData(ted);
   }
 
   static TransportableDataFactory? getFactory() {
-    var helper = sharedFormatExtensions.tedHelper;
+    final helper = sharedFormatExtensions.tedHelper;
     return helper!.getTransportableDataFactory();
   }
   static void setFactory(TransportableDataFactory factory) {
-    var helper = sharedFormatExtensions.tedHelper;
+    final helper = sharedFormatExtensions.tedHelper;
     helper!.setTransportableDataFactory(factory);
   }
 }
@@ -149,6 +161,23 @@ abstract interface class TransportableData implements Stringer, TransportableRes
 
 /// Factory interface for creating [TransportableData] (TED) instances.
 abstract interface class TransportableDataFactory {
+
+  /// Creates a [TransportableData] instance from raw data.
+  ///
+  /// [data]: Raw binary data (Uint8List)
+  ///
+  /// [encoding]: Encoding algorithm name ("base64", "base58", "hex", ...)
+  ///
+  /// [mimeType]: Optional content-type ("image/jpeg", ...)
+  ///
+  /// [parameters]: Optional extra info (charset, filename, ...)
+  ///
+  /// Returns: New [TransportableData] instance
+  TransportableData createTransportableData(Uint8List data, {
+    String? encoding,
+    String? mimeType,
+    MutableMapping? parameters
+  });
 
   /// Parses an encoded string into a [TransportableData] instance.
   ///

@@ -9,6 +9,3 @@ export 'src/format/object.dart';
 export 'src/format/data.dart';
 export 'src/format/ted.dart';
 // export 'src/format/helpers.dart';  // -> 'ext.dart'
-
-export 'src/file/pnf.dart';
-// export 'src/file/helpers.dart';  // -> 'ext.dart'

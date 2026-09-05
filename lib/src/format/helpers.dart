@@ -23,6 +23,10 @@
  * SOFTWARE.
  * =============================================================================
  */
+import 'dart:typed_data';
+
+import '../type/mapping.dart';
+
 import 'ted.dart';
 
 // -----------------------------------------------------------------------------
@@ -50,6 +54,23 @@ abstract interface class TransportableDataHelper {
   ///
   /// @return Parsed TransportableData instance (null if parsing fails)
   TransportableData? parseTransportableData(Object? ted);
+
+  /// Creates a [TransportableData] instance from raw data.
+  ///
+  /// @param data - Raw binary data (Uint8List)
+  ///
+  /// @param encoding - Encoding algorithm name ("base64", "base58", "hex", ...)
+  ///
+  /// @param mimeType - Optional content-type ("image/jpeg", ...)
+  ///
+  /// @param parameters - Optional extra info (charset, filename, ...)
+  ///
+  /// @return New TransportableData instance
+  TransportableData createTransportableData(Uint8List data, {
+    String? encoding,
+    String? mimeType,
+    Mapping<String, String>? parameters,
+  });
 
 }
 

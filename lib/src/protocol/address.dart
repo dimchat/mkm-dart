@@ -32,7 +32,6 @@ import '../type/stringer.dart';
 
 import 'entity.dart';
 import 'helpers.dart';
-import 'meta.dart';
 
 /// Interface for network addresses used to identify MKM ID entities.
 ///
@@ -55,40 +54,25 @@ abstract interface class Address implements Stringer {
   //
 
   static Address? parse(Object? address) {
-    var helper = sharedAccountExtensions.addressHelper;
+    final helper = sharedAccountExtensions.addressHelper;
     return helper!.parseAddress(address);
   }
 
-  static Address generate(Meta meta, [int? network]) {
-    var helper = sharedAccountExtensions.addressHelper;
-    return helper!.generateAddress(meta, network);
-  }
-
   static AddressFactory? getFactory() {
-    var helper = sharedAccountExtensions.addressHelper;
+    final helper = sharedAccountExtensions.addressHelper;
     return helper!.getAddressFactory();
   }
 
   static void setFactory(AddressFactory factory) {
-    var helper = sharedAccountExtensions.addressHelper;
+    final helper = sharedAccountExtensions.addressHelper;
     helper!.setAddressFactory(factory);
   }
 }
 
 /// Factory interface for creating and parsing [Address] instances.
 ///
-/// Provides methods to generate new addresses from metadata and parse existing
-/// addresses from their string representation.
+/// Provides methods to parse existing addresses from their string representation.
 abstract interface class AddressFactory {
-
-  /// Generates a new [Address] from metadata and network type.
-  ///
-  /// [meta]: Metadata used to derive the address
-  ///
-  /// [network]: Optional network identifier (type) for the address
-  ///
-  /// Returns: New [Address] instance
-  Address generateAddress(Meta meta, int? network);
 
   /// Parses a string representation into an [Address] instance.
   ///

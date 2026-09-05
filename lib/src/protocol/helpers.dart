@@ -62,18 +62,6 @@ abstract interface class AddressHelper {
   /// @return Parsed Address instance (null if parsing fails)
   Address? parseAddress(Object? address);
 
-  /// Generates a valid [Address] from entity metadata and network identifier.
-  ///
-  /// Creates a cryptographically derived address based on the entity's metadata
-  /// and target network (e.g., mainnet/testnet).
-  ///
-  /// @param meta - Entity metadata used to generate the address
-  ///
-  /// @param network - Optional network identifier (null for default network)
-  ///
-  /// @return Generated valid Address instance
-  Address generateAddress(Meta meta, int? network);
-
 }
 
 /// Helper interface for ID management in the account system.
@@ -115,18 +103,6 @@ abstract interface class IDHelper {
     String? name,
     required Address address, String? terminal
   });
-
-  /// Generates a unique [ID] from entity metadata and network parameters.
-  ///
-  /// Creates a cryptographically derived ID based on the entity's metadata,
-  /// network identifier, and optional terminal information (for device-specific IDs).
-  ///
-  /// @param meta - Entity metadata used to generate the ID
-  ///
-  /// @param network - Optional network identifier (null for default network)
-  ///
-  /// @return Generated unique ID instance
-  ID generateID(Meta meta, int? network);
 
 }
 

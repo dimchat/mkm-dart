@@ -33,7 +33,6 @@ import '../type/stringer.dart';
 import 'address.dart';
 import 'entity.dart';
 import 'helpers.dart';
-import 'meta.dart';
 
 
 /// Interface for unique identifiers (ID) of network entities (users/groups).
@@ -92,7 +91,7 @@ abstract interface class ID implements Stringer {
   static List<ID> convert(Iterable array) {
     List<ID> members = [];
     ID? did;
-    for (var item in array) {
+    for (final item in array) {
       did = parse(item);
       if (did == null) {
         continue;
@@ -114,44 +113,30 @@ abstract interface class ID implements Stringer {
   //
 
   static ID? parse(Object? identifier) {
-    var helper = sharedAccountExtensions.idHelper;
+    final helper = sharedAccountExtensions.idHelper;
     return helper!.parseID(identifier);
   }
 
   static ID create({String? name, required Address address, String? terminal}) {
-    var helper = sharedAccountExtensions.idHelper;
+    final helper = sharedAccountExtensions.idHelper;
     return helper!.createID(name: name, address: address, terminal: terminal);
   }
 
-  static ID generate(Meta meta, int? network) {
-    var helper = sharedAccountExtensions.idHelper;
-    return helper!.generateID(meta, network);
-  }
-
   static IDFactory? getFactory() {
-    var helper = sharedAccountExtensions.idHelper;
+    final helper = sharedAccountExtensions.idHelper;
     return helper!.getIDFactory();
   }
   static void setFactory(IDFactory factory) {
-    var helper = sharedAccountExtensions.idHelper;
+    final helper = sharedAccountExtensions.idHelper;
     helper!.setIDFactory(factory);
   }
 }
 
 /// Factory interface for creating and parsing [ID] instances.
 ///
-/// Provides comprehensive methods to generate, create, and parse entity IDs
-/// from different input sources (metadata, raw components, string representation).
+/// Provides methods to create and parse entity IDs from raw components and
+/// string representations.
 abstract interface class IDFactory {
-
-  /// Generates a new [ID] from metadata and network type.
-  ///
-  /// [meta]: Metadata used to derive the ID components
-  ///
-  /// [network]: Optional network type (ID.type)
-  ///
-  /// Returns: New [ID] instance
-  ID generateID(Meta meta, int? network);
 
   /// Creates an [ID] from explicit component values.
   ///
