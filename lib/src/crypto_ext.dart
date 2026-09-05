@@ -32,14 +32,14 @@ import 'type/mapping.dart';
 
 
 // -----------------------------------------------------------------------------
-//  General Cryptographic Helpers
+//  General Cryptographic Handler
 // -----------------------------------------------------------------------------
 
-/// General cryptographic helper interface for key validation and algorithm handling.
+/// General cryptographic handler interface for key validation and algorithm handling.
 ///
 /// Combines common crypto utilities (key matching, algorithm detection) and provides
 /// static methods for verifying key pairs (symmetric/asymmetric).
-abstract interface class GeneralCryptoHelper /*
+abstract interface class CryptoKeyHandler /*
     implements SymmetricKeyHelper, PrivateKeyHelper, PublicKeyHelper */{
 
   /// sample data for checking keys
@@ -103,11 +103,11 @@ abstract interface class GeneralCryptoHelper /*
 /// General Extensions
 /// ~~~~~~~~~~~~~~~~~~
 
-GeneralCryptoHelper? _cryptoHelper;
+CryptoKeyHandler? _cryptoHandler;
 
 extension GeneralCryptoExtension on CryptoExtensions {
 
-  GeneralCryptoHelper? get helper => _cryptoHelper;
-  set helper(GeneralCryptoHelper? ext) => _cryptoHelper = ext;
+  CryptoKeyHandler? get handler => _cryptoHandler;
+  set handler(CryptoKeyHandler? ext) => _cryptoHandler = ext;
 
 }

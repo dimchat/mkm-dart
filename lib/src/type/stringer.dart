@@ -88,6 +88,20 @@ abstract interface class Stringer implements Comparable<String>, Pattern, CharSe
   /// Whether this string is not empty.
   bool get isNotEmpty;
    */
+
+  /// Compares this string to [other] ignoring case.
+  ///
+  /// Returns a negative value if `this` is ordered before [other],
+  /// a positive value if `this` is ordered after [other],
+  /// or zero if `this` and [other] are equivalent ignoring case.
+  ///
+  /// [other] can be a [String] or a [Stringer] (null means empty string).
+  int compareToIgnoreCase(Object? other);
+
+  /// Whether this string equals [other] ignoring case.
+  ///
+  /// [other] can be a [String] or a [Stringer] (null means empty string).
+  bool equalsIgnoreCase(Object? other);
 }
 
 class ConstantString implements Stringer {
@@ -128,6 +142,23 @@ class ConstantString implements Stringer {
 
   @override
   int compareTo(String other) => _str.compareTo(other);
+
+  @override
+  int compareToIgnoreCase(Object? other) {
+    final mine = _str.toLowerCase();
+    if (other == null) {
+      return mine.compareTo('');
+    }
+    return mine.compareTo(other.toString().toLowerCase());
+  }
+
+  @override
+  bool equalsIgnoreCase(Object? other) {
+    if (other == null) {
+      return _str.isEmpty;
+    }
+    return _str.toLowerCase() == other.toString().toLowerCase();
+  }
 
   //
   //  CharSequence

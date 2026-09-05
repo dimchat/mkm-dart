@@ -34,14 +34,14 @@ import 'protocol/identifier.dart';
 
 
 // -----------------------------------------------------------------------------
-//  General Account Helpers
+//  General Account Handler
 // -----------------------------------------------------------------------------
 
-/// General account helper interface for common account system utilities.
+/// General account handler interface for common account system utilities.
 ///
 /// Combines utility methods for parsing account component metadata (type extraction,
 /// ID resolution) and acts as a unified interface for core account helpers.
-abstract interface class GeneralAccountHelper /*
+abstract interface class AccountHandler /*
     implements AddressHelper, IDHelper, MetaHelper, DocumentHelper */{
 
   //
@@ -88,11 +88,11 @@ abstract interface class GeneralAccountHelper /*
 /// General Extensions
 /// ~~~~~~~~~~~~~~~~~~
 
-GeneralAccountHelper? _accountHelper;
+AccountHandler? _accountHandler;
 
 extension GeneralAccountExtension on AccountExtensions {
 
-  GeneralAccountHelper? get helper => _accountHelper;
-  set helper(GeneralAccountHelper? ext) => _accountHelper = ext;
+  AccountHandler? get handler => _accountHandler;
+  set handler(AccountHandler? ext) => _accountHandler = ext;
 
 }

@@ -25,18 +25,27 @@
  */
 import 'dart:typed_data';
 
+/// Identity check (reference equality).
+///
+/// Top-level helper to avoid name shadowing: inside a method named
+/// `identical`, the bare call would resolve to the method itself.
+bool _isIdentical(Object? a, Object? b) => identical(a, b);
+
 /// Data Compare Utilities
 /// ~~~~~~~~~~~~~~~~~~~~~~
 final class Comparator {
   Comparator._();
 
+  static bool identical(dynamic a, dynamic b) =>
+      comparator.identical(a, b);
+
   static bool different(dynamic a, dynamic b) =>
       comparator.different(a, b);
 
-  static bool mapEquals<K, V>(Map<K, V> a, Map<K, V> b) =>
+  static bool mapEquals<K, V>(Map<K, V>? a, Map<K, V>? b) =>
       comparator.mapEquals(a, b);
 
-  static bool listEquals<T>(List<T> a, List<T> b) =>
+  static bool listEquals<T>(List<T>? a, List<T>? b) =>
       comparator.listEquals(a, b);
 
   static DataComparator comparator = BaseComparator();
@@ -45,15 +54,28 @@ final class Comparator {
 
 abstract interface class DataComparator {
 
+  bool identical(dynamic a, dynamic b);
+
   bool different(dynamic a, dynamic b);
 
-  bool mapEquals<K, V>(Map<K, V> a, Map<K, V> b);
+  bool mapEquals<K, V>(Map<K, V>? a, Map<K, V>? b);
 
-  bool listEquals<T>(List<T> a, List<T> b);
+  bool listEquals<T>(List<T>? a, List<T>? b);
 
 }
 
 class BaseComparator implements DataComparator {
+
+  @override
+  bool identical(dynamic a, dynamic b) {
+    if (a == null) {
+      return b == null;
+    } else if (b == null) {
+      return false;
+    } else {
+      return _isIdentical(a, b);
+    }
+  }
 
   @override
   bool different(a, b) {
@@ -61,7 +83,7 @@ class BaseComparator implements DataComparator {
       return b != null;
     } else if (b == null) {
       return true;
-    } else if (identical(a, b)) {
+    } else if (_isIdentical(a, b)) {
       // same object
       return false;
     } else if (a is Map) {
@@ -77,8 +99,12 @@ class BaseComparator implements DataComparator {
   }
 
   @override
-  bool mapEquals<K, V>(Map<K, V> a, Map<K, V> b) {
-    if (identical(a, b)) {
+  bool mapEquals<K, V>(Map<K, V>? a, Map<K, V>? b) {
+    if (a == null) {
+      return b == null;
+    } else if (b == null) {
+      return false;
+    } else if (_isIdentical(a, b)) {
       // same object
       return true;
     } else if (a.length != b.length) {
@@ -99,7 +125,12 @@ class BaseComparator implements DataComparator {
   }
 
   @override
-  bool listEquals<T>(List<T> a, List<T> b) {
+  bool listEquals<T>(List<T>? a, List<T>? b) {
+    if (a == null) {
+      return b == null;
+    } else if (b == null) {
+      return false;
+    }
     // byte
     if (a is Uint8List) {
       return b is Uint8List && Arrays.equals(a, b);
@@ -131,7 +162,7 @@ class BaseComparator implements DataComparator {
       return b is Float64List && Arrays.equals(a, b);
     }
     // others
-    if (identical(a, b)) {
+    if (_isIdentical(a, b)) {
       // same object
       return true;
     } else if (a.length != b.length) {
