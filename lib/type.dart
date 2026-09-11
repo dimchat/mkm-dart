@@ -9,6 +9,5 @@ export 'src/type/converter.dart';
 export 'src/type/copier.dart';
 export 'src/type/mapping.dart';
 export 'src/type/mapper.dart';
-export 'src/type/dictionary.dart';
 export 'src/type/stringer.dart';
 export 'src/type/wrapper.dart';

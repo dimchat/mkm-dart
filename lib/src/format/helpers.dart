@@ -52,6 +52,7 @@ abstract interface class TransportableDataHelper {
   ///
   /// Converts arbitrary raw data (e.g., string, map) into a standardized
   /// TransportableData object for consistent handling in message payloads.
+  ///
   /// Returns null if parsing fails.
   TransportableData? parseTransportableData(Object? ted);
 
