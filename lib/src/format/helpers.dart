@@ -25,8 +25,6 @@
  */
 import 'dart:typed_data';
 
-import '../type/mapping.dart';
-
 import 'ted.dart';
 
 // -----------------------------------------------------------------------------
@@ -65,7 +63,7 @@ abstract interface class TransportableDataHelper {
   TransportableData createTransportableData(Uint8List data, {
     String? encoding,
     String? mimeType,
-    Mapping<String, String>? parameters,
+    Map<String, String>? parameters,
   });
 
 }

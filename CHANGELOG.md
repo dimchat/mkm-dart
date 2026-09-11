@@ -1,3 +1,7 @@
+## 2.5.3
+
+- URI parameters.
+
 ## 2.5.2
 
 - Remove Dictionary.

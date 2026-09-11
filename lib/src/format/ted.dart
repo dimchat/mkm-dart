@@ -25,7 +25,6 @@
  */
 import 'dart:typed_data';
 
-import '../type/mapping.dart';
 import '../type/stringer.dart';
 
 import 'helpers.dart';
@@ -134,7 +133,7 @@ abstract interface class TransportableData implements Stringer, TransportableRes
   static TransportableData create(Uint8List data, {
     String? encoding,
     String? mimeType,
-    Mapping<String, String>? parameters
+    Map<String, String>? parameters
   }) {
     final helper = sharedFormatExtensions.tedHelper;
     return helper!.createTransportableData(data,
@@ -175,7 +174,7 @@ abstract interface class TransportableDataFactory {
   TransportableData createTransportableData(Uint8List data, {
     String? encoding,
     String? mimeType,
-    MutableMapping? parameters
+    Map<String, String>? parameters
   });
 
   /// Parses an encoded string into a [TransportableData] instance.

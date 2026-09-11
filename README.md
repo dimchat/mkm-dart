@@ -86,7 +86,7 @@ The ID format is ```name@address[/terminal]```.
 ### ID Type
 
 ```dart
-class EntityType {
+final class EntityType {
 
   ///  Main: 0, 1
   static const USER             = (0x00); // 0000 0000
@@ -161,21 +161,20 @@ import 'package:mkm/digest.dart';
 import 'package:mkm/format.dart';
 import 'package:mkm/protocol.dart';
 
-///  Address like BitCoin
-///  ~~~~~~~~~~~~~~~~~~~~
+/// Address like BitCoin.
 ///
-///      data format: "network+digest+code"
-///          network    --  1 byte
-///          digest     -- 20 bytes
-///          check code --  4 bytes
+/// data format: "network+digest+code"
+///     network    --  1 byte
+///     digest     -- 20 bytes
+///     check code --  4 bytes
 ///
-///      algorithm:
-///          fingerprint = PK.data
-///          digest      = ripemd160(sha256(fingerprint));
-///          code        = sha256(sha256(network + digest)).prefix(4);
-///          address     = base58_encode(network + digest + code);
+/// algorithm:
+///     fingerprint = PK.data
+///     digest      = ripemd160(sha256(fingerprint));
+///     code        = sha256(sha256(network + digest)).prefix(4);
+///     address     = base58_encode(network + digest + code);
 ///
-class BTCAddress extends ConstantString implements Address {
+final class BTCAddress extends ConstantString implements Address {
   BTCAddress(super.string, int network) : _type = network;
 
   final int _type;
@@ -183,12 +182,12 @@ class BTCAddress extends ConstantString implements Address {
   @override
   int get network => _type;
 
-
-  ///  Generate BTC address with fingerprint and network ID
+  /// Generate BTC address with fingerprint and network ID.
   ///
-  /// @param fingerprint - meta.fingerprint or key.data
-  /// @param network     - address type
-  /// @return Address object
+  /// [fingerprint] is the meta.fingerprint or key.data.
+  /// [network] is the address type.
+  ///
+  /// Returns the address object.
   static BTCAddress generate(Uint8List fingerprint, int network) {
     // 1. digest = ripemd160(sha256(fingerprint))
     Uint8List digest = RIPEMD160.digest(SHA256.digest(fingerprint));
@@ -206,10 +205,11 @@ class BTCAddress extends ConstantString implements Address {
     return BTCAddress(Base58.encode(bb.toBytes()), network);
   }
 
-  ///  Parse a string for BTC address
+  /// Parse a string for BTC address.
   ///
-  /// @param address - address string
-  /// @return null on error
+  /// [address] is the address string.
+  ///
+  /// Returns null on error.
   static BTCAddress? parse(String address) {
     if (address.length < 26 || address.length > 35) {
       return null;
@@ -246,17 +246,16 @@ import 'package:mkm/digest.dart';
 import 'package:mkm/format.dart';
 import 'package:mkm/protocol.dart';
 
-///  Address like Ethereum
-///  ~~~~~~~~~~~~~~~~~~~~~
+/// Address like Ethereum.
 ///
-///      data format: "0x{address}"
+/// data format: "0x{address}"
 ///
-///      algorithm:
-///          fingerprint = PK.data;
-///          digest      = keccak256(fingerprint);
-///          address     = hex_encode(digest.suffix(20));
+/// algorithm:
+///     fingerprint = PK.data;
+///     digest      = keccak256(fingerprint);
+///     address     = hex_encode(digest.suffix(20));
 ///
-class ETHAddress extends ConstantString implements Address {
+final class ETHAddress extends ConstantString implements Address {
   ETHAddress(super.string);
 
   @override
@@ -277,10 +276,11 @@ class ETHAddress extends ConstantString implements Address {
     return validate != null && validate == address;
   }
 
-  ///  Generate ETH address with key.data
+  /// Generate ETH address with key.data.
   ///
-  /// @param fingerprint = key.data
-  /// @return Address object
+  /// [fingerprint] is the key.data.
+  ///
+  /// Returns the address object.
   static ETHAddress generate(Uint8List fingerprint) {
     if (fingerprint.length == 65) {
       // skip first char
@@ -295,10 +295,11 @@ class ETHAddress extends ConstantString implements Address {
     return ETHAddress('0x$address');
   }
 
-  ///  Parse a string for ETH address
+  /// Parse a string for ETH address.
   ///
-  /// @param address - address string
-  /// @return null on error
+  /// [address] is the address string.
+  ///
+  /// Returns null on error.
   static ETHAddress? parse(String address) {
     if (!_ETH.isETH(address)) {
       // not an ETH address
